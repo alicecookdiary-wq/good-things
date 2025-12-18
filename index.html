@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的好物推薦清單</title>
+    <style>
+        :root {
+            --primary-color: #d97706; /* 品牌主色 (暖橘) */
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-sub: #6b7280;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 頭部區域 */
+        header {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 { margin: 0; font-size: 1.5rem; color: var(--primary-color); }
+        p { margin: 5px 0 0; color: var(--text-sub); font-size: 0.9rem; }
+
+        /* 篩選按鈕區 */
+        .filter-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-label {
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        button.filter-btn {
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        button.filter-btn:hover { border-color: var(--primary-color); color: var(--primary-color); }
+        button.filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* 內容網格 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 卡片設計 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .video-placeholder {
+            background: #000;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .video-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        .play-icon {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.9;
+        }
+
+        .card-body { padding: 15px; flex-grow: 1; }
+
+        .tags { margin-bottom: 10px; }
+        .tag {
+            display: inline-block;
+            background: #f3f4f6;
+            color: #4b5563;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .card-title { font-size: 1.1rem; margin: 0 0 10px; font-weight: bold; }
+
+        /* 商品清單 */
+        .product-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.9rem;
+        }
+
+        .product-item:last-child { border-bottom: none; }
+
+        .buy-btn {
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .empty-message {
+            text-align: center;
+            width: 100%;
+            color: var(--text-sub);
+            margin-top: 50px;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>選物好生活</h1>
+    <p>精選廚房、浴室與居家收納好物</p>
+</header>
+
+<div class="filter-container">
+    <div class="filter-group">
+        <span class="filter-label">場景：</span>
+        <button class="filter-btn" onclick="filterData('category', 'all')">全部</button>
+        <button class="filter-btn" onclick="filterData('category', '廚房')">廚房</button>
+        <button class="filter-btn" onclick="filterData('category', '浴室')">浴室</button>
+        <button class="filter-btn" onclick="filterData('category', '居家')">居家</button>
+    </div>
+    <div class="filter-group">
+        <span class="filter-label">來源：</span>
+        <button class="filter-btn" onclick="filterData('source', '淘寶')">淘寶</button>
+        <button class="filter-btn" onclick="filterData('source', '蝦皮')">蝦皮</button>
+        <button class="filter-btn" onclick="filterData('source', '酷澎')">酷澎</button>
+    </div>
+    <div class="filter-group">
+        <span class="filter-label">用途：</span>
+        <button class="filter-btn" onclick="filterData('usage', '收納好物')">收納</button>
+        <button class="filter-btn" onclick="filterData('usage', '實用好物')">實用</button>
+    </div>
+</div>
+
+<div id="grid" class="grid-container">
+    </div>
+<div id="empty-msg" class="empty-message">沒有找到符合條件的影片</div>
+
+<script>
+    // ==========================================
+    // ⬇️ 這裡是你需要修改資料的地方 (Data Area) ⬇️
+    // ==========================================
+    const posts = [
+        {
+            title: "淘寶 5 款超強廚房收納！",
+            igLink: "https://www.instagram.com/", // 這裡放你的 IG 影片連結
+            image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80", // 這裡放封面圖網址
+            category: "廚房",
+            source: "淘寶",
+            usage: "收納好物",
+            products: [
+                { name: "磁吸冰箱架", link: "https://shopee.tw" },
+                { name: "旋轉調料盤", link: "https://shopee.tw" },
+                { name: "免釘掛勾", link: "https://shopee.tw" }
+            ]
+        },
+        {
+            title: "浴室不再亂糟糟，蝦皮好物開箱",
+            igLink: "https://www.instagram.com/",
+            image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
+            category: "浴室",
+            source: "蝦皮",
+            usage: "收納好物",
+            products: [
+                { name: "矽膠瀝水墊", link: "#" },
+                { name: "自動給皂機", link: "#" }
+            ]
+        },
+        {
+            title: "酷澎必買！提升居家質感的小物",
+            igLink: "https://www.instagram.com/",
+            image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=600&q=80",
+            category: "居家",
+            source: "酷澎",
+            usage: "實用好物",
+            products: [
+                { name: "復古檯燈", link: "#" },
+                { name: "香氛蠟燭", link: "#" },
+                { name: "地毯", link: "#" },
+                { name: "抱枕套", link: "#" }
+            ]
+        }
+    ];
+
+    // ==========================================
+    // ⬆️ 資料區結束，下面是程式邏輯 (不用動) ⬆️
+    // ==========================================
+
+    let activeFilters = {
+        category: 'all',
+        source: 'all',
+        usage: 'all'
+    };
+
+    function renderPosts() {
+        const container = document.getElementById('grid');
+        const emptyMsg = document.getElementById('empty-msg');
+        container.innerHTML = '';
+        
+        let hasContent = false;
+
+        posts.forEach(post => {
+            // 檢查篩選條件
+            const matchCategory = activeFilters.category === 'all' || post.category === activeFilters.category;
+            const matchSource = activeFilters.source === 'all' || post.source === activeFilters.source;
+            const matchUsage = activeFilters.usage === 'all' || post.usage === activeFilters.usage;
+
+            if (matchCategory && matchSource && matchUsage) {
+                hasContent = true;
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                // 產生商品列表 HTML
+                let productHtml = '';
+                post.products.forEach(p => {
+                    productHtml += `
+                        <li class="product-item">
+                            <span>${p.name}</span>
+                            <a href="${p.link}" target="_blank" class="buy-btn">購買</a>
+                        </li>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <a href="${post.igLink}" target="_blank" class="video-placeholder">
+                        <img src="${post.image}" alt="${post.title}">
+                        <div class="play-icon">▶</div>
+                    </a>
+                    <div class="card-body">
+                        <div class="tags">
+                            <span class="tag">#${post.category}</span>
+                            <span class="tag">#${post.source}</span>
+                            <span class="tag">#${post.usage}</span>
+                        </div>
+                        <h3 class="card-title">${post.title}</h3>
+                        <ul class="product-list">
+                            ${productHtml}
+                        </ul>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        });
+
+        emptyMsg.style.display = hasContent ? 'none' : 'block';
+    }
+
+    function filterData(type, value) {
+        // 更新按鈕狀態
+        if (type === 'category' || type === 'source' || type === 'usage') {
+             activeFilters[type] = activeFilters[type] === value ? 'all' : value;
+             if(value === 'all') activeFilters[type] = 'all'; // 確保點擊全部時重置
+        }
+
+        // 重新渲染 UI
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        
+        // 簡單的高亮邏輯 (只適合單選，若需複選需修改)
+        // 這裡為了簡單，當你點擊某個篩選器，我們重新渲染畫面
+        renderPosts();
+    }
+
+    // 初始化
+    renderPosts();
+
+</script>
+
+</body>
+</html>
