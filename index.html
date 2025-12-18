@@ -6,7 +6,7 @@
     <title>我的好物推薦清單</title>
     <style>
         :root {
-            --primary-color: #d97706; /* 品牌主色 (暖橘) */
+            --primary-color: #D8BFA2; /* 品牌主色 (淺木色) */
             --bg-color: #f9fafb;
             --card-bg: #ffffff;
             --text-main: #1f2937;
@@ -179,28 +179,31 @@
 <body>
 
 <header>
-    <h1>選物好生活</h1>
+    <h1>艾莉絲的好物推薦</h1>
     <p>精選廚房、浴室與居家收納好物</p>
 </header>
 
 <div class="filter-container">
     <div class="filter-group">
-        <span class="filter-label">場景：</span>
+        <span class="filter-label">區域：</span>
         <button class="filter-btn" onclick="filterData('category', 'all')">全部</button>
         <button class="filter-btn" onclick="filterData('category', '廚房')">廚房</button>
         <button class="filter-btn" onclick="filterData('category', '浴室')">浴室</button>
         <button class="filter-btn" onclick="filterData('category', '居家')">居家</button>
     </div>
     <div class="filter-group">
-        <span class="filter-label">來源：</span>
+        <span class="filter-label">購入：</span>
+        <button class="filter-btn" onclick="filterData('category', 'all')">全部</button>
         <button class="filter-btn" onclick="filterData('source', '淘寶')">淘寶</button>
         <button class="filter-btn" onclick="filterData('source', '蝦皮')">蝦皮</button>
         <button class="filter-btn" onclick="filterData('source', '酷澎')">酷澎</button>
     </div>
     <div class="filter-group">
-        <span class="filter-label">用途：</span>
+        <span class="filter-label">分類：</span>
+        <button class="filter-btn" onclick="filterData('category', 'all')">全部</button>
         <button class="filter-btn" onclick="filterData('usage', '收納好物')">收納</button>
         <button class="filter-btn" onclick="filterData('usage', '實用好物')">實用</button>
+        <button class="filter-btn" onclick="filterData('usage', '實用好物')">清潔</button>
     </div>
 </div>
 
@@ -214,42 +217,44 @@
     // ==========================================
     const posts = [
         {
-            title: "淘寶 5 款超強廚房收納！",
-            igLink: "https://www.instagram.com/", // 這裡放你的 IG 影片連結
-            image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80", // 這裡放封面圖網址
+            title: "超實用5款廚房好物 第4彈",
+            igLink: "https://www.instagram.com/reel/DQjaTAiku2r", // 這裡放你的 IG 影片連結
+            image: "https://i.ibb.co/bM4NY2g8/IMG-5169.jpg?auto=format&fit=crop&w=600&q=80", // 這裡放封面圖網址
             category: "廚房",
+            source: "蝦皮",
+            usage: "實用好物",
+            products: [
+                { name: "奶油保存盒", link: "https://s.shopee.tw/3fvRpPhD30" },
+                { name: "蔬菜脫水器", link: "https://s.shopee.tw/4VUYpJmLSR" },
+                { name: "迷你電子秤", link: "https://s.shopee.tw/40YIEUz5og" },
+                { name: "迷你封口機", link: "https://s.shopee.tw/3AzBF0N2kt" },
+                { name: "義大利麵保鮮盒", link: "https://s.shopee.tw/7AVIQ0gmqy" }
+            ]
+        },
+        {
+            title: "我的2025淘寶浴室收納好物TOP3",
+            igLink: "https://www.instagram.com/reel/DRzO7dTkpI-",
+            image: "https://i.ibb.co/jZst7R25/IMG-5171.jpg?auto=format&fit=crop&w=600&q=80",
+            category: "浴室",
             source: "淘寶",
             usage: "收納好物",
             products: [
-                { name: "磁吸冰箱架", link: "https://shopee.tw" },
-                { name: "旋轉調料盤", link: "https://shopee.tw" },
-                { name: "免釘掛勾", link: "https://shopee.tw" }
+                { name: "可摺疊髒衣籃", link: "https://e.tb.cn/h.S2T96rXxe35brUA" },
+                { name: "浴室折疊收納架", link: "https://e.tb.cn/h.SXymitcPgoFKInq" },
+                { name: "鏡櫃置物架", link: "https://e.tb.cn/h.hzi58Iyt8ZPnFw4" }
             ]
         },
         {
-            title: "浴室不再亂糟糟，蝦皮好物開箱",
-            igLink: "https://www.instagram.com/",
-            image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
-            category: "浴室",
-            source: "蝦皮",
-            usage: "收納好物",
-            products: [
-                { name: "矽膠瀝水墊", link: "#" },
-                { name: "自動給皂機", link: "#" }
-            ]
-        },
-        {
-            title: "酷澎必買！提升居家質感的小物",
-            igLink: "https://www.instagram.com/",
-            image: "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=600&q=80",
+            title: "實測3款日本清潔好物",
+            igLink: "https://www.instagram.com/reel/DRrWVKVkjci",
+            image: "https://i.ibb.co/4Z46vnLF/IMG-5170.jpg?auto=format&fit=crop&w=600&q=80",
             category: "居家",
-            source: "酷澎",
-            usage: "實用好物",
+            source: "蝦皮",
+            usage: "清潔好物",
             products: [
-                { name: "復古檯燈", link: "#" },
-                { name: "香氛蠟燭", link: "#" },
-                { name: "地毯", link: "#" },
-                { name: "抱枕套", link: "#" }
+                { name: "小林製藥 水管發泡清潔錠", link: "https://s.shopee.tw/4q88ODJDIz" },
+                { name: "紀陽 製冰機清洗劑", link: "https://s.shopee.tw/1BEq1V1lxs" },
+                { name: "地球製藥 馬桶泡沫清潔劑", link: "https://s.shopee.tw/8fKWc55K9Q" }
             ]
         }
     ];
