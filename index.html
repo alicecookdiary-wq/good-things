@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A-selects | 艾莉絲的居家選物</title>
-    <meta name="referrer" content="no-referrer">
     <style>
         :root {
             --bg: #fcfcfc;
@@ -63,8 +62,8 @@
         }
         .card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
 
-        .thumb-box { position: relative; cursor: pointer; aspect-ratio: 9/16; background: #eee; overflow: hidden; }
-        .thumb-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .thumb-link { position: relative; display: block; aspect-ratio: 9/16; background: #eee; overflow: hidden; text-decoration: none; }
+        .thumb-link img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         
         .play-icon {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -93,13 +92,6 @@
         .shopee { background: var(--shopee); }
         .taobao { background: var(--taobao); }
         .coupang { background: var(--coupang); }
-
-        /* 彈窗優化 */
-        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); backdrop-filter: blur(8px); z-index: 1000; justify-content:center; align-items:center; }
-        .modal-content { width:90%; max-width:380px; position:relative; background: #000; border-radius: 12px; overflow: hidden; }
-        .close { position:absolute; top:-45px; right:0; color:white; font-size:35px; cursor:pointer; }
-        .iframe-container { width:100%; aspect-ratio: 9/16; }
-        iframe { width:100%; height: 100%; border:none; }
 
         @media (max-width: 600px) { 
             .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } 
@@ -136,23 +128,18 @@
 </header>
 
 <div class="container">
-    <div class="grid" id="productGrid"></div>
-</div>
-
-<div id="videoModal" class="modal" onclick="closeModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div id="player" class="iframe-container"></div>
-    </div>
+    <div id="productGrid" class="grid"></div>
 </div>
 
 <script>
-    // --- 資料區保持不變 ---
+    // --- 完整補回 5 筆資料 ---
+    // 請將 imgUrl 替換為您上傳到 GitHub 的圖片檔名，例如 "reel1.jpg"
     const reels = [
         {
             reelTitle: "我的2025蝦皮廚房好物TOP3", 
             category: "廚房",
-            igId: "DSXSC-_Egpv", 
+            imgUrl: "cover1.jpg", 
+            videoUrl: "https://www.instagram.com/reels/DSXSC-_Egpv/",
             items: [
                 { name: "日本廚房地墊", platform: "shopee", url: "https://s.shopee.tw/5pzzSjVNdc" },
                 { name: "日本蔬菜脫水器", platform: "shopee", url: "https://s.shopee.tw/4VUYpJmLSR" },
@@ -162,7 +149,8 @@
         {
             reelTitle: "我的2025淘寶浴室收納好物",
             category: "浴室",
-            igId: "DRzO7dTkpI-",
+            imgUrl: "cover2.jpg",
+            videoUrl: "https://www.instagram.com/reels/DRzO7dTkpI-/",
             items: [
                 { name: "鏡櫃置物架", platform: "taobao", url: "https://e.tb.cn/h.hzi58Iyt8ZPnFw4" },
                 { name: "浴室折疊收納架", platform: "taobao", url: "https://e.tb.cn/h.SXymitcPgoFKInq" },
@@ -172,7 +160,8 @@
         {
             reelTitle: "實測3款日本清潔好物",
             category: "居家",
-            igId: "DRrWVKVkjci",
+            imgUrl: "cover3.jpg",
+            videoUrl: "https://www.instagram.com/reels/DRrWVKVkjci/",
             items: [
                 { name: "小林製藥 水管發泡清潔錠", platform: "shopee", url: "https://s.shopee.tw/4q88ODJDIz" },
                 { name: "紀陽 製冰機清洗劑", platform: "shopee", url: "https://s.shopee.tw/1BEq1V1lxs" },
@@ -182,7 +171,8 @@
         {
             reelTitle: "超實用5款廚房好物第4彈",
             category: "廚房",
-            igId: "DQjaTAiku2r",
+            imgUrl: "cover4.jpg",
+            videoUrl: "https://www.instagram.com/reels/DQjaTAiku2r/",
             items: [
                 { name: "奶油保存盒", platform: "shopee", url: "https://s.shopee.tw/3fvRpPhD30" },
                 { name: "蔬菜脫水器", platform: "shopee", url: "https://s.shopee.tw/4VUYpJmLSR" },
@@ -194,7 +184,8 @@
         {
             reelTitle: "私訊問爆的日本製廚房地墊",
             category: "廚房",
-            igId: "DO_UuS7kuxJ",
+            imgUrl: "cover5.jpg",
+            videoUrl: "https://www.instagram.com/reels/DO_UuS7kuxJ/",
             items: [
                 { name: "日本廚房地墊", platform: "shopee", url: "https://s.shopee.tw/5pzzSjVNdc" }
             ]
@@ -216,16 +207,12 @@
             return matchSearch && matchCat && matchPlat;
         });
 
-        grid.innerHTML = filtered.map(r => {
-            // --- 修正版封面連結：加上更多標記繞過阻擋 ---
-            const igThumb = `https://www.instagram.com/reels/${r.igId}/thumbnail/?size=l`;
-            
-            return `
+        grid.innerHTML = filtered.map(r => `
             <div class="card">
-                <div class="thumb-box" onclick="openModal('${r.igId}')">
-                    <img src="${igThumb}" alt="${r.reelTitle}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x533?text=Instagram+Cover'">
+                <a href="${r.videoUrl}" target="_blank" class="thumb-link">
+                    <img src="${r.imgUrl}" alt="${r.reelTitle}" onerror="this.src='https://via.placeholder.com/300x533?text=艾莉絲精選影片'">
                     <div class="play-icon"></div>
-                </div>
+                </a>
                 <div class="info">
                     <span class="reel-tag"># ${r.category}</span>
                     <p class="reel-desc">${r.reelTitle}</p>
@@ -240,7 +227,7 @@
                     </div>
                 </div>
             </div>
-        `}).join('');
+        `).join('');
     }
 
     function filterBy(el, type) {
@@ -249,21 +236,6 @@
         document.querySelectorAll(`.btn[data-type="${type}"]`).forEach(b => b.classList.remove('active'));
         el.classList.add('active');
         renderCards();
-    }
-
-    // --- 修正版開窗連結 ---
-    function openModal(id) {
-        // 使用正確的 HTTPS Embed 格式
-        const embedUrl = `https://www.instagram.com/reels/${id}/embed/`;
-        document.getElementById('player').innerHTML = `<iframe src="${embedUrl}" scrolling="no" allowtransparency="true" frameborder="0"></iframe>`;
-        document.getElementById('videoModal').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        document.getElementById('videoModal').style.display = 'none';
-        document.getElementById('player').innerHTML = '';
-        document.body.style.overflow = 'auto';
     }
 
     renderCards();
