@@ -5,240 +5,312 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>艾莉絲的食光日記｜好物導航</title>
     <style>
-        /* 日系極簡奶油風配色 */
+        /* 頂級日系極簡與當代科技微光視覺 */
         :root {
-            --bg-color: #FBF9F6;       /* 極簡奶油白 */
-            --card-bg: #FFFFFF;        /* 純白卡片 */
-            --text-main: #5C544E;      /* 深焙茶色 */
-            --text-sub: #9E948A;       /* 淺木質灰 */
-            --primary: #D4C5B9;        /* 經典奶油燕麥色 */
-            --primary-light: #F2ECE6;  /* 輕柔燕麥膚色 */
-            --accent: #A89685;         /* 焦糖摩卡色 */
+            --bg-color: #FAF8F5;       /* 純淨奶油白 */
+            --grid-color: rgba(223, 213, 201, 0.25); /* 浮空網格線條 */
+            --card-bg: rgba(255, 255, 255, 0.85);    /* 霧面微透白 */
+            --text-main: #4A443F;      /* 沉穩焙茶色 */
+            --text-sub: #A39990;       /* 質樸木質灰 */
+            --border-color: #EFEAE4;   /* 極細線條 */
+            --accent-glow: #C5B4A5;    /* 燕麥微光 */
+            --btn-active: #8E7F73;     /* 摩卡深色 */
+            --shadow-sm: 0 4px 20px rgba(74, 68, 63, 0.02);
+            --shadow-md: 0 8px 30px rgba(197, 180, 165, 0.12);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
+            /* 純代碼繪製的高級感日系微光與細線網格背景 */
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+                radial-gradient(circle at 10% 20%, rgba(242, 236, 230, 0.6) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(212, 197, 185, 0.3) 0%, transparent 50%);
+            background-size: 24px 24px, 24px 24px, 100% 100%, 100% 100%;
             color: var(--text-main);
             display: flex;
             justify-content: center;
             min-height: 100vh;
+            letter-spacing: 0.6px;
+            overflow-x: hidden;
         }
 
         .phone-container {
             width: 100%;
             max-width: 480px;
-            background-color: var(--bg-color);
-            padding: 24px 16px;
+            padding: 40px 20px;
+            animation: fadeInPage 0.6s ease-out;
         }
 
-        .header {
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 頂部高級感磨砂玻璃標頭 --- */
+        .hero-header {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 28px 20px;
             text-align: center;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
         }
-        .header h1 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
+        .hero-header h1 {
+            font-size: 1.35rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            color: var(--text-main);
+            margin-bottom: 8px;
         }
-        .header p {
-            font-size: 0.85rem;
+        .hero-header p {
+            font-size: 0.75rem;
             color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        /* --- 伸縮區塊核心樣式 --- */
-        .accordion-section {
+        /* --- 區塊外殼（高級感留白與呼吸燈特效） --- */
+        .page-section {
             background-color: var(--card-bg);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border-radius: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(168, 150, 133, 0.04);
-            overflow: hidden;
-            border: 1px solid rgba(212, 197, 185, 0.2);
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            padding: 24px 20px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        /* 區塊內部的微妙互動感 */
+        .page-section:focus-within, .page-section:hover {
+            border-color: var(--accent-glow);
+            box-shadow: var(--shadow-md);
         }
 
-        .accordion-header {
-            width: 100%;
-            background: none;
-            border: none;
-            padding: 18px 20px;
+        .section-title-container {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            cursor: pointer;
-            text-align: left;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .accordion-title-text {
-            font-size: 1.05rem;
+        /* 高科技感呼吸小圓點 */
+        .glow-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--accent-glow);
+            box-shadow: 0 0 8px var(--accent-glow);
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 12px var(--accent-glow); }
+        }
+
+        .section-title-text {
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            letter-spacing: 1.5px;
         }
 
-        .accordion-icon {
-            color: var(--text-sub);
-            font-size: 0.9rem;
-            transition: transform 0.3s ease;
-        }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s ease-out;
-            background-color: #FFFFFF;
-        }
-
-        .accordion-inner {
-            padding: 0 16px 20px 16px;
-        }
-
-        .accordion-section.active .accordion-content {
-            max-height: 2000px; /* 加大高度以容納新增的測驗 */
-            transition: max-height 0.45s ease-in;
-        }
-        .accordion-section.active .accordion-icon {
-            transform: rotate(180deg);
-        }
-
-        /* --- 好物複選濾鏡樣式 --- */
+        /* --- 橫向流暢滑動複選濾鏡 --- */
         .filter-box {
-            background-color: var(--bg-color);
+            background: rgba(250, 248, 245, 0.7);
             border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 16px;
+            padding: 14px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
         }
-        .filter-group {
-            margin-bottom: 10px;
-        }
-        .filter-group:last-child {
-            margin-bottom: 0;
-        }
+        .filter-group { margin-bottom: 12px; }
+        .filter-group:last-child { margin-bottom: 0; }
         .filter-title {
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 500;
             color: var(--text-sub);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
         }
         .filter-buttons {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             overflow-x: auto;
             white-space: nowrap;
+            padding-bottom: 2px;
         }
         .filter-buttons::-webkit-scrollbar { display: none; }
         
         .filter-btn {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(212, 197, 185, 0.3);
+            background-color: #FFFFFF;
+            border: 1px solid var(--border-color);
             color: var(--text-main);
-            padding: 5px 12px;
-            border-radius: 16px;
+            padding: 6px 14px;
+            border-radius: 20px;
             font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .filter-btn.active {
-            background-color: var(--accent);
+            background-color: var(--btn-active);
             color: #FFFFFF;
-            border-color: var(--accent);
-            font-weight: 500;
+            border-color: var(--btn-active);
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(142, 127, 115, 0.15);
         }
 
-        /* --- 商品列表與卡片 --- */
+        /* --- 頂級流暢卡片流 --- */
         .items-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 14px;
         }
         .item-card {
-            background-color: var(--bg-color);
-            border-radius: 10px;
-            padding: 12px;
+            background-color: rgba(250, 248, 245, 0.6);
+            border-radius: 12px;
+            padding: 16px;
             display: flex;
             align-items: center;
             text-decoration: none;
             color: var(--text-main);
-            transition: transform 0.2s ease;
+            border: 1px solid transparent;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .item-card:active { transform: scale(0.98); }
+        /* 物理彈性點擊反饋 */
+        .item-card:active {
+            transform: scale(0.97);
+            background-color: rgba(239, 234, 228, 0.7);
+            border-color: var(--accent-glow);
+        }
         .item-card.hidden { display: none; }
         
         .item-img {
-            width: 56px;
-            height: 56px;
-            border-radius: 6px;
-            background-color: var(--primary-light);
+            width: 54px;
+            height: 54px;
+            border-radius: 8px;
+            background-color: #EFEAE4;
             object-fit: cover;
-            margin-right: 12px;
+            margin-right: 16px;
         }
         .item-info { flex: 1; }
-        .item-name { font-size: 0.9rem; font-weight: 500; margin-bottom: 2px; }
-        .item-desc { font-size: 0.75rem; color: var(--text-sub); line-height: 1.3; }
-        .item-arrow { color: var(--primary); font-size: 1rem; margin-left: 6px; }
-        .status-tag { font-size: 0.75rem; background-color: var(--primary-light); color: var(--accent); padding: 2px 8px; border-radius: 4px; font-weight: 500; margin-bottom: 4px; display: inline-block; }
-        .no-results { text-align: center; padding: 20px; color: var(--text-sub); font-size: 0.8rem; display: none; }
+        .item-name { font-size: 0.9rem; font-weight: 500; margin-bottom: 4px; }
+        .item-desc { font-size: 0.75rem; color: var(--text-sub); line-height: 1.45; }
+        .item-arrow { 
+            color: var(--text-sub); 
+            font-size: 0.85rem; 
+            margin-left: 8px; 
+            transition: transform 0.3s ease;
+        }
+        .item-card:hover .item-arrow {
+            transform: translateX(3px);
+            color: var(--btn-active);
+        }
+        
+        .status-tag { 
+            font-size: 0.65rem; 
+            background-color: #EFEAE4; 
+            color: var(--btn-active); 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            margin-bottom: 6px; 
+            display: inline-block;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .date-tag {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            margin-left: auto;
+            font-weight: 500;
+        }
+        .no-results { text-align: center; padding: 30px 20px; color: var(--text-sub); font-size: 0.8rem; display: none; }
 
-        /* --- 心理測驗專屬樣式 --- */
+        /* --- 心理測驗面板頂級優化 --- */
         .quiz-container {
-            background-color: var(--bg-color);
+            background-color: rgba(250, 248, 245, 0.6);
             border-radius: 12px;
-            padding: 16px;
-            text-align: center;
+            padding: 20px;
+            border: 1px solid var(--border-color);
         }
         .quiz-question {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            margin-bottom: 14px;
-            line-height: 1.4;
+            margin-bottom: 18px;
+            line-height: 1.5;
+            color: var(--text-main);
+            position: relative;
+            padding-left: 12px;
+        }
+        .quiz-question::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 3px;
+            width: 3px;
+            height: 14px;
+            background-color: var(--accent-glow);
+            border-radius: 2px;
         }
         .quiz-options {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
         .quiz-opt-btn {
-            background-color: var(--card-bg);
-            border: 1px solid rgba(212, 197, 185, 0.4);
+            background-color: #FFFFFF;
+            border: 1px solid var(--border-color);
             color: var(--text-main);
-            padding: 10px 14px;
+            padding: 14px 18px;
             border-radius: 10px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             text-align: left;
-            transition: all 0.2s ease;
+            line-height: 1.45;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .quiz-opt-btn:active {
-            background-color: var(--primary-light);
+            transform: scale(0.98);
+            border-color: var(--accent-glow);
+            background-color: #FAF8F5;
         }
         
-        /* 測驗結果呈現 */
         .quiz-result-box {
             display: none;
-            animation: fadeIn 0.4s ease;
+            animation: fadeInResult 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: left;
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInResult { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
         
         .result-title {
             font-size: 1rem;
             font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 6px;
+            color: var(--btn-active);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            letter-spacing: 1px;
         }
         .result-desc {
             font-size: 0.8rem;
             color: var(--text-sub);
-            margin-bottom: 16px;
-            line-height: 1.4;
+            margin-bottom: 24px;
+            line-height: 1.55;
         }
         .quiz-reset-btn {
             background: none;
@@ -247,152 +319,182 @@
             font-size: 0.75rem;
             text-decoration: underline;
             cursor: pointer;
-            margin-top: 12px;
+            display: block;
+            margin: 20px auto 0 auto;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
         }
+        .quiz-reset-btn:hover { opacity: 1; }
     </style>
 </head>
 <body>
 
 <div class="phone-container">
 
-    <div class="header">
+    <div class="hero-header">
         <h1>艾莉絲的食光日記</h1>
-        <p>療癒生活｜愛用好物與團購導航</p>
+        <p>LIVING & SELECTED OBJECT</p>
     </div>
 
-    <div class="accordion-section">
-        <button class="accordion-header">
-            <div class="accordion-title-text">✨ 正在團購中...</div>
-            <div class="accordion-icon">▼</div>
-        </button>
-        <div class="accordion-content">
-            <div class="accordion-inner">
-                <div class="items-list">
-                    <a href="你的團購連結" class="item-card">
-                        <img src="https://via.placeholder.com/150/F2ECE6/5C544E?text=Live" class="item-img" alt="商品">
-                        <div class="item-info">
-                            <div class="item-name">日本名廠 質感不鏽鋼餐具組</div>
-                            <div class="item-desc">本檔獨家限時優惠！打造日系極簡餐桌的最後一塊拼圖。</div>
-                        </div>
-                        <div class="item-arrow">→</div>
-                    </a>
+    <div class="page-section">
+        <div class="section-title-container">
+            <div class="glow-dot"></div>
+            <div class="section-title-text">目前開團中</div>
+            <span class="date-tag">6/22 - 6/28</span>
+        </div>
+        <div class="items-list">
+            <a href="https://allbml.cc/e48hB" class="item-card" target="_blank">
+                <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Chef" class="item-img" alt="淨毒五郎">
+                <div class="item-info">
+                    <div class="item-name">淨毒五郎限時團購</div>
+                    <div class="item-desc">用最溫柔的無毒成分，細緻守護日常家屋的潔淨與秩序。</div>
                 </div>
+                <div class="item-arrow">→</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="page-section">
+        <div class="section-title-container">
+            <div class="glow-dot"></div>
+            <div class="section-title-text">即將開團預告</div>
+        </div>
+        <div class="items-list">
+            <div class="item-card" style="cursor: default;">
+                <div class="item-info">
+                    <span class="status-tag">COMING SOON</span>
+                    <div class="item-name">韓國 Neoflam 廚具</div>
+                    <div class="item-desc">兼具完美高顏值與安心無毒塗層的當代料理美學。</div>
+                </div>
+                <span class="date-tag">7/12 - 7/19</span>
+            </div>
+
+            <div class="item-card" style="cursor: default;">
+                <div class="item-info">
+                    <span class="status-tag">COMING SOON</span>
+                    <div class="item-name">日本 Sanko 地墊</div>
+                    <div class="item-desc">細緻的居家防護，打造赤腳也感到安心細膩的觸覺。</div>
+                </div>
+                <span class="date-tag">7/20 - 7/26</span>
+            </div>
+
+            <div class="item-card" style="cursor: default;">
+                <div class="item-info">
+                    <span class="status-tag">二團預告</span>
+                    <div class="item-name">Space Box 太空盒</div>
+                    <div class="item-desc">完美拯救死角空間，讓雜物歸於無形的隱形收納美學。</div>
+                </div>
+                <span class="date-tag">7/28 - 8/10</span>
+            </div>
+
+            <div class="item-card" style="cursor: default;">
+                <div class="item-info">
+                    <span class="status-tag">二團預告</span>
+                    <div class="item-name">日本燕三条 職人金屬工藝</div>
+                    <div class="item-desc">俐落純粹的精緻金屬，為廚房洗滌細節帶入優雅留白。</div>
+                </div>
+                <span class="date-tag">8/10 - 8/16</span>
+            </div>
+
+            <div class="item-card" style="cursor: default;">
+                <div class="item-info">
+                    <span class="status-tag">COMING SOON</span>
+                    <div class="item-name">美國 OXO 廚房用品</div>
+                    <div class="item-desc">極具人性化考量與俐落設計的經典日常料理工具。</div>
+                </div>
+                <span class="date-tag">8/26 - 9/1</span>
+            </div>
+
+            <div class="item-card" style="cursor: default;">
+                <div class="item-info">
+                    <span class="status-tag">COMING SOON</span>
+                    <div class="item-name">Bonson 感應垃圾桶</div>
+                    <div class="item-desc">美型且不佔空間，將現代科技無縫融入極簡的家。</div>
+                </div>
+                <span class="date-tag">9/10 - 9/16</span>
             </div>
         </div>
     </div>
 
-    <div class="accordion-section">
-        <button class="accordion-header">
-            <div class="accordion-title-text">📅 即將開團預告</div>
-            <div class="accordion-icon">▼</div>
-        </button>
-        <div class="accordion-content">
-            <div class="accordion-inner">
-                <div class="items-list">
-                    <div class="item-card" style="cursor: default;">
-                        <img src="https://via.placeholder.com/150/F2ECE6/5C544E?text=Soon" class="item-img" alt="商品">
-                        <div class="item-info">
-                            <span class="status-tag">預計 7 月初開團</span>
-                            <div class="item-name">日系極簡 奶油色多功能料理鍋</div>
-                            <div class="item-desc">無毒塗層不含 PFAS，小家庭與單身料理的療癒首選。</div>
-                        </div>
-                    </div>
+    <div class="page-section">
+        <div class="section-title-container">
+            <div class="glow-dot"></div>
+            <div class="section-title-text">歷年愛用好物導航</div>
+        </div>
+        
+        <div class="filter-box">
+            <div class="filter-group">
+                <div class="filter-title">空間範圍</div>
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-filter="廚房">廚房</button>
+                    <button class="filter-btn" data-filter="浴室">浴室</button>
+                    <button class="filter-btn" data-filter="臥室">臥室</button>
+                    <button class="filter-btn" data-filter="其他居家">其他居家</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-title">用途分類</div>
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-filter="收納">收納</button>
+                    <button class="filter-btn" data-filter="好物">好物</button>
+                    <button class="filter-btn" data-filter="清潔">清潔</button>
+                </div>
+            </div>
+            <div class="filter-group">
+                <div class="filter-title">材質工藝</div>
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-filter="不鏽鋼">不鏽鋼</button>
+                    <button class="filter-btn" data-filter="其他">其他</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="accordion-section">
-        <button class="accordion-header">
-            <div class="accordion-title-text">🤎 歷年愛用好物導航</div>
-            <div class="accordion-icon">▼</div>
-        </button>
-        <div class="accordion-content">
-            <div class="accordion-inner">
-                <div class="filter-box">
-                    <div class="filter-group">
-                        <div class="filter-title">空間範圍</div>
-                        <div class="filter-buttons">
-                            <button class="filter-btn" data-filter="廚房">廚房</button>
-                            <button class="filter-btn" data-filter="浴室">浴室</button>
-                            <button class="filter-btn" data-filter="臥室">臥室</button>
-                            <button class="filter-btn" data-filter="其他居家">其他居家</button>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <div class="filter-title">用途分類</div>
-                        <div class="filter-buttons">
-                            <button class="filter-btn" data-filter="收納">收納</button>
-                            <button class="filter-btn" data-filter="好物">好物</button>
-                            <button class="filter-btn" data-filter="清潔">清潔</button>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <div class="filter-title">材質工藝</div>
-                        <div class="filter-buttons">
-                            <button class="filter-btn" data-filter="不鏽鋼">不鏽鋼</button>
-                            <button class="filter-btn" data-filter="其他">其他</button>
-                        </div>
-                    </div>
+        <div class="items-list" id="navigation-items">
+            <a href="購買連結" class="item-card" data-tags="廚房 收納 不鏽鋼">
+                <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Selected" class="item-img" alt="商品">
+                <div class="item-info">
+                    <div class="item-name">燕三条 不鏽鋼精緻刀架</div>
+                    <div class="item-desc">兼具極佳通風與安全性的頂級職人金屬道具。</div>
                 </div>
-
-                <div class="items-list" id="navigation-items">
-                    <a href="購買連結" class="item-card" data-tags="廚房 收納 不鏽鋼">
-                        <img src="https://via.placeholder.com/150/F2ECE6/5C544E?text=Fav" class="item-img" alt="商品">
-                        <div class="item-info">
-                            <div class="item-name">燕三条 不鏽鋼精緻刀架</div>
-                            <div class="item-desc">極簡瀝水設計，兼具通風與美感的職人工藝。</div>
-                        </div>
-                        <div class="item-arrow">→</div>
-                    </a>
-                    <a href="購買連結" class="item-card" data-tags="廚房 好物 其他">
-                        <img src="https://via.placeholder.com/150/F2ECE6/5C544E?text=Fav" class="item-img" alt="商品">
-                        <div class="item-info">
-                            <div class="item-name">Marna 站立式不黏米飯勺</div>
-                            <div class="item-desc">輕薄邊緣盛飯極流暢，可直接站立保持衛生。</div>
-                        </div>
-                        <div class="item-arrow">→</div>
-                    </a>
-                    <a href="購買連結" class="item-card" data-tags="浴室 清潔 其他">
-                        <img src="https://via.placeholder.com/150/F2ECE6/5C544E?text=Fav" class="item-img" alt="商品">
-                        <div class="item-info">
-                            <div class="item-name">Recolte 自動感應洗手機</div>
-                            <div class="item-desc">慕斯綿密，擺在浴室洗手台就像裝飾品一樣美。</div>
-                        </div>
-                        <div class="item-arrow">→</div>
-                    </a>
+                <div class="item-arrow">→</div>
+            </a>
+            <a href="購買連結" class="item-card" data-tags="廚房 好物 其他">
+                <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Selected" class="item-img" alt="商品">
+                <div class="item-info">
+                    <div class="item-name">Marna 站立式不黏米飯勺</div>
+                    <div class="item-desc">輕薄邊緣讓盛飯極為流暢，可優雅獨立站立。</div>
                 </div>
-                <div class="no-results" id="no-results-msg">沒有符合此複合條件的好物 🤎</div>
-            </div>
+                <div class="item-arrow">→</div>
+            </a>
+            <a href="購買連結" class="item-card" data-tags="浴室 清潔 其他">
+                <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Selected" class="item-img" alt="商品">
+                <div class="item-info">
+                    <div class="item-name">Recolte 自動感應洗手機</div>
+                    <div class="item-desc">綿密如慕斯的細緻觸感，點綴檯面的日系生活。</div>
+                </div>
+                <div class="item-arrow">→</div>
+            </a>
         </div>
+        <div class="no-results" id="no-results-msg">未找到符合交叉條件的物件</div>
     </div>
 
-    <div class="accordion-section">
-        <button class="accordion-header">
-            <div class="accordion-title-text">🔮 今日生活儀式感測驗</div>
-            <div class="accordion-icon">▼</div>
-        </button>
-        <div class="accordion-content">
-            <div class="accordion-inner">
-                <div class="quiz-container">
-                    
-                    <div id="quiz-play-box">
-                        <div class="quiz-question" id="quiz-question-text">正在加載測驗...</div>
-                        <div class="quiz-options" id="quiz-options-box">
-                            </div>
-                    </div>
+    <div class="page-section">
+        <div class="section-title-container">
+            <div class="glow-dot"></div>
+            <div class="section-title-text">今日生活儀式感測驗</div>
+        </div>
+        <div class="quiz-container">
+            <div id="quiz-play-box">
+                <div class="quiz-question" id="quiz-question-text">加載中...</div>
+                <div class="quiz-options" id="quiz-options-box"></div>
+            </div>
 
-                    <div class="quiz-result-box" id="quiz-result-view">
-                        <div class="result-title" id="res-title">你的測驗結果</div>
-                        <div class="result-desc" id="res-desc">結果分析描述</div>
-                        <div style="font-size: 0.8rem; font-weight:600; margin-bottom:8px; text-align:left; color:var(--accent);">✨ 今日最適合你的專屬道具：</div>
-                        
-                        <div id="random-product-placement"></div>
-                        
-                        <button class="quiz-reset-btn" onclick="resetQuiz()">再測一次</button>
-                    </div>
-
-                </div>
+            <div class="quiz-result-box" id="quiz-result-view">
+                <div class="result-title" id="res-title">測驗結果</div>
+                <div class="result-desc" id="res-desc">描述</div>
+                <div style="font-size: 0.75rem; font-weight:600; margin-bottom:12px; color:var(--btn-active); letter-spacing: 0.5px;">今日推薦給你的生活道具：</div>
+                <div id="random-product-placement"></div>
+                <button class="quiz-reset-btn" onclick="resetQuiz()">重新測試</button>
             </div>
         </div>
     </div>
@@ -400,22 +502,13 @@
 </div>
 
 <script>
-    // --- 1. 伸縮折疊邏輯 ---
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            header.parentElement.classList.toggle('active');
-        });
-    });
-
-    // --- 2. 好物導航篩選邏輯 ---
+    // --- 好物交叉篩選邏輯 ---
     const filterButtons = document.querySelectorAll('.filter-btn');
     const itemCards = document.querySelectorAll('#navigation-items .item-card');
     const noResultsMsg = document.getElementById('no-results-msg');
 
     filterButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
+        btn.addEventListener('click', () => {
             btn.classList.toggle('active');
             filterItems();
         });
@@ -433,42 +526,59 @@
         noResultsMsg.style.display = matchCount === 0 ? 'block' : 'none';
     }
 
-    // --- 3. 輕量心理測驗系統 ---
-    // 心理測驗題目與選項
+    // --- 心理測驗客製化系統 ---
     const quizData = [
         {
-            q: "1. 結束忙碌的一天回到家，你第一個最想待著放鬆的空間是？",
-            opts: ["飄散著香氣的溫暖廚房", "乾淨清爽的洗手台與浴室", "鋪好舒服天絲被的溫馨臥室"]
+            q: "1. 料理對你而言，通常是什麼樣的存在？",
+            opts: [
+                "療癒的創作過程！喜歡精緻的道具，擺盤漂亮心情就會很好",
+                "講求效率與俐落！烹飪過程要流暢，檯面絕對不能一團亂",
+                "偶爾下廚的樂趣，但比起煮飯，我更享受把空間維持得乾乾淨淨"
+            ]
         },
         {
-            q: "2. 當你感覺到日常有點疲憊時，哪種聲音最能治癒你？",
-            opts: ["廚房料理時，咕嘟咕嘟的溫暖煮湯聲", "水流洗滌器皿時，清脆乾淨的環境音", "整理收納時，物品完美歸位的卡嗒聲"]
+            q: "2. 走進廚房或浴室，看到什麼狀況會最觸動你的「潔癖警報」？",
+            opts: [
+                "洗完的器皿隨意堆疊，沒有好好通風瀝乾",
+                "洗手檯面或水槽周邊總是濕答答、甚至浮現水垢",
+                "瓶瓶罐罐散落一地，沒有被好好分類收納歸位"
+            ]
+        },
+        {
+            q: "3. 如果有一小段完全屬於自己的獨處時光，你最想做哪件事？",
+            opts: [
+                "為自己泡杯熱飲，順便把抽屜或櫃子整齊歸位（收納欲發作）",
+                "站在水槽旁，聽著流水的環境音，把餐具道具洗得亮晶晶",
+                "什麼都不做，單純享受家裡空無一物、乾淨留白的舒適感"
+            ]
         }
     ];
 
-    // 用於隨機推薦的好物資料庫（你可以隨時修改裡面的名稱、描述、圖片和網址）
-    const recommendPool = [
+    const resultPools = [
         {
-            name: "燕三条 不鏽鋼極簡瀝水架",
-            desc: "職人打造的俐落金屬線條，讓洗滌過後的廚房依然保持優雅留白。",
-            img: "https://via.placeholder.com/150/F2ECE6/5C544E?text=Stainless",
-            url: "你的購買連結1"
+            title: "風格診斷：細緻的料理美學家",
+            desc: "你非常重視餐桌上的儀式感，食物對你而言不僅是填飽肚子，盛裝的道具、採光與擺盤更是一場視覺的療癒。挑選富有美感的職人器物，能讓你的日常烹調多一分溫慢與優雅。"
         },
         {
-            name: "Marna 站立式透明飯勺",
-            desc: "不黏米粒的精緻設計，每次盛飯都是一場療癒的生活美學。",
-            img: "https://via.placeholder.com/150/F2ECE6/5C544E?text=Marna",
-            url: "你的購買連結2"
+            title: "風格診斷：俐落的檯面守護者",
+            desc: "你天生自帶優雅的微潔癖，最享受居家檯面空無一物、清爽乾淨的狀態。比起花俏的裝飾，你更追求器物本身的機能性與好清潔的特質，高效率地維持家屋的井然有序。"
         },
         {
-            name: "Recolte 感應式泡沫洗手機",
-            desc: "溫柔的奶油色調外觀，給每一次與水的接觸多一點優雅與儀式感。",
-            img: "https://via.placeholder.com/150/F2ECE6/5C544E?text=Recolte",
-            url: "你的購買連結3"
+            title: "風格診斷：極簡的空間魔術師",
+            desc: "你擅長將生活的雜亂隱藏於無形。對你而言，家屋的舒適來自於恰到好處的留白與隱形收納。精準契合空間、外觀乾淨不壓迫的收納道具，是你打造療癒避難所的完美靈魂。"
         }
+    ];
+
+    const recommendPool = [
+        { name: "韓國 Neoflam 療癒系美鍋", desc: "兼具溫潤高顏值與無毒安心塗層，點亮料理日常的美學鍋具。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Neoflam", url: "https://allbml.cc/e48hB" },
+        { name: "Marna 站立式不黏米飯勺", desc: "極輕薄邊緣盛飯極流暢，可優雅立於檯面，小細節的大滿足。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Marna", url: "購買連結" },
+        { name: "燕三条 不鏽鋼精緻道具", desc: "職人打造的俐落金屬線條，讓洗滌過後的檯面維持優雅留白。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Stainless", url: "購買連結" },
+        { name: "Space Box 太空盒收納系統", desc: "極簡純淨外觀，將居家雜物隱形歸位，打造無壓迫感空間。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=SpaceBox", url: "購買連結" },
+        { name: "Bonson 質感智慧感應垃圾桶", desc: "美型不佔空間，以現代科技優雅封存日常髒污，維持生活秩序。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Bonson", url: "購買連結" }
     ];
 
     let currentQIdx = 0;
+    let scoreArray = [0, 0, 0];
 
     function loadQuestion() {
         const playBox = document.getElementById('quiz-play-box');
@@ -481,11 +591,12 @@
             const optionsBox = document.getElementById('quiz-options-box');
             optionsBox.innerHTML = '';
             
-            quizData[currentQIdx].opts.forEach(opt => {
+            quizData[currentQIdx].opts.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'quiz-opt-btn';
                 btn.innerText = opt;
                 btn.onclick = () => {
+                    scoreArray[idx]++;
                     currentQIdx++;
                     loadQuestion();
                 };
@@ -501,33 +612,33 @@
         const resultView = document.getElementById('quiz-result-view');
         resultView.style.display = 'block';
 
-        // 溫柔的結果標題與文案
-        document.getElementById('res-title').innerText = "🔮 你的生活療癒狀態：極簡感知者";
-        document.getElementById('res-desc').innerText = "你天生擁有一雙發掘日常美好的眼睛。對你來說，生活不是填滿，而是舒適的留白。一個美好的道具，就能溫暖你的整個日常。";
+        let maxIdx = scoreArray.indexOf(Math.max(...scoreArray));
+        const finalResult = resultPools[maxIdx];
 
-        // 核心功能：從推薦池子裡「隨機」抽一個好物出來
+        document.getElementById('res-title').innerText = finalResult.title;
+        document.getElementById('res-desc').innerText = finalResult.desc;
+
         const randomProduct = recommendPool[Math.floor(Math.random() * recommendPool.length)];
 
-        // 動態生成適合這個推薦好物的商品卡片 html
         const productHtml = `
-            <a href="${randomProduct.url}" class="item-card" target="_blank" style="background-color: #FFFFFF; border: 1px solid var(--primary-light);">
+            <a href="${randomProduct.url}" class="item-card" target="_blank" style="background-color: #FFFFFF; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                 <img src="${randomProduct.img}" class="item-img" alt="推薦商品">
                 <div class="item-info">
-                    <div class="item-name" style="color: var(--accent); font-weight:600;">${randomProduct.name}</div>
+                    <div class="item-name" style="color: var(--btn-active); font-weight:500;">${randomProduct.name}</div>
                     <div class="item-desc">${randomProduct.desc}</div>
                 </div>
                 <div class="item-arrow">→</div>
             </a>
         `;
         document.getElementById('random-product-placement').innerHTML = productHtml;
-    </div>
+    }
 
     function resetQuiz() {
         currentQIdx = 0;
+        scoreArray = [0, 0, 0];
         loadQuestion();
     }
 
-    // 網頁初始載入測驗第一題
     window.onload = function() {
         loadQuestion();
     };
