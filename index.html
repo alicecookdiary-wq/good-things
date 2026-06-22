@@ -327,11 +327,13 @@
 
 <div class="phone-container">
 
+    <!-- 頂部高級感標頭 -->
     <div class="hero-header">
         <h1>艾莉絲的食光日記</h1>
         <p>LIVING & SELECTED OBJECT</p>
     </div>
 
+    <!-- 1. 目前開團中區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -340,6 +342,7 @@
         </div>
         <div class="items-list">
             <a href="https://allbml.cc/e48hB" class="item-card" target="_blank">
+                <!-- 智慧容錯偵錯照片載入系統 -->
                 <img id="chef-photo" src="chef.jpg" class="item-img" alt="淨毒五郎" onerror="tryNextFormat(this)">
                 <div class="item-info">
                     <div class="item-name">淨毒五郎限時團購</div>
@@ -350,6 +353,7 @@
         </div>
     </div>
 
+    <!-- 2. 團購預告區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -412,6 +416,7 @@
         </div>
     </div>
 
+    <!-- 3. 好物導航區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -474,6 +479,7 @@
         <div class="no-results" id="no-results-msg">未找到符合交叉條件的物件</div>
     </div>
 
+    <!-- 4. 心理測驗區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -508,7 +514,7 @@
             currentFormatIdx++;
             imgElement.src = formats[currentFormatIdx];
         } else {
-            // 所有組合都試過仍失敗時的精緻預設圖
+            // 所有組合都試過仍失敗時的精跡預設圖
             imgElement.src = 'https://via.placeholder.com/150/EFEAE4/4A443F?text=Chef';
             imgElement.onerror = null; 
         }
@@ -584,7 +590,7 @@
     const recommendPool = [
         { name: "韓國 Neoflam 療癒系美鍋", desc: "兼具溫潤高顏值與無毒安心塗層，點亮料理日常的美學鍋具。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Neoflam", url: "https://allbml.cc/e48hB" },
         { name: "Marna 站立式不黏米飯勺", desc: "極輕薄邊緣盛飯極流暢，可優雅立於檯面，小細節的大滿足。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Marna", url: "購買連結" },
-        { name: "燕三条 不鏽鋼精緻道具", desc: "職人打造的俐落金屬線條，讓洗滌過後的檯面維持優雅留白。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Stainless", url: "購買連結" },
+        { name: "日本燕三条 不鏽鋼精緻道具", desc: "職人打造的俐落金屬線條，讓洗滌過後的檯面維持優雅留白。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Stainless", url: "購買連結" },
         { name: "Space Box 太空盒收納系統", desc: "極簡純淨外觀，將居家雜物隱形歸位，打造無壓迫感空間。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=SpaceBox", url: "購買連結" },
         { name: "Bonson 質感智慧感應垃圾桶", desc: "美型不佔空間，以現代科技優雅封存日常髒污，維持生活秩序。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Bonson", url: "購買連結" }
     ];
