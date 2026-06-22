@@ -237,47 +237,90 @@
         }
         .no-results { text-align: center; padding: 30px 20px; color: var(--text-sub); font-size: 0.8rem; display: none; }
 
-        /* --- 靜態測驗樣式 --- */
-        .static-quiz-box {
+        /* --- 心理測驗面板動態優化 --- */
+        .quiz-container {
             background-color: rgba(250, 248, 245, 0.6);
             border-radius: 12px;
-            padding: 16px;
+            padding: 20px;
             border: 1px solid var(--border-color);
-            margin-bottom: 16px;
         }
-        .static-q-title {
-            font-size: 0.85rem;
+        .quiz-question {
+            font-size: 0.9rem;
             font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-        .static-q-opt {
-            font-size: 0.78rem;
-            color: var(--text-sub);
+            margin-bottom: 18px;
             line-height: 1.5;
-            margin-bottom: 4px;
-            padding-left: 6px;
+            color: var(--text-main);
+            position: relative;
+            padding-left: 12px;
         }
-        .static-res-card {
+        .quiz-question::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 3px;
+            width: 3px;
+            height: 14px;
+            background-color: var(--accent-glow);
+            border-radius: 2px;
+        }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .quiz-opt-btn {
             background-color: #FFFFFF;
-            border-radius: 12px;
-            padding: 16px;
             border: 1px solid var(--border-color);
-            margin-bottom: 14px;
+            color: var(--text-main);
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-align: left;
+            line-height: 1.45;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .static-res-title {
-            font-size: 0.85rem;
+        .quiz-opt-btn:active {
+            transform: scale(0.98);
+            border-color: var(--accent-glow);
+            background-color: #FAF8F5;
+        }
+        
+        .quiz-result-box {
+            display: none;
+            animation: fadeInResult 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: left;
+        }
+        @keyframes fadeInResult { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        
+        .result-title {
+            font-size: 1rem;
             font-weight: 600;
             color: var(--btn-active);
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            letter-spacing: 1px;
         }
-        .static-res-desc {
-            font-size: 0.75rem;
+        .result-desc {
+            font-size: 0.8rem;
             color: var(--text-sub);
-            line-height: 1.5;
-            margin-bottom: 12px;
+            margin-bottom: 24px;
+            line-height: 1.55;
         }
+        .quiz-reset-btn {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 0.75rem;
+            text-decoration: underline;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0 auto;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        .quiz-reset-btn:hover { opacity: 1; }
     </style>
 </head>
 <body>
@@ -460,63 +503,26 @@
         <div class="no-results" id="no-results-msg">未找到符合交叉條件的物件</div>
     </div>
 
-    <!-- 4. 靜態心理測驗區塊（100%不卡地雷防護版） -->
+    <!-- 4. 可點選互動式心理測驗區塊（最高優先權防卡死版） -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
             <div class="section-title-text">今日生活儀式感測驗</div>
         </div>
-        
-        <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:16px; line-height:1.4;">心裡默默選出最符合你的日常直覺，往下對照專屬你的風格生活提案：</p>
+        <div class="quiz-container">
+            <div id="quiz-play-box">
+                <div class="quiz-question" id="quiz-question-text">網頁加載中...</div>
+                <div class="quiz-options" id="quiz-options-box"></div>
+            </div>
 
-        <div class="static-quiz-box">
-            <div class="static-q-title">Q. 料理與家務對你而言，通常是什麼樣的存在？</div>
-            <div class="static-q-opt">選擇【A】療癒的創作過程！擺盤漂亮、道具精緻心情就會很好。</div>
-            <div class="static-q-opt">選擇【B】講求效率與俐落！烹飪過程要流暢，檯面絕對不能亂。</div>
-            <div class="static-q-opt">選擇【C】享受把雜亂隱藏於無形，家裡空無一物的留白感。</div>
+            <div class="quiz-result-box" id="quiz-result-view">
+                <div class="result-title" id="res-title">測驗結果</div>
+                <div class="result-desc" id="res-desc">描述</div>
+                <div style="font-size: 0.75rem; font-weight:600; margin-bottom:12px; color:var(--btn-active); letter-spacing: 0.5px;">今日推薦給你的生活道具：</div>
+                <div id="random-product-placement"></div>
+                <button class="quiz-reset-btn" onclick="resetQuiz()">重新測試</button>
+            </div>
         </div>
-
-        <div style="font-size:0.8rem; font-weight:600; margin:20px 0 10px 0; color:var(--text-main); letter-spacing:1px; text-align:center;">✦ 測驗結果對照 ✦</div>
-
-        <!-- 結果 A -->
-        <div class="static-res-card">
-            <div class="static-res-title">多數選 A：細緻的料理美學家</div>
-            <div class="static-res-desc">你非常重視餐桌上的儀式感。挑選富有美感的職人器物，能讓你的日常烹調多一分溫慢與優雅。</div>
-            <a href="https://allbml.cc/e48hB" class="item-card" target="_blank" style="background-color: #FAF8F5; padding: 10px;">
-                <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Neoflam" class="item-img" style="width:40px; height:40px;" alt="Neoflam">
-                <div class="item-info">
-                    <div class="item-name" style="font-size:0.8rem;">韓國 Neoflam 限時美鍋</div>
-                </div>
-                <div class="item-arrow">→</div>
-            </a>
-        </div>
-
-        <!-- 結果 B -->
-        <div class="static-res-card">
-            <div class="static-res-title">多數選 B：俐落的檯面守護者</div>
-            <div class="static-res-desc">你天生自帶優雅的微潔癖，最享受居家檯面空無一物。高效率、機能性與好清潔的特質是你的最愛。</div>
-            <a href="https://s.shopee.tw/AKVq8hE4DH" class="item-card" target="_blank" style="background-color: #FAF8F5; padding: 10px;">
-                <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Kitchen" class="item-img" style="width:40px; height:40px;" alt="不鏽鋼架">
-                <div class="item-info">
-                    <div class="item-name" style="font-size:0.8rem;">不鏽鋼菜瓜布瀝水架</div>
-                </div>
-                <div class="item-arrow">→</div>
-            </a>
-        </div>
-
-        <!-- 結果 C -->
-        <div class="static-res-card">
-            <div class="static-res-title">多數選 C：極簡的空間魔術師</div>
-            <div class="static-res-desc">對你而言，舒適來自於恰到好處的留白。外觀乾淨不壓迫的收納道具，是你打造療癒避難所的完美靈魂。</div>
-            <a href="https://s.shopee.tw/20n6yiqaaa" class="item-card" target="_blank" style="background-color: #FAF8F5; padding: 10px;">
-                <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Storage" class="item-img" style="width:40px; height:40px;" alt="三角架">
-                <div class="item-info">
-                    <div class="item-name" style="font-size:0.8rem;">強力吸盤三角收納架</div>
-                </div>
-                <div class="item-arrow">→</div>
-            </a>
-        </div>
-
     </div>
 
 </div>
@@ -559,6 +565,135 @@
         });
         noResultsMsg.style.display = matchCount === 0 ? 'block' : 'none';
     }
+
+    // --- 心理測驗客製化動態系統 ---
+    const quizData = [
+        {
+            q: "1. 料理與家務對你而言，通常是什麼樣的存在？",
+            opts: [
+                "療癒的創作過程！喜歡精緻的道具，擺盤漂亮心情就會很好",
+                "講求效率與俐落！烹飪過程要流暢，檯面絕對不能一團亂",
+                "偶爾下廚的樂趣，但比起煮飯，我更享受把空間維持得乾乾淨淨"
+            ]
+        },
+        {
+            q: "2. 走進廚房或浴室，看到什麼狀況會最觸動你的「潔癖警報」？",
+            opts: [
+                "洗完的器皿隨意堆疊，沒有好好通風瀝乾",
+                "洗手檯面或水槽周邊總是濕答答、甚至浮現水垢",
+                "瓶瓶罐罐散落一地，沒有被好好分類收納歸位"
+            ]
+        },
+        {
+            q: "3. 如果有一小段完全屬於自己的獨處時光，你最想做哪件事？",
+            opts: [
+                "為自己泡杯熱飲，順便把抽屜或櫃子整齊歸位（收納欲發作）",
+                "站在水槽旁，聽著流水的環境音，把餐具道具洗得亮晶晶",
+                "什麼都不做，單純享受家裡空無一物、乾淨留白的舒適感"
+            ]
+        }
+    ];
+
+    const resultPools = [
+        {
+            title: "風格診斷：細緻的料理美學家",
+            desc: "你非常重視餐桌上的儀式感，食物對你而言不僅是填飽肚子，盛裝的道具、採光與擺盤更是一場視覺的療癒。挑選富有美感的職人器物，能讓你的日常烹調多一分溫慢與優雅。"
+        },
+        {
+            title: "風格診斷：俐落的檯面守護者",
+            desc: "你天生自帶優雅的微潔癖，最享受居家檯面空無一物、清爽乾淨的狀態。比起花俏的裝飾，你更追求器物本身的機能性與好清潔的特質，高效率地維持家屋的井然有序。"
+        },
+        {
+            title: "風格診斷：極簡的空間魔術師",
+            desc: "你擅長將生活的雜亂隱藏於無形。對你而言，家屋的舒適來自於恰到好處的留白與隱形收納。精準契合空間、外觀乾淨不壓迫的收納道具，是你打造療癒避難所的完美靈魂。"
+        }
+    ];
+
+    const recommendPool = [
+        { name: "韓國 Neoflam 限時美鍋", desc: "兼具溫潤高顏值與無毒安心塗層，點亮料理日常的美學鍋具。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Neoflam", url: "https://allbml.cc/e48hB" },
+        { name: "強力吸盤三角收納架", desc: "完美拯救角落死角空間，強力吸盤免鑽孔超穩固。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Storage", url: "https://s.shopee.tw/20n6yiqaaa" },
+        { name: "201不鏽鋼菜瓜布瀝水架", desc: "俐落通風設計防止積水，讓檯面始終乾淨留白。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Kitchen", url: "https://s.shopee.tw/AKVq8hE4DH" },
+        { name: "壁掛感應式垃圾桶", desc: "免彎腰、免觸碰，極簡外觀完美隱匿日常雜亂。", img: "https://via.placeholder.com/150/EFEAE4/4A443F?text=Living", url: "https://s.shopee.tw/qdstxibCY" }
+    ];
+
+    let currentQIdx = 0;
+    let scoreArray = [0, 0, 0];
+
+    function loadQuestion() {
+        const playBox = document.getElementById('quiz-play-box');
+        const resultView = document.getElementById('quiz-result-view');
+        
+        if (!playBox || !resultView) return;
+
+        playBox.style.display = 'block';
+        resultView.style.display = 'none';
+
+        if (currentQIdx < quizData.length) {
+            const qText = document.getElementById('quiz-question-text');
+            if (qText) qText.innerText = quizData[currentQIdx].q;
+            
+            const optionsBox = document.getElementById('quiz-options-box');
+            if (optionsBox) {
+                optionsBox.innerHTML = '';
+                quizData[currentQIdx].opts.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-opt-btn';
+                    btn.innerText = opt;
+                    btn.onclick = function() {
+                        scoreArray[idx]++;
+                        currentQIdx++;
+                        loadQuestion();
+                    };
+                    optionsBox.appendChild(btn);
+                });
+            }
+        } else {
+            showQuizResult();
+        }
+    }
+
+    function showQuizResult() {
+        const playBox = document.getElementById('quiz-play-box');
+        const resultView = document.getElementById('quiz-result-view');
+        
+        if (!playBox || !resultView) return;
+
+        playBox.style.display = 'none';
+        resultView.style.display = 'block';
+
+        let maxIdx = scoreArray.indexOf(Math.max(...scoreArray));
+        if (maxIdx === -1) maxIdx = 0;
+        const finalResult = resultPools[maxIdx];
+
+        const rTitle = document.getElementById('res-title');
+        const rDesc = document.getElementById('res-desc');
+        if (rTitle) rTitle.innerText = finalResult.title;
+        if (rDesc) rDesc.innerText = finalResult.desc;
+
+        const randomProduct = recommendPool[Math.floor(Math.random() * recommendPool.length)];
+        const placement = document.getElementById('random-product-placement');
+        if (placement) {
+            placement.innerHTML = `
+                <a href="${randomProduct.url}" class="item-card" target="_blank" style="background-color: #FFFFFF; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                    <img src="${randomProduct.img}" class="item-img" alt="推薦商品">
+                    <div class="item-info">
+                        <div class="item-name" style="color: var(--btn-active); font-weight:500;">${randomProduct.name}</div>
+                        <div class="item-desc">${randomProduct.desc}</div>
+                    </div>
+                    <div class="item-arrow">→</div>
+                </a>
+            `;
+        }
+    }
+
+    function resetQuiz() {
+        currentQIdx = 0;
+        scoreArray = [0, 0, 0];
+        loadQuestion();
+    }
+
+    // 獨立安全啟動機制：直接立刻執行，不等任何事件阻擋
+    loadQuestion();
 </script>
 
 </body>
