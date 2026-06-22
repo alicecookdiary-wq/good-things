@@ -188,6 +188,11 @@
             color: var(--text-main);
             border: 1px solid transparent;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInItem 0.4s ease-out forwards;
+        }
+        @keyframes fadeInItem {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .item-card:active {
             transform: scale(0.97);
@@ -235,7 +240,7 @@
             margin-left: auto;
             font-weight: 500;
         }
-        .no-results { text-align: center; padding: 30px 20px; color: var(--text-sub); font-size: 0.8rem; display: none; }
+        .no-results { text-align: center; padding: 20px 20px; color: var(--text-sub); font-size: 0.8rem; line-height: 1.6; }
 
         /* --- 心理測驗面板動態優化 --- */
         .quiz-container {
@@ -327,13 +332,11 @@
 
 <div class="phone-container">
 
-    <!-- 頂部高級感標頭 -->
     <div class="hero-header">
         <h1>艾莉絲的食光日記</h1>
         <p>LIVING & SELECTED OBJECT</p>
     </div>
 
-    <!-- 1. 目前開團中區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -342,7 +345,6 @@
         </div>
         <div class="items-list">
             <a href="https://allbml.cc/e48hB" class="item-card" target="_blank">
-                <!-- 智慧容錯偵錯照片載入系統 -->
                 <img id="chef-photo" src="chef.jpg" class="item-img" alt="淨毒五郎" onerror="tryNextFormat(this)">
                 <div class="item-info">
                     <div class="item-name">淨毒五郎限時團購</div>
@@ -353,7 +355,6 @@
         </div>
     </div>
 
-    <!-- 2. 團購預告區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -416,7 +417,6 @@
         </div>
     </div>
 
-    <!-- 3. 好物導航區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -450,8 +450,7 @@
         </div>
 
         <div class="items-list" id="navigation-items">
-            <!-- 1. 壁掛感應式垃圾桶 -->
-            <a href="https://s.shopee.tw/qdstxibCY" class="item-card" target="_blank" data-tags="廚房 浴室 收納 其他特性">
+            <a href="https://s.shopee.tw/qdstxibCY" class="item-card hidden" target="_blank" data-tags="廚房 浴室 收納 其他特性">
                 <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Living" class="item-img" alt="壁掛感應式垃圾桶">
                 <div class="item-info">
                     <div class="item-name">壁掛感應式垃圾桶</div>
@@ -460,8 +459,7 @@
                 <div class="item-arrow">→</div>
             </a>
 
-            <!-- 2. 吸盤三角收納架 -->
-            <a href="https://s.shopee.tw/20n6yiqaaa" class="item-card" target="_blank" data-tags="廚房 浴室 收納 其他特性">
+            <a href="https://s.shopee.tw/20n6yiqaaa" class="item-card hidden" target="_blank" data-tags="廚房 浴室 收納 其他特性">
                 <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Storage" class="item-img" alt="吸盤三角收納架">
                 <div class="item-info">
                     <div class="item-name">吸盤三角收納架</div>
@@ -470,8 +468,7 @@
                 <div class="item-arrow">→</div>
             </a>
 
-            <!-- 3. 排水管泡沫清潔劑 -->
-            <a href="https://s.shopee.tw/6KyUCpuSg0" class="item-card" target="_blank" data-tags="廚房 浴室 清潔 其他特性">
+            <a href="https://s.shopee.tw/6KyUCpuSg0" class="item-card hidden" target="_blank" data-tags="廚房 浴室 清潔 其他特性">
                 <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Clean" class="item-img" alt="排水管泡沫清潔劑">
                 <div class="item-info">
                     <div class="item-name">排水管泡沫清潔劑</div>
@@ -480,8 +477,7 @@
                 <div class="item-arrow">→</div>
             </a>
 
-            <!-- 4. 201不鏽鋼菜瓜布瀝水架 -->
-            <a href="https://s.shopee.tw/AKVq8hE4DH" class="item-card" target="_blank" data-tags="廚房 收納 不鏽鋼">
+            <a href="https://s.shopee.tw/AKVq8hE4DH" class="item-card hidden" target="_blank" data-tags="廚房 收納 不鏽鋼">
                 <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Kitchen" class="item-img" alt="201不鏽鋼菜瓜布瀝水架">
                 <div class="item-info">
                     <div class="item-name">201不鏽鋼菜瓜布瀝水架</div>
@@ -490,8 +486,7 @@
                 <div class="item-arrow">→</div>
             </a>
 
-            <!-- 5. 超細密水槽濾網 -->
-            <a href="https://s.shopee.tw/5VRnpHZuqt" class="item-card" target="_blank" data-tags="廚房 好物 其他特性">
+            <a href="https://s.shopee.tw/5VRnpHZuqt" class="item-card hidden" target="_blank" data-tags="廚房 好物 其他特性">
                 <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Filter" class="item-img" alt="超細密水槽濾網">
                 <div class="item-info">
                     <div class="item-name">超細密水槽濾網</div>
@@ -500,10 +495,9 @@
                 <div class="item-arrow">→</div>
             </a>
         </div>
-        <div class="no-results" id="no-results-msg">未找到符合交叉條件的物件</div>
+        <div class="no-results" id="no-results-msg">點選上方標籤，開啟私房愛用好物 🤎</div>
     </div>
 
-    <!-- 4. 可點選互動式心理測驗區塊（最高優先權防卡死版） -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -542,7 +536,7 @@
         }
     }
 
-    // --- 好物交叉篩選邏輯 ---
+    // --- 好物交叉篩選與預設隱藏邏輯 ---
     const filterButtons = document.querySelectorAll('.filter-btn');
     const itemCards = document.querySelectorAll('#navigation-items .item-card');
     const noResultsMsg = document.getElementById('no-results-msg');
@@ -556,14 +550,34 @@
 
     function filterItems() {
         const activeFilters = Array.from(document.querySelectorAll('.filter-btn.active')).map(btn => btn.getAttribute('data-filter'));
+        
+        // 核心修正：如果粉絲一個標籤都沒選，就全部收起來
+        if (activeFilters.length === 0) {
+            itemCards.forEach(card => card.classList.add('hidden'));
+            noResultsMsg.innerText = "點選上方標籤，開啟私房愛用好物 🤎";
+            noResultsMsg.style.display = 'block';
+            return;
+        }
+
         let matchCount = 0;
         itemCards.forEach(card => {
             const tags = card.getAttribute('data-tags').split(' ');
+            // 必須符合所有被點選的標籤條件 (交叉篩選)
             const isMatch = activeFilters.every(filter => tags.includes(filter));
-            if (isMatch) { card.classList.remove('hidden'); matchCount++; } 
-            else { card.classList.add('hidden'); }
+            if (isMatch) { 
+                card.classList.remove('hidden'); 
+                matchCount++; 
+            } else { 
+                card.classList.add('hidden'); 
+            }
         });
-        noResultsMsg.style.display = matchCount === 0 ? 'block' : 'none';
+
+        if (matchCount === 0) {
+            noResultsMsg.innerText = "未找到符合交叉條件的物件";
+            noResultsMsg.style.display = 'block';
+        } else {
+            noResultsMsg.style.display = 'none';
+        }
     }
 
     // --- 心理測驗客製化動態系統 ---
@@ -692,7 +706,7 @@
         loadQuestion();
     }
 
-    // 獨立安全啟動機制：直接立刻執行，不等任何事件阻擋
+    // 啟動測驗
     loadQuestion();
 </script>
 
