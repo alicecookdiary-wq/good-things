@@ -29,7 +29,6 @@
 
         body {
             background-color: var(--bg-color);
-            /* 純代碼繪製的高級感日系微光與細線網格背景 */
             background-image: 
                 linear-gradient(var(--grid-color) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
@@ -82,7 +81,7 @@
             letter-spacing: 2px;
         }
 
-        /* --- 區塊外殼（高級感留白與呼吸燈特效） --- */
+        /* --- 區塊外殼 --- */
         .page-section {
             background-color: var(--card-bg);
             backdrop-filter: blur(6px);
@@ -95,7 +94,6 @@
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        /* 區塊內部的微妙互動感 */
         .page-section:focus-within, .page-section:hover {
             border-color: var(--accent-glow);
             box-shadow: var(--shadow-md);
@@ -110,7 +108,6 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        /* 高科技感呼吸小圓點 */
         .glow-dot {
             width: 6px;
             height: 6px;
@@ -192,7 +189,6 @@
             border: 1px solid transparent;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* 物理彈性點擊反饋 */
         .item-card:active {
             transform: scale(0.97);
             background-color: rgba(239, 234, 228, 0.7);
@@ -331,11 +327,13 @@
 
 <div class="phone-container">
 
+    <!-- 頂部高級感標頭 -->
     <div class="hero-header">
         <h1>艾莉絲的食光日記</h1>
         <p>LIVING & SELECTED OBJECT</p>
     </div>
 
+    <!-- 1. 目前開團中區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -344,7 +342,8 @@
         </div>
         <div class="items-list">
             <a href="https://allbml.cc/e48hB" class="item-card" target="_blank">
-                <img src="https://via.placeholder.com/150/EFEAE4/4A443F?text=Chef" class="item-img" alt="淨毒五郎">
+                <!-- 圖片精準改為指向你上傳的 Chef.jpg -->
+                <img src="Chef.jpg" class="item-img" alt="淨毒五郎">
                 <div class="item-info">
                     <div class="item-name">淨毒五郎限時團購</div>
                     <div class="item-desc">用最溫柔的無毒成分，細緻守護日常家屋的潔淨與秩序。</div>
@@ -354,6 +353,7 @@
         </div>
     </div>
 
+    <!-- 2. 團購預告區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -416,6 +416,7 @@
         </div>
     </div>
 
+    <!-- 3. 好物導航區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -478,6 +479,7 @@
         <div class="no-results" id="no-results-msg">未找到符合交叉條件的物件</div>
     </div>
 
+    <!-- 4. 心理測驗區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
