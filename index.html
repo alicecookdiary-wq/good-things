@@ -327,13 +327,11 @@
 
 <div class="phone-container">
 
-    <!-- 頂部高級感標頭 -->
     <div class="hero-header">
         <h1>艾莉絲的食光日記</h1>
         <p>LIVING & SELECTED OBJECT</p>
     </div>
 
-    <!-- 1. 目前開團中區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -342,18 +340,16 @@
         </div>
         <div class="items-list">
             <a href="https://allbml.cc/e48hB" class="item-card" target="_blank">
-                <!-- 圖片精準改為指向你上傳的 Chef.jpg -->
-                <img src="Chef.jpg" class="item-img" alt="淨毒五郎">
+                <img id="chef-photo" src="chef.jpg" class="item-img" alt="淨毒五郎" onerror="tryNextFormat(this)">
                 <div class="item-info">
                     <div class="item-name">淨毒五郎限時團購</div>
-                    <div class="item-desc">用最溫柔的無毒成分，細緻守護日常家屋的潔淨與秩序。</div>
+                    <div class="item-desc">天然植萃成分，細緻守護每個日常潔淨。</div>
                 </div>
                 <div class="item-arrow">→</div>
             </a>
         </div>
     </div>
 
-    <!-- 2. 團購預告區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -416,7 +412,6 @@
         </div>
     </div>
 
-    <!-- 3. 好物導航區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -479,7 +474,6 @@
         <div class="no-results" id="no-results-msg">未找到符合交叉條件的物件</div>
     </div>
 
-    <!-- 4. 心理測驗區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -504,6 +498,22 @@
 </div>
 
 <script>
+    // --- 智慧容錯照片載入邏輯 ---
+    // 自動輪替各種可能的大小寫副檔名組合，確保 100% 抓到檔案
+    const formats = ['chef.jpg', 'Chef.jpg', 'chef.JPG', 'Chef.JPG', 'chef.jpeg', 'Chef.jpeg', 'chef.JPEG', 'Chef.JPEG'];
+    let currentFormatIdx = 0;
+
+    function tryNextFormat(imgElement) {
+        if (currentFormatIdx < formats.length - 1) {
+            currentFormatIdx++;
+            imgElement.src = formats[currentFormatIdx];
+        } else {
+            // 所有組合都試過仍失敗時的精緻預設圖
+            imgElement.src = 'https://via.placeholder.com/150/EFEAE4/4A443F?text=Chef';
+            imgElement.onerror = null; 
+        }
+    }
+
     // --- 好物交叉篩選邏輯 ---
     const filterButtons = document.querySelectorAll('.filter-btn');
     const itemCards = document.querySelectorAll('#navigation-items .item-card');
