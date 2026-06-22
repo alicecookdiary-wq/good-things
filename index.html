@@ -327,13 +327,11 @@
 
 <div class="phone-container">
 
-    <!-- 頂部高級感標頭 -->
     <div class="hero-header">
         <h1>艾莉絲的食光日記</h1>
         <p>LIVING & SELECTED OBJECT</p>
     </div>
 
-    <!-- 1. 目前開團中區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -342,7 +340,6 @@
         </div>
         <div class="items-list">
             <a href="https://allbml.cc/e48hB" class="item-card" target="_blank">
-                <!-- 智慧容錯偵錯照片載入系統 -->
                 <img id="chef-photo" src="chef.jpg" class="item-img" alt="淨毒五郎" onerror="tryNextFormat(this)">
                 <div class="item-info">
                     <div class="item-name">淨毒五郎限時團購</div>
@@ -353,7 +350,6 @@
         </div>
     </div>
 
-    <!-- 2. 團購預告區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -409,14 +405,13 @@
                 <div class="item-info">
                     <span class="status-tag">COMING SOON</span>
                     <div class="item-name">Bonson 感應垃圾桶</div>
-                    <div class="item-desc">美型且不佔空間，將現代科技無縫融入極簡的家。</div>
+                    <div class="item-desc">美型且不佔空間，將現代科技無縫融入極簡的家.</div>
                 </div>
                 <span class="date-tag">9/10 - 9/16</span>
             </div>
         </div>
     </div>
 
-    <!-- 3. 好物導航區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -479,7 +474,6 @@
         <div class="no-results" id="no-results-msg">未找到符合交叉條件的物件</div>
     </div>
 
-    <!-- 4. 心理測驗區塊 -->
     <div class="page-section">
         <div class="section-title-container">
             <div class="glow-dot"></div>
@@ -505,7 +499,6 @@
 
 <script>
     // --- 智慧容錯照片載入邏輯 ---
-    // 自動輪替各種可能的大小寫副檔名組合，確保 100% 抓到檔案
     const formats = ['chef.jpg', 'Chef.jpg', 'chef.JPG', 'Chef.JPG', 'chef.jpeg', 'Chef.jpeg', 'chef.JPEG', 'Chef.JPEG'];
     let currentFormatIdx = 0;
 
@@ -514,7 +507,6 @@
             currentFormatIdx++;
             imgElement.src = formats[currentFormatIdx];
         } else {
-            // 所有組合都試過仍失敗時的精跡預設圖
             imgElement.src = 'https://via.placeholder.com/150/EFEAE4/4A443F?text=Chef';
             imgElement.onerror = null; 
         }
@@ -601,54 +593,66 @@
     function loadQuestion() {
         const playBox = document.getElementById('quiz-play-box');
         const resultView = document.getElementById('quiz-result-view');
-        playBox.style.display = 'block';
-        resultView.style.display = 'none';
+        
+        if (playBox && resultView) {
+            playBox.style.display = 'block';
+            resultView.style.display = 'none';
 
-        if (currentQIdx < quizData.length) {
-            document.getElementById('quiz-question-text').innerText = quizData[currentQIdx].q;
-            const optionsBox = document.getElementById('quiz-options-box');
-            optionsBox.innerHTML = '';
-            
-            quizData[currentQIdx].opts.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-opt-btn';
-                btn.innerText = opt;
-                btn.onclick = () => {
-                    scoreArray[idx]++;
-                    currentQIdx++;
-                    loadQuestion();
-                };
-                optionsBox.appendChild(btn);
-            });
-        } else {
-            showQuizResult();
+            if (currentQIdx < quizData.length) {
+                const qText = document.getElementById('quiz-question-text');
+                if (qText) qText.innerText = quizData[currentQIdx].q;
+                
+                const optionsBox = document.getElementById('quiz-options-box');
+                if (optionsBox) {
+                    optionsBox.innerHTML = '';
+                    quizData[currentQIdx].opts.forEach((opt, idx) => {
+                        const btn = document.createElement('button');
+                        btn.className = 'quiz-opt-btn';
+                        btn.innerText = opt;
+                        btn.onclick = () => {
+                            scoreArray[idx]++;
+                            currentQIdx++;
+                            loadQuestion();
+                        };
+                        optionsBox.appendChild(btn);
+                    });
+                }
+            } else {
+                showQuizResult();
+            }
         }
     }
 
     function showQuizResult() {
-        document.getElementById('quiz-play-box').style.display = 'none';
+        const playBox = document.getElementById('quiz-play-box');
         const resultView = document.getElementById('quiz-result-view');
-        resultView.style.display = 'block';
+        if (playBox && resultView) {
+            playBox.style.display = 'none';
+            resultView.style.display = 'block';
 
-        let maxIdx = scoreArray.indexOf(Math.max(...scoreArray));
-        const finalResult = resultPools[maxIdx];
+            let maxIdx = scoreArray.indexOf(Math.max(...scoreArray));
+            const finalResult = resultPools[maxIdx];
 
-        document.getElementById('res-title').innerText = finalResult.title;
-        document.getElementById('res-desc').innerText = finalResult.desc;
+            const rTitle = document.getElementById('res-title');
+            const rDesc = document.getElementById('res-desc');
+            if (rTitle) rTitle.innerText = finalResult.title;
+            if (rDesc) rDesc.innerText = finalResult.desc;
 
-        const randomProduct = recommendPool[Math.floor(Math.random() * recommendPool.length)];
-
-        const productHtml = `
-            <a href="${randomProduct.url}" class="item-card" target="_blank" style="background-color: #FFFFFF; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
-                <img src="${randomProduct.img}" class="item-img" alt="推薦商品">
-                <div class="item-info">
-                    <div class="item-name" style="color: var(--btn-active); font-weight:500;">${randomProduct.name}</div>
-                    <div class="item-desc">${randomProduct.desc}</div>
-                </div>
-                <div class="item-arrow">→</div>
-            </a>
-        `;
-        document.getElementById('random-product-placement').innerHTML = productHtml;
+            const randomProduct = recommendPool[Math.floor(Math.random() * recommendPool.length)];
+            const placement = document.getElementById('random-product-placement');
+            if (placement) {
+                placement.innerHTML = `
+                    <a href="${randomProduct.url}" class="item-card" target="_blank" style="background-color: #FFFFFF; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                        <img src="${randomProduct.img}" class="item-img" alt="推薦商品">
+                        <div class="item-info">
+                            <div class="item-name" style="color: var(--btn-active); font-weight:500;">${randomProduct.name}</div>
+                            <div class="item-desc">${randomProduct.desc}</div>
+                        </div>
+                        <div class="item-arrow">→</div>
+                    </a>
+                `;
+            }
+        }
     }
 
     function resetQuiz() {
@@ -657,9 +661,12 @@
         loadQuestion();
     }
 
-    window.onload = function() {
+    // 雙重安全加載機制：確保不論網頁載入快慢，JS 都能第一時間執行
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadQuestion);
+    } else {
         loadQuestion();
-    };
+    }
 </script>
 
 </body>
