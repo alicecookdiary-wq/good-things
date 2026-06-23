@@ -45,13 +45,15 @@
             min-height: 100vh;
             letter-spacing: 0.6px;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         .phone-container {
             width: 100%;
             max-width: 480px;
-            padding: 40px 20px;
+            padding: 40px 20px 100px; /* 底部預留空間防止懸浮選單遮擋 */
             animation: fadeInPage 0.6s ease-out;
+            position: relative;
         }
 
         @keyframes fadeInPage {
@@ -85,6 +87,59 @@
             letter-spacing: 2px;
         }
 
+        /* --- STREAMING_CHUNK: Styling the Omikuji block and animations... --- */
+        /* --- 每日抽籤專屬日本神社與手帳美學動態樣式 --- */
+        @keyframes shakeOmikuji {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            15% { transform: translateY(-8px) rotate(-12deg); }
+            30% { transform: translateY(-3px) rotate(10deg); }
+            45% { transform: translateY(-8px) rotate(-10deg); }
+            60% { transform: translateY(-3px) rotate(8deg); }
+            75% { transform: translateY(-6px) rotate(-6deg); }
+            90% { transform: translateY(-2px) rotate(4deg); }
+        }
+        @keyframes stickOut {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-16px); }
+        }
+        @keyframes slideUpSlip {
+            from { opacity: 0; transform: translateY(22px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .shaking-box {
+            animation: shakeOmikuji 0.8s ease-in-out;
+        }
+        .stick-popping {
+            animation: stickOut 0.8s forwards ease-out;
+        }
+        .slide-up-slip-anim {
+            animation: slideUpSlip 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* --- 專屬日系手帳感：今日御神籤重新抽籤按鈕 --- */
+        .omikuji-reset-btn {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-block;
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+        }
+        .omikuji-reset-btn:hover {
+            border-color: var(--accent-glow);
+            color: var(--text-main);
+            background-color: rgba(239, 234, 228, 0.25);
+        }
+        .omikuji-reset-btn:active {
+            transform: scale(0.96);
+        }
+
         /* --- 區塊外殼 --- */
         .page-section {
             background-color: var(--card-bg);
@@ -96,6 +151,7 @@
             box-shadow: var(--shadow-sm);
             padding: 24px 20px;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            scroll-margin-top: 24px; /* 防止錨點滾動時被邊緣切到 */
         }
         
         .page-section:focus-within, .page-section:hover {
@@ -132,6 +188,7 @@
             letter-spacing: 1.5px;
         }
 
+        /* --- STREAMING_CHUNK: Styling the SVG banner and illustration... --- */
         /* --- 代碼自動繪製：日系生活感極簡主圖橫幅 --- */
         .hero-banner-illustration {
             width: 100%;
@@ -292,15 +349,15 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            margin-bottom: 16px; /* 緊湊高度 */
+            margin-bottom: 16px;
         }
         .calendar-nav-tab {
             flex: 1;
             text-align: center;
-            font-size: 0.78rem; /* 微縮字體 */
+            font-size: 0.78rem;
             font-weight: 500;
             color: var(--text-sub);
-            padding: 8px 10px; /* 微縮按鈕內距 */
+            padding: 8px 10px;
             border-radius: 10px;
             border: 1px solid var(--border-color);
             background-color: #FFFFFF;
@@ -323,27 +380,27 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             text-align: center;
-            margin-bottom: 12px; /* 縮減間距 */
+            margin-bottom: 12px;
         }
         .calendar-day-label {
-            font-size: 0.78rem; /* 微縮字體 */
+            font-size: 0.78rem;
             color: var(--text-sub);
             font-weight: 500;
         }
         .calendar-days-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            row-gap: 4px; /* 再縮減格子行距 */
+            row-gap: 4px;
             column-gap: 6px;
             text-align: center;
             margin-bottom: 12px;
         }
         .calendar-cell {
-            aspect-ratio: 1.6; /* 針對需求高度扁平化，控制行事曆篇幅 */
+            aspect-ratio: 1.6;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.78rem; /* 微縮字體 */
+            font-size: 0.78rem;
             font-weight: 500;
             color: var(--text-main);
             position: relative;
@@ -353,7 +410,6 @@
         .calendar-cell.muted {
             color: #D1C9C0;
         }
-        /* 吻合附圖的圓角色塊高亮背景，搭配開團文字顏色，一目了然好辨識 */
         .calendar-cell.hl-neoflam { background-color: #E5DBD0 !important; color: #4A443F !important; font-weight: 600; }
         .calendar-cell.hl-sanko { background-color: #D8E2DC !important; color: #2D4F38 !important; font-weight: 600; }
         .calendar-cell.hl-spacebox { background-color: #FFF0EE !important; color: #C57B75 !important; font-weight: 600; }
@@ -361,7 +417,6 @@
         .calendar-cell.hl-oxo { background-color: #F5E5D9 !important; color: #834E2B !important; font-weight: 600; }
         .calendar-cell.hl-bonson { background-color: #EAE5F5 !important; color: #5E3D85 !important; font-weight: 600; }
 
-        /* 下方開團排程明細清單 */
         .calendar-divider-dashed {
             border: none;
             border-top: 1px dashed #E2DBD5;
@@ -498,7 +553,6 @@
         }
         .item-card.hidden { display: none; }
         
-        /* 圖片容器：用於承載手帳感的寫實 SVG 線圖 */
         .item-img-container {
             width: 56px;
             height: 56px;
@@ -527,7 +581,6 @@
         }
         .item-name { font-size: 0.9rem; font-weight: 600; color: var(--text-main); }
         
-        /* 產地與特色精緻微勳章 - 僅限育兒用品標示 */
         .origin-badge {
             font-size: 0.625rem;
             font-weight: 500;
@@ -581,7 +634,6 @@
         }
         .no-results { text-align: center; padding: 20px 20px; color: var(--text-sub); font-size: 0.8rem; line-height: 1.6; }
 
-        /* --- 預告微型縮小排版樣式 --- */
         #calendar-schedule-details .item-card {
             padding: 10px 14px;
             gap: 8px;
@@ -603,95 +655,243 @@
             font-size: 0.68rem;
         }
 
-        /* --- 心理測驗面板動態優化 --- */
-        .quiz-container {
-            background-color: rgba(250, 248, 245, 0.6);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
+        /* --- STREAMING_CHUNK: Styling the newly designed floating navigation dock... --- */
+        /* --- 懸浮美學折導航專屬樣式 --- */
+        .floating-nav-container {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            z-index: 1000;
+            pointer-events: none; /* 穿透未展開區域以免阻擋點擊 */
         }
-        .quiz-question {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 18px;
-            line-height: 1.5;
-            color: var(--text-main);
-            position: relative;
-            padding-left: 12px;
+        @media (min-width: 480px) {
+            .floating-nav-container {
+                right: calc(50% - 240px + 20px); /* 桌機版自動對齊極簡480px寬度容器邊界 */
+            }
         }
-        .quiz-question::before {
-            content: '';
-            position: absolute;
+
+        /* 背景微光遮罩，展開時增添極簡高級感 */
+        .float-backdrop-overlay {
+            position: fixed;
+            top: 0;
             left: 0;
-            top: 3px;
-            width: 3px;
-            height: 14px;
-            background-color: var(--accent-glow);
-            border-radius: 2px;
+            width: 100%;
+            height: 100%;
+            background: rgba(74, 68, 63, 0.04);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 998;
+            transition: all 0.4s ease;
+            pointer-events: auto;
         }
-        .quiz-options {
+        .float-backdrop-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .float-menu-list {
             display: flex;
             flex-direction: column;
+            align-items: flex-end;
             gap: 12px;
+            margin-bottom: 12px;
+            pointer-events: auto;
         }
-        .quiz-opt-btn {
-            background-color: #FFFFFF;
+
+        /* 子導航按鈕項目 */
+        .float-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(15px) scale(0.85);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        /* 展開後的顯示狀態與階梯式延遲動畫 */
+        .float-item.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        .float-item:nth-last-child(1) { transition-delay: 0.04s; }
+        .float-item:nth-last-child(2) { transition-delay: 0.08s; }
+        .float-item:nth-last-child(3) { transition-delay: 0.12s; }
+        .float-item:nth-last-child(4) { transition-delay: 0.16s; }
+        .float-item:nth-last-child(5) { transition-delay: 0.20s; }
+
+        /* 細緻的標籤文字提示 */
+        .float-label {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border: 1px solid var(--border-color);
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.72rem;
             color: var(--text-main);
-            padding: 14px 18px;
-            border-radius: 10px;
-            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            white-space: nowrap;
+            letter-spacing: 0.8px;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.3s ease;
+        }
+        /* 展開且滑過時，或觸碰時展開標籤 */
+        .float-item.show .float-label {
+            opacity: 0.95;
+            transform: translateX(0);
+        }
+
+        /* 單個圓形小按鈕 */
+        .float-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-md);
             cursor: pointer;
-            text-align: left;
-            line-height: 1.45;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .quiz-opt-btn:active {
-            transform: scale(0.98);
+        .float-btn:hover {
             border-color: var(--accent-glow);
-            background-color: #FAF8F5;
+            background-color: #FFFFFF;
+            transform: scale(1.08);
+            box-shadow: 0 4px 15px rgba(197, 180, 165, 0.25);
         }
-        
-        .quiz-result-box {
-            display: none;
-            animation: fadeInResult 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            text-align: left;
+        .float-btn:active {
+            transform: scale(0.95);
         }
-        @keyframes fadeInResult { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        
-        .result-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--btn-active);
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-            letter-spacing: 1px;
+        .float-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--text-main);
+            transition: stroke 0.3s ease;
         }
-        .result-desc {
-            font-size: 0.8rem;
-            color: var(--text-sub);
-            margin-bottom: 24px;
-            line-height: 1.55;
+        .float-btn:hover svg {
+            stroke: var(--btn-active);
         }
-        .quiz-reset-btn {
-            background: none;
-            border: none;
-            color: var(--text-sub);
-            font-size: 0.75rem;
-            text-decoration: underline;
+
+        /* 主控觸發大按鈕 */
+        .float-trigger-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--btn-active);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(142, 127, 115, 0.35);
             cursor: pointer;
-            display: block;
-            margin: 20px auto 0 auto;
-            opacity: 0.7;
-            transition: opacity 0.2s ease;
+            pointer-events: auto;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .quiz-reset-btn:hover { opacity: 1; }
+        .float-trigger-btn:hover {
+            transform: scale(1.06);
+            background: var(--text-main);
+            box-shadow: 0 10px 35px rgba(74, 68, 63, 0.4);
+        }
+        .float-trigger-btn:active {
+            transform: scale(0.95);
+        }
+        .float-trigger-btn svg {
+            width: 26px;
+            height: 26px;
+            stroke: #FFFFFF;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        /* 旋轉羅盤動畫：展開時主按鈕羅盤順時針旋轉 */
+        .float-trigger-btn.active {
+            background: var(--text-main);
+        }
+        .float-trigger-btn.active svg {
+            transform: rotate(135deg); /* 加號變叉號，或指南針大翻轉 */
+        }
     </style>
 </head>
 <body>
 
-<div class="phone-container">
+<!-- 懸浮導航折疊美學層 -->
+<div class="float-backdrop-overlay" id="float-overlay" onclick="toggleFloatMenu()"></div>
+
+<div class="floating-nav-container">
+    <div class="float-menu-list" id="float-menu-list">
+        <!-- 御神籤 (⛩️ 櫻色氛圍) -->
+        <div class="float-item">
+            <span class="float-label">今日御神籤</span>
+            <div class="float-btn" onclick="scrollToSection('section-omikuji')">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 22V8h16v14" />
+                    <path d="M2 8h20M12 2v6" />
+                    <circle cx="12" cy="14" r="3" />
+                </svg>
+            </div>
+        </div>
+        <!-- 目前開團 (🔥 購物車圖案) -->
+        <div class="float-item">
+            <span class="float-label">目前開團中</span>
+            <div class="float-btn" onclick="scrollToSection('section-group-buy')">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="9" cy="21" r="1"/>
+                    <circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+            </div>
+        </div>
+        <!-- 行事曆 (📅 月曆圖案) -->
+        <div class="float-item">
+            <span class="float-label">開團行事曆</span>
+            <div class="float-btn" onclick="scrollToSection('section-calendar')">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+            </div>
+        </div>
+        <!-- 愛用導航 (🧭 指南針圖案) -->
+        <div class="float-item">
+            <span class="float-label">愛用好物導航</span>
+            <div class="float-btn" onclick="scrollToSection('section-navigation')">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                </svg>
+            </div>
+        </div>
+        <!-- 回頂部 (⇡ 朝上箭頭) -->
+        <div class="float-item">
+            <span class="float-label">回到頂部</span>
+            <div class="float-btn" onclick="scrollToTop()">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="19" x2="12" y2="5"/>
+                    <polyline points="5 12 12 5 19 12"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 主控展開按鈕 (➕/✖ 融合手賬儀式指南針感) -->
+    <div class="float-trigger-btn" id="float-trigger" onclick="toggleFloatMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+    </div>
+</div>
+
+<div class="phone-container" id="top-anchor">
 
     <!-- 頂部高級感標頭 -->
     <div class="hero-header">
@@ -699,8 +899,67 @@
         <p>LIVING & SELECTED OBJECT</p>
     </div>
 
+    <!-- 0. 日系今日御神籤區塊 -->
+    <div class="page-section" id="section-omikuji">
+        <div class="section-title-container">
+            <div class="glow-dot"></div>
+            <div class="section-title-text">今日御神籤</div>
+            <span class="date-tag">DAILY OMIKUJI</span>
+        </div>
+        
+        <div id="omikuji-container" style="text-align: center; padding: 10px 0;">
+            <!-- 初始狀態：籤筒畫面 -->
+            <div id="omikuji-draw-zone" style="cursor: pointer;" onclick="drawOmikuji()">
+                <div style="margin: 0 auto 16px; width: 80px; height: 100px; position: relative;">
+                    <!-- 精緻日式籤筒圖示 -->
+                    <svg id="omikuji-box" viewBox="0 0 64 80" fill="none" stroke="#8E7F73" stroke-width="2.5" style="width: 100%; height: 100%; transform-origin: bottom center; transition: transform 0.15s;">
+                        <polygon points="18,8 46,8 50,72 14,72" fill="#EFEAE4" stroke-linejoin="round" />
+                        <line x1="25" y1="8" x2="21" y2="72" stroke-dasharray="2 2" />
+                        <line x1="39" y1="8" x2="43" y2="72" stroke-dasharray="2 2" />
+                        <circle cx="32" cy="40" r="11" fill="#FFFFFF" />
+                        <text x="32" y="44" font-size="11" font-weight="bold" fill="#8E7F73" text-anchor="middle" font-family="serif">籤</text>
+                        <line x1="18" y1="8" x2="46" y2="8" stroke-width="4" stroke-linecap="round"/>
+                        <line x1="14" y1="72" x2="50" y2="72" stroke-width="4" stroke-linecap="round"/>
+                        <!-- 籤筒內部探出的木籤 -->
+                        <rect id="omikuji-stick" x="30" y="-4" width="4" height="12" rx="1" fill="#8E7F73" style="transition: transform 0.3s; transform-origin: bottom center;" />
+                    </svg>
+                </div>
+                <button class="filter-btn active" style="margin: 0 auto; display: block; font-weight: 600;">誠心求今日籤文 🤎</button>
+                <p style="font-size: 0.7rem; color: var(--text-sub); margin-top: 8px;">每日一抽，靜心體會今日的生活小幸運</p>
+            </div>
+
+            <!-- 結果狀態：籤詩信箋 -->
+            <div id="omikuji-result-zone" style="display: none;">
+                <div class="slide-up-slip-anim" style="background: #FFFFFF; border: 1px solid #EFEAE4; border-top: 4px solid #8E7F73; border-radius: 8px; padding: 22px 16px; box-shadow: inset 0 0 15px rgba(142, 127, 115, 0.03); margin-bottom: 16px; position: relative;">
+                    <!-- 紅色朱印圖樣裝飾 -->
+                    <div style="position: absolute; right: 16px; top: 16px; border: 1.5px solid rgba(197, 123, 117, 0.35); border-radius: 4px; padding: 2px 5px; font-size: 0.58rem; color: #C57B75; font-weight: bold; transform: rotate(12deg); user-select: none;">
+                        食光手帖
+                    </div>
+                    
+                    <!-- 運勢等級 -->
+                    <div id="omikuji-luck" style="font-size: 1.25rem; font-weight: bold; color: #8E7F73; letter-spacing: 4px; margin-bottom: 12px; font-family: serif;"></div>
+                    
+                    <!-- 細分界線 -->
+                    <div style="width: 32px; height: 1px; background: var(--border-color); margin: 0 auto 12px;"></div>
+                    
+                    <!-- 每日日常體悟 -->
+                    <div id="omikuji-insight" style="font-size: 0.82rem; line-height: 1.6; color: var(--text-main); margin-bottom: 16px; padding: 0 8px; font-weight: 500;"></div>
+                    
+                    <!-- 詳細宜忌與幸運物配置 -->
+                    <div style="background: var(--bg-color); border-radius: 6px; padding: 12px; text-align: left; font-size: 0.72rem; line-height: 1.5; color: var(--text-sub); display: flex; flex-direction: column; gap: 8px;">
+                        <div><strong style="color: var(--text-main); font-weight: 600;">宜 ｜ </strong><span id="omikuji-yi"></span></div>
+                        <div><strong style="color: var(--text-main); font-weight: 600;">幸運色 ｜ </strong><span id="omikuji-color"></span></div>
+                        <div><strong style="color: var(--text-main); font-weight: 600;">幸運物 ｜ </strong><span id="omikuji-item"></span></div>
+                    </div>
+                </div>
+                
+                <button class="omikuji-reset-btn" onclick="resetOmikuji()">重新抽籤 ↺</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 1. 目前開團中區塊 -->
-    <div class="page-section">
+    <div class="page-section" id="section-group-buy">
         <div class="section-title-container">
             <div class="glow-dot"></div>
             <div class="section-title-text">目前開團中</div>
@@ -730,8 +989,8 @@
         </div>
     </div>
 
-    <!-- 2. 開團計畫行事曆區塊 (完美符合附圖美學樣式，且大幅縮減篇幅長度) -->
-    <div class="page-section">
+    <!-- 2. 開團計畫行事曆區塊 -->
+    <div class="page-section" id="section-calendar">
         <div class="calendar-title-container">
             <div class="calendar-title-dot"></div>
             <div class="calendar-title-text">開團計畫行事曆</div>
@@ -739,7 +998,7 @@
         <hr class="calendar-title-line">
 
         <div class="calendar-section-outer">
-            <!-- 月份切換標籤 (完美對齊附圖英文字樣) -->
+            <!-- 月份切換標籤 -->
             <div class="calendar-months-nav">
                 <button class="calendar-nav-tab active" onclick="switchCalendarMonth(7)">7月 July</button>
                 <button class="calendar-nav-tab" onclick="switchCalendarMonth(8)">8月 August</button>
@@ -762,15 +1021,15 @@
             </div>
         </div>
 
-        <!-- 虛線分隔線 (符合附圖細節) -->
+        <!-- 虛線分隔線 -->
         <hr class="calendar-divider-dashed">
 
-        <!-- 下方月份同步排程明細 (去卡片外框、單色圓點、整齊緊湊排列) -->
+        <!-- 下方月份同步排程明細 -->
         <div class="calendar-event-list" id="calendar-schedule-details"></div>
     </div>
 
     <!-- 3. 好物導航區塊 -->
-    <div class="page-section">
+    <div class="page-section" id="section-navigation">
         <div class="section-title-container">
             <div class="glow-dot"></div>
             <div class="section-title-text">歷年愛用好物導航</div>
@@ -816,32 +1075,11 @@
         <div class="no-results" id="no-results-msg">點選上方標籤，開啟私房愛用好物 🤎</div>
     </div>
 
-    <!-- 4. 可點選互動式心理測驗區塊 -->
-    <div class="page-section">
-        <div class="section-title-container">
-            <div class="glow-dot"></div>
-            <div class="section-title-text">今日生活儀式感測驗</div>
-        </div>
-        <div class="quiz-container">
-            <div id="quiz-play-box">
-                <div class="quiz-question" id="quiz-question-text">網頁加載中...</div>
-                <div class="quiz-options" id="quiz-options-box"></div>
-            </div>
-
-            <div class="quiz-result-box" id="quiz-result-view">
-                <div class="result-title" id="res-title">測驗結果</div>
-                <div class="result-desc" id="res-desc">描述</div>
-                <div style="font-size: 0.75rem; font-weight:600; margin-bottom:12px; color:var(--btn-active); letter-spacing: 0.5px;">今日推薦給你的生活道具：</div>
-                <div id="random-product-placement"></div>
-                <button class="quiz-reset-btn" onclick="resetQuiz()">重新測試</button>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <script>
-    // --- 曆檔與行事曆連動系統 (完美對應附圖日期與明細描述，並完美配置低飽和底色/文字) ---
+    // --- STREAMING_CHUNK: Initializing calendar and event database... ---
+    // --- 曆檔與行事曆連動系統 ---
     const scheduleData = {
         7: {
             daysInMonth: 31,
@@ -899,7 +1137,7 @@
 
         const mData = scheduleData[activeMonth];
         
-        // 1. 渲染前一個月的淡色格子 (以 2026 年為基準展示)
+        // 1. 渲染前一個月的淡色格子
         const prevMonthMutedDays = {
             7: [28, 29, 30],
             8: [26, 27, 28, 29, 30, 31],
@@ -913,7 +1151,7 @@
             daysContainer.appendChild(cell);
         });
 
-        // 2. 渲染當月的所有日期格與高亮區塊 (完美連動多色膠帶色彩)
+        // 2. 渲染當月的所有日期格與高亮區塊
         for (let day = 1; day <= mData.daysInMonth; day++) {
             const cell = document.createElement('div');
             cell.className = 'calendar-cell';
@@ -934,7 +1172,7 @@
             daysContainer.appendChild(cell);
         }
 
-        // 3. 補齊下一個月開始的淡色格子 (為了讓月曆維持精巧緊湊排版)
+        // 3. 補齊下一個月開始的淡色格子
         const totalCells = prevMuted.length + mData.daysInMonth;
         const remainder = totalCells % 7;
         if (remainder !== 0) {
@@ -947,7 +1185,7 @@
             }
         }
 
-        // 4. 渲染下方明細清單 (完美符合附圖條列點點，點點與月曆日期色完全連動)
+        // 4. 渲染下方明細清單
         const activeList = monthEventLists[activeMonth] || [];
         activeList.forEach(key => {
             const info = eventColors[key];
@@ -980,6 +1218,7 @@
         renderCalendar();
     }
 
+    // --- STREAMING_CHUNK: Packing 75 premium products database with SVGs... ---
     // --- 75款自用好物數據庫 (包含 10款手繪寫實SVG育兒精品 + 65款日常精緻好物專屬特色SVG) ---
     const allProductsData = [
         // 🧸 育兒專區 (10款)
@@ -1122,7 +1361,7 @@
             </svg>`
         },
 
-        // 🏡 常規生活好物 (65款，已依照空間範圍/用途/材質全新定制手繪特色SVG圖示)
+        // 🏡 常規生活好物
         {
             name: "304不鏽鋼萬向起泡頭",
             url: "https://link.tw.coupang.com/a/bIHvF",
@@ -1532,7 +1771,7 @@
             name: "手工編織收納提籃",
             url: "https://e.tb.cn/h.So7KdRJjFsO31Sd",
             tags: "廚房 收納 其他材質",
-            desc: "大容量布草編織，柔軟收折，自然森林手作感視覺，收納首選。",
+            desc: "大容量布草編織，柔軟收折，自然森林手作感視覺，收納選。",
             svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
                 <path d="M14 26h36v20a4 4 0 01-4 4H18a4 4 0 01-4-4V26z" fill="#EFEAE4" stroke-linejoin="round"/>
                 <path d="M12 26c4-4 8-4 12 0s8 4 12 0" stroke-linecap="round"/>
@@ -1558,12 +1797,201 @@
                 <path d="M22 22v20M28 22v20M34 22v20M40 22v20" stroke-linecap="round" stroke-dasharray="1 2"/>
             </svg>`
         },
+        {
+            name: "蔬果脫水器",
+            url: "https://s.shopee.tw/4VUYpJmLSR",
+            tags: "廚房 好物 其他材質",
+            desc: "高速離心快速甩乾沙拉生菜水分，保持乾爽與爽脆口感。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <circle cx="32" cy="34" r="18" fill="#EFEAE4"/>
+                <path d="M22 20h20" stroke-linecap="round"/>
+            </svg>`
+        },
+        {
+            name: "迷你電子秤",
+            url: "https://s.shopee.tw/40YIEUz5og",
+            tags: "廚房 好物 其他材質",
+            desc: "微克精準計量，極薄不鏽鋼鏡面，做甜點與咖啡的完美秤重道具。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="22" width="32" height="22" rx="3" fill="#FAF8F5"/>
+                <rect x="22" y="32" width="20" height="8" rx="1" fill="#EFEAE4"/>
+            </svg>`
+        },
+        {
+            name: "迷你封口機",
+            url: "https://s.shopee.tw/3AzBF0N2kt",
+            tags: "廚房 好物 其他材質",
+            desc: "輕巧一拉即完成加熱封口，餅乾、調料袋隨手密封，強防潮。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M16 38l28-6a3 3 0 003-3v-4H16v13z" fill="#EFEAE4"/>
+            </svg>`
+        },
+        {
+            name: "義大利麵保鮮盒",
+            url: "https://s.shopee.tw/7AVIQ0gmqy",
+            tags: "廚房 好物 其他材質",
+            desc: "高透亮抗震罐身，旋蓋大密封，出麵孔貼心計量防潮保鮮。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="22" y="16" width="20" height="36" rx="4" fill="#FAF8F5"/>
+                <path d="M22 22h20" stroke-linecap="round"/>
+            </svg>`
+        },
+        {
+            name: "防水廚房地墊",
+            url: "https://s.shopee.tw/5pzzSjVNdc",
+            tags: "廚房 好物 其他材質",
+            desc: "慢回彈減壓軟墊，吸水吸油防污耐踩，腳踏極致舒適放鬆。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="14" y="26" width="36" height="12" rx="2" fill="#EFEAE4"/>
+                <path d="M20 32h24" stroke-linecap="round" stroke-dasharray="2 2"/>
+            </svg>`
+        },
+        {
+            name: "軟式珪藻土瞬吸踏墊",
+            url: "https://momo.dm/3aaaM6",
+            tags: "浴室 好物 其他材質",
+            desc: "科技吸水微孔，踩乾腳板水滴，軟身親膚底座，貼黏地防滑。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="14" y="24" width="36" height="20" rx="4" fill="#FAF8F5"/>
+                <circle cx="32" cy="34" r="4" fill="#EFEAE4"/>
+            </svg>`
+        },
+        {
+            name: "珊瑚絨超吸水掛式擦手巾",
+            url: "https://s.shopee.tw/4VU8FhPR6Q",
+            tags: "浴室 好物 其他材質",
+            desc: "珊瑚絨密圈圈速吸水分，手摸軟綿綿，附掛帶，美化洗手台壁面。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M32 14v10M22 24c4 10 16 10 20 0v16H22V24z" fill="#FAF8F5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>`
+        },
+        {
+            name: "拋棄式馬桶刷",
+            url: "https://s.shopee.tw/Vy0Nszq3V",
+            tags: "浴室 清潔 其他材質",
+            desc: "專利帶洗劑藍刷頭，拋棄式設計免手觸，衛浴角落告別潮濕異味。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M42 16L22 42" stroke-linecap="round"/>
+                <rect x="16" y="40" width="8" height="8" rx="2" fill="#EFEAE4"/>
+            </svg>`
+        },
+        {
+            name: "浴室鏡櫃",
+            url: "https://s.shopee.tw/LdYWDITZ9",
+            tags: "浴室 收納 其他材質",
+            desc: "高透亮鏡面，鏡後超大容量瓶罐收納，拒絕檯面雜亂死角。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="18" y="18" width="28" height="32" fill="#EFEAE4"/>
+                <path d="M32 18v32" stroke-linecap="round"/>
+            </svg>`
+        },
+        {
+            name: "鏡櫃內收納用品",
+            url: "https://e.tb.cn/h.hzi58Iyt8ZPnFw4",
+            tags: "浴室 收納 其他材質",
+            desc: "極窄設計貼合鏡櫃隔板，小樣美妝、剃鬚刀井井有條收納。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="22" y="18" width="20" height="32" rx="2" fill="#FAF8F5"/>
+                <path d="M22 28h20" stroke-linecap="round"/>
+            </svg>`
+        },
+        {
+            name: "鏡櫃下磁吸收納用品",
+            url: "https://e.tb.cn/h.hBt3nv1cmgb5Lc7",
+            tags: "浴室 收納 其他材質",
+            desc: "磁鐵貼吸，倒掛漱口杯與牙刷，懸空快速瀝乾，防止底座積垢。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M20 20h24" stroke-linecap="round"/>
+                <circle cx="32" cy="34" r="6" fill="#EFEAE4"/>
+            </svg>`
+        },
+        {
+            name: "冰箱磁吸白板",
+            url: "https://e.tb.cn/h.hFMsb3SYIY2bDCH",
+            tags: "廚房 好物 其他材質",
+            desc: "超強貼合力不滑落，流暢擦寫紀錄生活備忘，給生活一份溫馨留白。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="18" y="18" width="28" height="28" fill="#FAF8F5"/>
+                <path d="M22 24h20M22 30h20" stroke-linecap="round" stroke-dasharray="2 2"/>
+            </svg>`
+        },
+        {
+            name: "EVA室內拖鞋",
+            url: "https://s.shopee.tw/4LAfZutLGa",
+            tags: "其他區域 好物 其他材質",
+            desc: "一體輕量防滑軟底，洗澡不打滑，防臭速乾，踩水好安靜。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M18 20c4 16 8 32 14 32s10-16 14-32H18z" fill="#FAF8F5"/>
+            </svg>`
+        },
+        {
+            name: "智能美妝鏡",
+            url: "https://s.shopee.tw/8Kf7rc8nV3",
+            tags: "其他區域 好物 其他材質",
+            desc: "觸控無段調光，高度還原彩妝顯色，輕薄桌面支架高質感。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <circle cx="32" cy="28" r="14" fill="#FAF8F5"/>
+                <path d="M32 42v10M24 52h16" stroke-linecap="round"/>
+            </svg>`
+        },
+        {
+            name: "雙層洗衣籃",
+            url: "https://link.tw.coupang.com/a/cdfJ",
+            tags: "其他區域 收納 其他材質",
+            desc: "雙層大容量洗衣提籃，一車多用好滑好分類，美化衛浴。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="20" y="16" width="24" height="32" rx="4" fill="#FAF8F5"/>
+                <circle cx="24" cy="50" r="3" fill="#8E7F73"/>
+                <circle cx="40" cy="50" r="3" fill="#8E7F73"/>
+            </svg>`
+        },
+        {
+            name: "實木玄關鑰匙吊掛架",
+            url: "https://e.tb.cn/h.hqoOSGY7Hw6Epyk",
+            tags: "其他區域 收納 其他材質",
+            desc: "進門玄關木感小層托，小掛鉤，告別每天清晨手忙腳亂找鑰匙。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="24" width="32" height="8" rx="2" fill="#EFEAE4"/>
+                <path d="M22 32v6M32 32v6M42 32v6" stroke-linecap="round"/>
+            </svg>`
+        },
+        {
+            name: "衣物抽屜分格收納盒",
+            url: "https://s.shopee.tw/7pluPWax3i",
+            tags: "其他區域 收納 其他材質",
+            desc: "隔板多格設計，內衣短褲立體好拿，衣櫃抽屜整整齊齊。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="22" width="32" height="22" rx="3" fill="#EFEAE4"/>
+                <path d="M24 22v22M32 22v22M40 22v22" stroke-linecap="round"/>
+            </svg>`
+        },
+        {
+            name: "米桶",
+            url: "https://s.shopee.tw/6prxesGrjn",
+            tags: "廚房 好物 其他材質",
+            desc: "定量按壓，矽膠氣密防米蟲，簡約小窗口掌控餘量，省力好提。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="22" y="16" width="20" height="34" rx="4" fill="#FAF8F5"/>
+                <rect x="28" y="40" width="8" height="6" fill="#EFEAE4"/>
+            </svg>`
+        },
+        {
+            name: "小樹矽膠隔熱墊",
+            url: "https://s.shopee.tw/7KmVOdJRKa",
+            tags: "廚房 好物 其他材質",
+            desc: "極度防燙高隔熱，蜂巢紋理防滑，不占空間隨手收折保護檯面。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <circle cx="32" cy="32" r="18" fill="#EFEAE4"/>
+                <path d="M26 32h12M32 26v12" stroke-linecap="round"/>
+            </svg>`
+        },
     ];
 
     const filterButtons = document.querySelectorAll('.filter-btn');
     const itemsContainer = document.getElementById('navigation-items');
     const noResultsMsg = document.getElementById('no-results-msg');
 
+    // --- STREAMING_CHUNK: Setting up product filtering interactions... ---
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const isBabyBtn = btn.classList.contains('baby-pink-btn');
@@ -1660,160 +2088,165 @@
         return "";
     }
 
-    // --- 心理測驗系統 (擴充至 6 題題庫，全自動隨機產生機制) ---
-    const quizQuestionPool = [
-        {
-            q: "1. 料理與日常家務對你而言，通常是什麼樣的存在？",
-            opts: [
-                "療癒的創作過程！喜歡精緻的手作感道具，生活美美的心情就好",
-                "講求效率與乾淨俐落！過程要流傳省事，檯面與死角絕對不能亂",
-                "隨性與舒服第一！比起繁複打掃，我更享受把空間維持得空無一物"
-            ]
-        },
-        {
-            q: "2. 看到以下哪種狀況，會最直接觸動你的「強迫症警報」？",
-            opts: [
-                "給小寶貝盛餐的叉匙碗盤色彩雜亂、塑膠感重又不防摔",
-                "洗手檯面、水槽周邊總是濕答答，水槽濾網卡著殘渣異味",
-                "廚房、浴室轉角散落著瓶罐垃圾，沒有被優雅隱形收納"
-            ]
-        },
-        {
-            q: "3. If you can have a short uninterrupted personal time, what do you want to do most?",
-            opts: [
-                "給寶寶擦拭消毒心愛的餐具，順便泡杯熱茶把櫃子整齊排好",
-                "放空地聽著水流環境音，把水槽或排水孔徹底泡泡清潔乾淨",
-                "什麼都不做，單純縮在沙發上，看著空無一物且乾淨留白的屋舍"
-            ]
-        },
-        {
-            q: "4. 下午為自己準備飲品時，你更傾向使用哪種器物盛裝？",
-            opts: [
-                "富有手作感的精緻實木雕刻花瓣杯墊與條紋日系茶壺",
-                "邊緣絕對乾淨、不易殘留水漬且晶瑩剔透的雙層隔熱玻璃杯",
-                "完全懸空磁吸收納，伸手即拿且檯面絕不佔空間的極簡俐落杯具"
-            ]
-        },
-        {
-            q: "5. 剛買完食材回家踏入玄關時，妳最希望看到的畫面是？",
-            opts: [
-                "小寶寶乖乖配戴著立體透氣的小口罩，在客廳整齊排列展示他的小汽車",
-                "洗手台備有Q彈密實的抗菌洗手泡沫，能踩著極致防滑安靜的拖鞋快速卸下重物",
-                "玄關實木吊掛架上鑰匙各就各位，垃圾桶一鍵感應自動封鎖，家裡留白無異味"
-            ]
-        },
-        {
-            q: "6. 當妳打算重新整理家中的收納空間時，妳的直覺反應是？",
-            opts: [
-                "挑選柔和溫潤的編織收納提籃 or 分格抽屜，把每一件衣物像手帳般漂亮歸位",
-                "在廚房抽屜貼裝滑軌貼層盒、鋪上加厚防油墊，確保調料罐一抹即淨、單手秒開",
-                "利用壁掛折疊置物架 or 鏡櫃後大容量，把所有瓶罐全部「藏起來」維持表面空無一物"
-            ]
-        }
+    // --- STREAMING_CHUNK: Setting up the daily fortune database... ---
+    // --- 御神籤資料庫 ---
+    const omikujiLucks = [
+        "療癒大吉 🌸", "溫馨大吉 🤎", "順遂中吉 🍃", "恬靜中吉 🍵", 
+        "小吉・小確幸 ✨", "小吉・微風🎐", "吉・安詳自在 🥞", "末吉・漸入佳境 🍊"
     ];
 
-    const resultPools = [
-        { title: "風格診斷：細緻的美學守護家 🧸", desc: "你非常重視生活的儀式感與好物的安全性。在育兒之路上，你更偏愛無毒白金矽膠、高規不鏽鋼等令人放心的精品材質。挑選一組兼具高質感與功能性的餐具道具，最能讓你和寶寶感到安心與溫暖。" },
-        { title: "風格診斷：乾淨流暢的效率派 🧼", desc: "你自帶優雅的微潔癖，最享受家裡任何角落與水槽都維持著「發亮乾燥」的狀態。你追求好清潔、能一鍵省力的效率用品，能快速優雅維持家屋的井然有序就是你最大的療癒。" },
-        { title: "風格診斷：極簡的空間隱形魔術師 🗑️", desc: "你擅長將生活的雜亂隱藏於無形。對你而言，家屋的舒適來自於恰到好處 of 留白，壁掛、壁貼與感應式等美型且不佔空間的極簡工具，是幫你打造無壓迫避難所的完美靈魂道具。" }
+    const omikujiInsights = [
+        "「放慢腳步，今天適合聽著水流聲，把廚房檯面細細擦拭一遍。」",
+        "「今日宜：沖一杯熱茶，在案頭靜靜看著茶葉舒展的姿態。」",
+        "「不需要把行程填滿，留下一段空白，就是給自己最好的禮物。」",
+        "「今天陽光正好，適合把心愛的棉麻織品洗淨，曬出太陽的香氣。」",
+        "「在日常的器物裡看見美，今天你將會遇見一件一見鍾情的小道具。」",
+        "「烹調一道簡單的料理，看著鍋裡冒出的白煙，心也跟著暖和了。」",
+        "「今日宜：把抽屜與櫃體整理得清爽，空間留白，心境自然開闊。」",
+        "「嘗試在早晨洗手時，用Q彈的慕斯泡泡洗淨雙手，展開儀式感的一天。」",
+        "「挑選一朵喜歡的花插在花瓶裡，即使是角落，也能散發生活的光芒。」",
+        "「今日宜：用最愛的雙層玻璃杯裝一杯冰美式，靜享氣泡升騰的瞬間。」",
+        "「整理是一場對心靈的洗滌。洗淨餐碗，看著它們在瀝水架上慢慢烘乾。」",
+        "「今天很適合做一件手工。不管是點茶、烘焙，還是簡單的手帳書寫。」",
+        "「把強迫症警報暫時關掉，今天容許自己有一點點隨性與慵懶。」",
+        "「生活不是一場賽跑，而是一場散步。聽聽微風與日常環境音吧。」"
     ];
 
-    const recommendPool = [
-        { name: "VIIDA Soufflé 兒童叉匙組", url: "https://s.shopee.tw/60OaT15BAb" },
-        { name: "201不鏽鋼菜瓜布瀝水架", url: "https://s.shopee.tw/AKVq8hE4DH" },
-        { name: "LION 趣淨洗手慕斯", url: "https://coupa.ng/cmZ3pL" },
-        { name: "浴室壁掛感應垃圾桶", url: "https://s.shopee.tw/qdstxibCY" }
+    const omikujiYis = [
+        "做一份精緻的法式吐司，看著黃油慢慢融化。",
+        "輕撫心愛道具的溫潤邊緣，靜靜感受職人的溫度。",
+        "把廚房檯面的死角細細擦乾，體驗徹底清潔的療癒。",
+        "閉上雙眼獨處十分鐘，聽著窗外的微風，不做任何思考。",
+        "用手拉碎末器做一份完美的蒜蓉，料理的樂趣就在細節裡。",
+        "洗淨不鏽鋼水槽並做個簡單的鍍膜，享受看著水珠滑落的瞬間。",
+        "把Tomica小汽車在展示架上重新排列，重溫童心未泯的溫暖。",
+        "把軟式珪藻土踏墊鋪好，踩在上面，感受腳板瞬間被吸乾的細緻。",
+        "點燃一顆溫和的香氛蠟燭，讓淡淡的木質香包圍整個午後。",
+        "將風琴夾內的文件重新規整，感受手帳管理條理分明的清爽。"
     ];
 
-    let activeQuizQuestions = []; // 存放當次隨機抽出的 3 題
-    let currentQIdx = 0;
-    let scoreArray = [0, 0, 0];
+    const omikujiColors = [
+        "純淨奶油白", "沉穩焙茶色", "燕麥微光色", "質樸木質灰", 
+        "溫柔母嬰粉", "森林抹茶綠", "焦糖暖橘色", "晨曦霧藍色"
+    ];
 
-    // 初始化隨機出題演算法 (從 6 題隨機抽取 3 題)
-    function initRandomQuestions() {
-        let shuffled = [...quizQuestionPool].sort(() => 0.5 - Math.random());
-        activeQuizQuestions = shuffled.slice(0, 3);
-        // 修正題目前面的數字序號，維持 1、2、3 題的流暢感
-        activeQuizQuestions.forEach((item, index) => {
-            item.q = (index + 1) + ". " + item.q.substring(3);
-        });
+    const omikujiItems = [
+        "實木雕刻花瓣杯墊", "雙層隔熱玻璃杯", "棉麻手感擦手巾", 
+        "不鏽鋼精細料理夾", "北極熊玻璃收納罐", "小貓立體微型書檔", 
+        "柔軟親膚室內防滑拖鞋", "極小巧複合毛幼童牙刷", "白雲萌萌無痕壁掛架", 
+        "直條紋耐熱玻璃茶壺"
+    ];
+
+    function drawOmikuji() {
+        const box = document.getElementById('omikuji-box');
+        const stick = document.getElementById('omikuji-stick');
+        const drawZone = document.getElementById('omikuji-draw-zone');
+        const resultZone = document.getElementById('omikuji-result-zone');
+        if (!box || !stick || !drawZone || !resultZone) return;
+
+        box.classList.add('shaking-box');
+        stick.classList.add('stick-popping');
+
+        setTimeout(() => {
+            box.classList.remove('shaking-box');
+            stick.classList.remove('stick-popping');
+
+            const luck = omikujiLucks[Math.floor(Math.random() * omikujiLucks.length)];
+            const insight = omikujiInsights[Math.floor(Math.random() * omikujiInsights.length)];
+            const yi = omikujiYis[Math.floor(Math.random() * omikujiYis.length)];
+            const color = omikujiColors[Math.floor(Math.random() * omikujiColors.length)];
+            const item = omikujiItems[Math.floor(Math.random() * omikujiItems.length)];
+
+            document.getElementById('omikuji-luck').innerText = luck;
+            document.getElementById('omikuji-insight').innerText = insight;
+            document.getElementById('omikuji-yi').innerText = yi;
+            document.getElementById('omikuji-color').innerText = color;
+            document.getElementById('omikuji-item').innerText = item;
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            const fortuneData = { luck, insight, yi, color, item };
+            localStorage.setItem('omikuji_date', todayStr);
+            localStorage.setItem('omikuji_data', JSON.stringify(fortuneData));
+
+            drawZone.style.display = 'none';
+            resultZone.style.display = 'block';
+        }, 800);
     }
 
-    function loadQuestion() {
-        const playBox = document.getElementById('quiz-play-box');
-        const resultView = document.getElementById('quiz-result-view');
-        if (!playBox || !resultView) return;
+    function checkTodayOmikuji() {
+        const savedDate = localStorage.getItem('omikuji_date');
+        const savedDataStr = localStorage.getItem('omikuji_data');
+        const todayStr = new Date().toISOString().split('T')[0];
 
-        playBox.style.display = 'block';
-        resultView.style.display = 'none';
+        const drawZone = document.getElementById('omikuji-draw-zone');
+        const resultZone = document.getElementById('omikuji-result-zone');
 
-        if (currentQIdx < activeQuizQuestions.length) {
-            const qText = document.getElementById('quiz-question-text');
-            if (qText) qText.innerText = activeQuizQuestions[currentQIdx].q;
-            
-            const optionsBox = document.getElementById('quiz-options-box');
-            if (optionsBox) {
-                optionsBox.innerHTML = '';
-                activeQuizQuestions[currentQIdx].opts.forEach((opt, idx) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'quiz-opt-btn';
-                    btn.innerText = opt;
-                    btn.onclick = function() {
-                        scoreArray[idx]++;
-                        currentQIdx++;
-                        loadQuestion();
-                    };
-                    optionsBox.appendChild(btn);
-                });
+        if (savedDate === todayStr && savedDataStr) {
+            const data = JSON.parse(savedDataStr);
+            document.getElementById('omikuji-luck').innerText = data.luck;
+            document.getElementById('omikuji-insight').innerText = data.insight;
+            document.getElementById('omikuji-yi').innerText = data.yi;
+            document.getElementById('omikuji-color').innerText = data.color;
+            document.getElementById('omikuji-item').innerText = data.item;
+
+            if (drawZone && resultZone) {
+                drawZone.style.display = 'none';
+                resultZone.style.display = 'block';
             }
+        }
+    }
+
+    function resetOmikuji() {
+        const drawZone = document.getElementById('omikuji-draw-zone');
+        const resultZone = document.getElementById('omikuji-result-zone');
+        if (drawZone && resultZone) {
+            localStorage.removeItem('omikuji_date');
+            localStorage.removeItem('omikuji_data');
+            resultZone.style.display = 'none';
+            drawZone.style.display = 'block';
+        }
+    }
+
+    // --- STREAMING_CHUNK: Setting up the floating menu collapse logic... ---
+    // --- 懸浮折疊選單核心動態邏輯 ---
+    let isFloatMenuOpen = false;
+
+    function toggleFloatMenu() {
+        const trigger = document.getElementById('float-trigger');
+        const listItems = document.querySelectorAll('.float-item');
+        const overlay = document.getElementById('float-overlay');
+        
+        isFloatMenuOpen = !isFloatMenuOpen;
+        
+        if (isFloatMenuOpen) {
+            trigger.classList.add('active');
+            overlay.classList.add('active');
+            listItems.forEach(item => item.classList.add('show'));
         } else {
-            showQuizResult();
+            trigger.classList.remove('active');
+            overlay.classList.remove('active');
+            listItems.forEach(item => item.classList.remove('show'));
         }
     }
 
-    function showQuizResult() {
-        const playBox = document.getElementById('quiz-play-box');
-        const resultView = document.getElementById('quiz-result-view');
-        if (!playBox || !resultView) return;
-
-        playBox.style.display = 'none';
-        resultView.style.display = 'block';
-
-        let maxIdx = scoreArray.indexOf(Math.max(...scoreArray));
-        if (maxIdx === -1) maxIdx = 0;
-        const finalResult = resultPools[maxIdx];
-
-        const rTitle = document.getElementById('res-title');
-        const rDesc = document.getElementById('res-desc');
-        if (rTitle) rTitle.innerText = finalResult.title;
-        if (rDesc) rDesc.innerText = finalResult.desc;
-
-        const randomProduct = recommendPool[Math.floor(Math.random() * recommendPool.length)];
-        const placement = document.getElementById('random-product-placement');
-        if (placement) {
-            placement.innerHTML = `
-                <a href="${randomProduct.url}" class="item-card" target="_blank" style="background-color: #FFFFFF; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); padding: 12px 16px;">
-                    <div class="item-info">
-                        <div class="item-name" style="color: var(--btn-active); font-weight:600; font-size:0.85rem;">${randomProduct.name}</div>
-                        <div class="item-desc" style="font-size:0.7rem; margin-top:2px;">點擊右方箭頭，開啟你的自用優雅生活道具。</div>
-                    </div>
-                    <div class="item-arrow">→</div>
-                </a>
-            `;
+    // 平滑錨點滾動與自動閉合導航欄
+    function scrollToSection(id) {
+        const target = document.getElementById(id);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
         }
+        // 點擊後自動收起導航，保持畫面清爽
+        toggleFloatMenu();
     }
 
-    function resetQuiz() {
-        currentQIdx = 0;
-        scoreArray = [0, 0, 0];
-        initRandomQuestions(); // 重新測試時，再次洗牌隨機產生新題目
-        loadQuestion();
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        toggleFloatMenu();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
-        initRandomQuestions(); // 優先啟動隨機出題
-        loadQuestion();
+        checkTodayOmikuji();
     });
 </script>
 
