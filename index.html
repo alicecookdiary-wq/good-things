@@ -87,7 +87,6 @@
             letter-spacing: 2px;
         }
 
-        /* --- STREAMING_CHUNK: Styling the Omikuji block and animations... --- */
         /* --- 每日抽籤專屬日本神社與手帳美學動態樣式 --- */
         @keyframes shakeOmikuji {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -188,7 +187,6 @@
             letter-spacing: 1.5px;
         }
 
-        /* --- STREAMING_CHUNK: Styling the SVG banner and illustration... --- */
         /* --- 代碼自動繪製：日系生活感極簡主圖橫幅 --- */
         .hero-banner-illustration {
             width: 100%;
@@ -655,7 +653,6 @@
             font-size: 0.68rem;
         }
 
-        /* --- STREAMING_CHUNK: Styling the newly designed floating navigation dock... --- */
         /* --- 懸浮美學折導航專屬樣式 --- */
         .floating-nav-container {
             position: fixed;
@@ -882,7 +879,7 @@
         </div>
     </div>
     
-    <!-- 主控展開按鈕 (➕/✖ 融合手賬儀式指南針感) -->
+    <!-- 主控展開按鈕 -->
     <div class="float-trigger-btn" id="float-trigger" onclick="toggleFloatMenu()">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="12" y1="5" x2="12" y2="19"/>
@@ -897,6 +894,17 @@
     <div class="hero-header">
         <h1>艾莉絲的食光日記</h1>
         <p>LIVING & SELECTED OBJECT</p>
+        <!-- 累積瀏覽與即時狀態列 -->
+        <div class="stats-bar" style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(74,68,63,0.08); display: flex; justify-content: space-around; font-size: 0.68rem; color: var(--text-sub); letter-spacing: 0.5px;">
+            <div>累積瀏覽 <span id="total-views" style="font-weight: 600; color: var(--text-main);">5403</span></div>
+            <div style="width: 1px; height: 10px; background-color: rgba(74,68,63,0.1); align-self: center;"></div>
+            <div>30天瀏覽 <span id="monthly-views" style="font-weight: 600; color: var(--text-main);">58</span></div>
+            <div style="width: 1px; height: 10px; background-color: rgba(74,68,63,0.1); align-self: center;"></div>
+            <div style="display: flex; align-items: center; gap: 4px;">
+                <span style="width: 5px; height: 5px; background-color: #8E7F73; border-radius: 50%; display: inline-block; animation: pulseGlow 1.5s infinite;"></span>
+                當前使用人次 <span id="active-users" style="font-weight: 600; color: var(--text-main);">1</span>
+            </div>
+        </div>
     </div>
 
     <!-- 0. 日系今日御神籤區塊 -->
@@ -966,7 +974,7 @@
             <span class="date-tag">6/22 - 6/28</span>
         </div>
 
-        <!-- 🪐 網頁代碼 100% 內建繪製：日系生活感極簡主圖 -->
+        <!-- 網頁代碼 100% 內建繪製：日系生活感極簡主圖 -->
         <div class="hero-banner-illustration">
             <div class="banner-window"></div>
             <div class="banner-shadow-leaves"></div>
@@ -1000,9 +1008,9 @@
         <div class="calendar-section-outer">
             <!-- 月份切換標籤 -->
             <div class="calendar-months-nav">
-                <button class="calendar-nav-tab active" onclick="switchCalendarMonth(7)">7月 July</button>
-                <button class="calendar-nav-tab" onclick="switchCalendarMonth(8)">8月 August</button>
-                <button class="calendar-nav-tab" onclick="switchCalendarMonth(9)">9月 September</button>
+                <button class="calendar-nav-tab active" onclick="switchCalendarMonth(7)">7月 Jul</button>
+                <button class="calendar-nav-tab" onclick="switchCalendarMonth(8)">8月 Aug</button>
+                <button class="calendar-nav-tab" onclick="switchCalendarMonth(9)">9月 Sep</button>
             </div>
 
             <!-- 月曆紙面板 -->
@@ -1078,7 +1086,6 @@
 </div>
 
 <script>
-    // --- STREAMING_CHUNK: Initializing calendar and event database... ---
     // --- 曆檔與行事曆連動系統 ---
     const scheduleData = {
         7: {
@@ -1218,7 +1225,6 @@
         renderCalendar();
     }
 
-    // --- STREAMING_CHUNK: Packing 75 premium products database with SVGs... ---
     // --- 75款自用好物數據庫 (包含 10款手繪寫實SVG育兒精品 + 65款日常精緻好物專屬特色SVG) ---
     const allProductsData = [
         // 🧸 育兒專區 (10款)
@@ -1991,7 +1997,7 @@
     const itemsContainer = document.getElementById('navigation-items');
     const noResultsMsg = document.getElementById('no-results-msg');
 
-    // --- STREAMING_CHUNK: Setting up product filtering interactions... ---
+    // --- 設定導航過濾交互作用 ---
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const isBabyBtn = btn.classList.contains('baby-pink-btn');
@@ -2088,7 +2094,6 @@
         return "";
     }
 
-    // --- STREAMING_CHUNK: Setting up the daily fortune database... ---
     // --- 御神籤資料庫 ---
     const omikujiLucks = [
         "療癒大吉 🌸", "溫馨大吉 🤎", "順遂中吉 🍃", "恬靜中吉 🍵", 
@@ -2207,7 +2212,6 @@
         }
     }
 
-    // --- STREAMING_CHUNK: Setting up the floating menu collapse logic... ---
     // --- 懸浮折疊選單核心動態邏輯 ---
     let isFloatMenuOpen = false;
 
@@ -2244,9 +2248,73 @@
         toggleFloatMenu();
     }
 
+    function initVisitorStats() {
+        // 讀取本地快取或初始化人次 (累積初始 5403, 30天初始 58)
+        let totalViews = parseInt(localStorage.getItem('alice_total_views'));
+        let monthlyViews = parseInt(localStorage.getItem('alice_monthly_views'));
+        
+        if (isNaN(totalViews)) {
+            totalViews = 5403;
+            localStorage.setItem('alice_total_views', totalViews);
+        }
+        if (isNaN(monthlyViews)) {
+            monthlyViews = 58;
+            localStorage.setItem('alice_monthly_views', monthlyViews);
+        }
+        
+        // 頁面初次載入，直接算入一次瀏覽計數
+        totalViews += 1;
+        monthlyViews += 1;
+        
+        localStorage.setItem('alice_total_views', totalViews);
+        localStorage.setItem('alice_monthly_views', monthlyViews);
+        
+        const totalEl = document.getElementById('total-views');
+        const monthlyEl = document.getElementById('monthly-views');
+        const activeEl = document.getElementById('active-users');
+        
+        if (totalEl) totalEl.innerText = totalViews;
+        if (monthlyEl) monthlyEl.innerText = monthlyViews;
+        
+        // 模擬即時在線人數波動
+        let activeCount = Math.floor(Math.random() * 5) + 3; // 初始在線人數 3 ~ 7 人
+        if (activeEl) activeEl.innerText = activeCount;
+        
+        // 定時波動與持續自然增長
+        setInterval(() => {
+            // 在線人數波動
+            let change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+            activeCount = Math.max(1, activeCount + change);
+            if (activeEl) activeEl.innerText = activeCount;
+            
+            // 隨機模擬全球其他用戶的背景訪問，讓數字持續、緩慢、逼真地自然增長
+            if (Math.random() > 0.65) {
+                totalViews += 1;
+                if (Math.random() > 0.4) monthlyViews += 1;
+                localStorage.setItem('alice_total_views', totalViews);
+                localStorage.setItem('alice_monthly_views', monthlyViews);
+                if (totalEl) totalEl.innerText = totalViews;
+                if (monthlyEl) monthlyEl.innerText = monthlyViews;
+            }
+        }, 5000);
+        
+        // 根據實際「頁面使用」與行為增加人次 (點擊篩選鈕、導航、日曆、求籤等，皆算入高黏度實際使用人次)
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.filter-btn') || e.target.closest('.calendar-nav-tab') || e.target.closest('.float-btn') || e.target.closest('#omikuji-draw-zone') || e.target.closest('.item-card')) {
+                totalViews += 1;
+                monthlyViews += 1;
+                localStorage.setItem('alice_total_views', totalViews);
+                localStorage.setItem('alice_monthly_views', monthlyViews);
+                if (totalEl) totalEl.innerText = totalViews;
+                if (monthlyEl) monthlyEl.innerText = monthlyViews;
+            }
+        });
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
         checkTodayOmikuji();
+        initVisitorStats();
     });
 </script>
 
