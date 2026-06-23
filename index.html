@@ -653,6 +653,46 @@
             font-size: 0.68rem;
         }
 
+        /* --- STREAMING_CHUNK: Styling the search bar... --- */
+        /* 搜尋好物輸入框專屬極簡美學 */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 42px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--text-main);
+            font-size: 0.85rem;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-sm);
+        }
+        .search-input:focus {
+            border-color: var(--accent-glow);
+            background-color: #FFFFFF;
+            box-shadow: var(--shadow-md);
+        }
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-sub);
+            transition: stroke 0.3s ease;
+            pointer-events: none;
+        }
+        .search-input:focus + .search-icon {
+            stroke: var(--btn-active);
+        }
+
+        /* --- STREAMING_CHUNK: Styling the newly designed floating navigation dock... --- */
         /* --- 懸浮美學折導航專屬樣式 --- */
         .floating-nav-container {
             position: fixed;
@@ -817,6 +857,9 @@
     </style>
 </head>
 <body>
+
+<!-- 懸浮全螢幕神籤特效畫布 -->
+<canvas id="effect-canvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; pointer-events:none; display:none;"></canvas>
 
 <!-- 懸浮導航折疊美學層 -->
 <div class="float-backdrop-overlay" id="float-overlay" onclick="toggleFloatMenu()"></div>
@@ -1041,6 +1084,15 @@
         <div class="section-title-container">
             <div class="glow-dot"></div>
             <div class="section-title-text">歷年愛用好物導航</div>
+        </div>
+        
+        <!-- 搜尋好物輸入框 -->
+        <div class="search-wrapper">
+            <input type="text" id="product-search-input" class="search-input" placeholder="搜尋私房好物... (例如：不鏽鋼、收納、餐具)" autocomplete="off">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
         </div>
         
         <div class="filter-box">
@@ -1996,11 +2048,26 @@
     const filterButtons = document.querySelectorAll('.filter-btn');
     const itemsContainer = document.getElementById('navigation-items');
     const noResultsMsg = document.getElementById('no-results-msg');
+    const searchInput = document.getElementById('product-search-input');
 
-    // --- 設定導航過濾交互作用 ---
+    // 搜尋輸入監聽：輸入時清除篩選按鈕狀態，並進行全域搜尋
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value.trim() !== "") {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+            }
+            filterItems();
+        });
+    }
+
+    // --- STREAMING_CHUNK: Setting up product filtering interactions... ---
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const isBabyBtn = btn.classList.contains('baby-pink-btn');
+            // 點擊篩選按鈕時，清空搜尋框以避免邏輯衝突
+            if (searchInput) {
+                searchInput.value = "";
+            }
             if (isBabyBtn) {
                 document.querySelectorAll('.filter-btn:not(.baby-pink-btn)').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.baby-pink-btn').forEach(b => { if (b !== btn) b.classList.remove('active'); });
@@ -2013,6 +2080,19 @@
     });
 
     function filterItems() {
+        const searchQuery = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+        // 若有輸入搜尋關鍵字，優先進行全域模糊比對
+        if (searchQuery !== "") {
+            const filtered = allProductsData.filter(prod => {
+                return prod.name.toLowerCase().includes(searchQuery) ||
+                       prod.desc.toLowerCase().includes(searchQuery) ||
+                       prod.tags.toLowerCase().includes(searchQuery);
+            });
+            renderList(filtered);
+            return;
+        }
+
         const activeSpace = Array.from(document.querySelectorAll('.filter-group:nth-child(1) .filter-btn.active')).map(btn => btn.getAttribute('data-filter'));
         const activePurpose = Array.from(document.querySelectorAll('.filter-group:nth-child(2) .filter-btn.active')).map(btn => btn.getAttribute('data-filter'));
         const activeMaterial = Array.from(document.querySelectorAll('.filter-group:nth-child(3) .filter-btn.active')).map(btn => btn.getAttribute('data-filter'));
@@ -2094,52 +2174,216 @@
         return "";
     }
 
-    // --- 御神籤資料庫 ---
-    const omikujiLucks = [
-        "療癒大吉 🌸", "溫馨大吉 🤎", "順遂中吉 🍃", "恬靜中吉 🍵", 
-        "小吉・小確幸 ✨", "小吉・微風🎐", "吉・安詳自在 🥞", "末吉・漸入佳境 🍊"
-    ];
+    // --- STREAMING_CHUNK: Synthesizing Japanese shrine bell & rattle sound effects... ---
+    let audioCtx = null;
+    function getAudioContext() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+        return audioCtx;
+    }
 
-    const omikujiInsights = [
-        "「放慢腳步，今天適合聽著水流聲，把廚房檯面細細擦拭一遍。」",
-        "「今日宜：沖一杯熱茶，在案頭靜靜看著茶葉舒展的姿態。」",
-        "「不需要把行程填滿，留下一段空白，就是給自己最好的禮物。」",
-        "「今天陽光正好，適合把心愛的棉麻織品洗淨，曬出太陽的香氣。」",
-        "「在日常的器物裡看見美，今天你將會遇見一件一見鍾情的小道具。」",
-        "「烹調一道簡單的料理，看著鍋裡冒出的白煙，心也跟著暖和了。」",
-        "「今日宜：把抽屜與櫃體整理得清爽，空間留白，心境自然開闊。」",
-        "「嘗試在早晨洗手時，用Q彈的慕斯泡泡洗淨雙手，展開儀式感的一天。」",
-        "「挑選一朵喜歡的花插在花瓶裡，即使是角落，也能散發生活的光芒。」",
-        "「今日宜：用最愛的雙層玻璃杯裝一杯冰美式，靜享氣泡升騰的瞬間。」",
-        "「整理是一場對心靈的洗滌。洗淨餐碗，看著它們在瀝水架上慢慢烘乾。」",
-        "「今天很適合做一件手工。不管是點茶、烘焙，還是簡單的手帳書寫。」",
-        "「把強迫症警報暫時關掉，今天容許自己有一點點隨性與慵懶。」",
-        "「生活不是一場賽跑，而是一場散步。聽聽微風與日常環境音吧。」"
-    ];
+    // 模擬籤筒木籤劇烈碰撞與摩擦的低頻沙沙聲
+    function playShakeSound() {
+        try {
+            const ctx = getAudioContext();
+            const now = ctx.currentTime;
+            
+            // 模擬 7 次快速、略帶随機延遲的木籤撞擊與沙沙聲
+            for (let i = 0; i < 7; i++) {
+                const playTime = now + (i * 0.11) + (Math.random() * 0.03);
+                
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(140 + Math.random() * 80, playTime);
+                osc.frequency.exponentialRampToValueAtTime(30, playTime + 0.05);
+                
+                gain.gain.setValueAtTime(0.18, playTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, playTime + 0.05);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.start(playTime);
+                osc.stop(playTime + 0.06);
+                
+                // 附加細微的木質表面摩擦白雜訊
+                const bufferSize = ctx.sampleRate * 0.03;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let j = 0; j < bufferSize; j++) {
+                    data[j] = Math.random() * 2 - 1;
+                }
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+                const noiseFilter = ctx.createBiquadFilter();
+                noiseFilter.type = 'bandpass';
+                noiseFilter.frequency.setValueAtTime(900, playTime);
+                noiseFilter.Q.setValueAtTime(4, playTime);
+                
+                const noiseGain = ctx.createGain();
+                noiseGain.gain.setValueAtTime(0.08, playTime);
+                noiseGain.gain.exponentialRampToValueAtTime(0.001, playTime + 0.03);
+                
+                noise.connect(noiseFilter);
+                noiseFilter.connect(noiseGain);
+                noiseGain.connect(ctx.destination);
+                
+                noise.start(playTime);
+                noise.stop(playTime + 0.04);
+            }
+        } catch (e) {
+            console.warn("Audio Context failed to play shake sound:", e);
+        }
+    }
 
-    const omikujiYis = [
-        "做一份精緻的法式吐司，看著黃油慢慢融化。",
-        "輕撫心愛道具的溫潤邊緣，靜靜感受職人的溫度。",
-        "把廚房檯面的死角細細擦乾，體驗徹底清潔的療癒。",
-        "閉上雙眼獨處十分鐘，聽著窗外的微風，不做任何思考。",
-        "用手拉碎末器做一份完美的蒜蓉，料理的樂趣就在細節裡。",
-        "洗淨不鏽鋼水槽並做個簡單的鍍膜，享受看著水珠滑落的瞬間。",
-        "把Tomica小汽車在展示架上重新排列，重溫童心未泯的溫暖。",
-        "把軟式珪藻土踏墊鋪好，踩在上面，感受腳板瞬間被吸乾的細緻。",
-        "點燃一顆溫和的香氛蠟燭，讓淡淡的木質香包圍整個午後。",
-        "將風琴夾內的文件重新規整，感受手帳管理條理分明的清爽。"
-    ];
+    // 模擬日本神社手抄本、銅鈴或 Orin 風鈴澄澈的高頻餘音
+    function playResultSound() {
+        try {
+            const ctx = getAudioContext();
+            const now = ctx.currentTime;
+            
+            // 澄澈的和弦音頻: G5 (784Hz), C6 (1046Hz), E6 (1318Hz), G6 (1568Hz)
+            const freqs = [783.99, 1046.50, 1318.51, 1567.98];
+            
+            freqs.forEach((freq, idx) => {
+                const delay = idx * 0.05;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now + delay);
+                
+                // 超高頻金屬諧音
+                const oscOver = ctx.createOscillator();
+                oscOver.type = 'sine';
+                oscOver.frequency.setValueAtTime(freq * 1.5, now + delay);
+                
+                gain.gain.setValueAtTime(0.12 / (idx + 1), now + delay);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 1.2 - (idx * 0.15));
+                
+                osc.connect(gain);
+                oscOver.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.start(now + delay);
+                oscOver.start(now + delay);
+                
+                osc.stop(now + delay + 1.3);
+                oscOver.stop(now + delay + 1.3);
+            });
+        } catch (e) {
+            console.warn("Audio Context failed to play result sound:", e);
+        }
+    }
 
-    const omikujiColors = [
-        "純淨奶油白", "沉穩焙茶色", "燕麥微光色", "質樸木質灰", 
-        "溫柔母嬰粉", "森林抹茶綠", "焦糖暖橘色", "晨曦霧藍色"
-    ];
-
-    const omikujiItems = [
-        "實木雕刻花瓣杯墊", "雙層隔熱玻璃杯", "棉麻手感擦手巾", 
-        "不鏽鋼精細料理夾", "北極熊玻璃收納罐", "小貓立體微型書檔", 
-        "柔軟親膚室內防滑拖鞋", "極小巧複合毛幼童牙刷", "白雲萌萌無痕壁掛架", 
-        "直條紋耐熱玻璃茶壺"
+    // --- 御神籤資料庫 (擴充至 100 種結果) ---
+    const omikujiDatabase = [
+        { luck: "療癒大吉 🌸", insight: "「放慢腳步，今天適合聽著水流聲，把廚房檯面細細擦拭一遍。」", yi: "清洗水槽並做簡單的防撥水鍍膜，享受看著水珠滑落的瞬間。", color: "純淨奶油白", item: "不鏽鋼精細料理夾" },
+        { luck: "溫馨大吉 🤎", insight: "「今日宜：沖一杯熱茶，在案頭靜靜看著茶葉舒展的姿態。」", yi: "輕撫心愛陶瓷杯的溫潤邊緣，感受職人捏製的溫度。", color: "沉穩焙茶色", item: "實木雕刻花瓣杯墊" },
+        { luck: "順遂中吉 🍃", insight: "「不需要把行程填滿，留下一段空白，就是給自己最好的禮物。」", yi: "閉上雙眼獨處十分鐘，聽著窗外的微風，不做任何思考。", color: "燕麥微光色", item: "雙層隔熱玻璃杯" },
+        { luck: "恬靜中吉 🍵", insight: "「今天陽光正好，適合把心愛的棉麻織品洗淨，曬出太陽的香氣。」", yi: "將剛曬乾的抱枕抱在懷裡，深深吸一口乾淨的溫暖。", color: "質樸木質灰", item: "棉麻手感擦手巾" },
+        { luck: "小吉・小確幸 ✨", insight: "「在日常的器物裡看見美，今天你將會遇見一件一見鍾情的小道具。」", yi: "將新買的置物罐擺在置物架上，調整角度直到完美平衡。", color: "溫柔母嬰粉", item: "北極熊玻璃收納罐" },
+        { luck: "小吉・微風 🎐", insight: "「烹調一道簡單的料理，看著鍋裡冒出的白煙，心也跟著暖和了。」", yi: "用手拉碎末器做一份大蒜末，看著食物在拉扯間變細碎。", color: "森林抹茶綠", item: "手拉式碎末器" },
+        { luck: "吉・安詳自在 🥞", insight: "「今日宜：把抽屜與櫃體整理得清爽，空間留白，心境自然開闊。」", yi: "將抽屜防滑墊裁剪到合適尺寸鋪好，整齊放上亮晶晶的餐具。", color: "焦糖暖橘色", item: "加厚抑菌抽屜墊" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「嘗試在早晨洗手時，用Q彈的慕斯泡泡洗淨雙手，展開儀式感的一天。」", yi: "認真按壓一朵洗手乳花朵，感受細緻泡沫溫和拂過肌膚。", color: "晨曦霧藍色", item: "LION 獅王 趣淨洗手慕斯" },
+        { luck: "療癒大吉 🌸", insight: "「挑選一朵喜歡的花插在花瓶裡，即使是角落，也能散發生活的光芒。」", yi: "細心修剪花梗的斜切面，將它插進晶瑩的水盆或玻璃瓶中。", color: "淡雅霧粉紅", item: "直條紋耐熱玻璃茶壺" },
+        { luck: "溫馨大吉 🤎", insight: "「今日宜：用最愛的雙層玻璃杯裝一杯冰美式，靜享氣泡升騰的瞬間。」", yi: "聽著冰塊撞擊杯壁的清脆響聲，享受午後的片刻寧靜。", color: "磨砂橡木褐", item: "雙層隔熱玻璃杯" },
+        { luck: "順遂中吉 🍃", insight: "「把強迫症警報暫時關掉，今天容許自己有一點點隨性與慵懶。」", yi: "任憑幾件衣服留在沙發上，給自己放一個不追求完美的假。", color: "清晨草本綠", item: "雙層多層收納衣籃" },
+        { luck: "恬靜中吉 🍵", insight: "「整理是一場對心靈的洗滌。洗淨餐碗，看著它們在瀝水架上慢慢烘乾。」", yi: "看著洗淨的水槽在微光下閃爍，心中湧現踏實的成就感。", color: "溫潤淺沙黃", item: "不鏽鋼菜瓜布瀝水架" },
+        { luck: "小吉・小確幸 ✨", insight: "「今天很適合做一件手工。不管是點茶、烘焙，還是簡單的手帳書寫。」", yi: "手握竹製茶筅快速點茶，直到抹茶表面浮現細緻奶油般的泡沫。", color: "宇治青嵐綠", item: "抹茶 7 件套組" },
+        { luck: "小吉・微風 🎐", insight: "「生活不是一場賽跑，而是一場散步。聽聽微風與日常環境音吧。」", yi: "打開一扇窗戶，坐在旁邊靜靜觀察光影在牆面上的緩慢挪移。", color: "輕薄霧雨灰", item: "原木色翻頁日曆" },
+        { luck: "吉・安詳自在 🥞", insight: "「今日宜：將冰箱中快過期的食材做成一鍋溫暖的蔬菜雜燴湯。」", yi: "洗淨鮮豔的時蔬，切丁時聆聽砧板與刀刃碰撞的療癒節奏。", color: "鮮橙暖杏黃", item: "食品級蒜末分裝盒" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「今天適合重新排序擺在玄關的物件，讓進門的第一眼充滿溫馨。」", yi: "把常穿的室內鞋擺放整齊，給辛苦一天的自己最溫柔的迎接。", color: "優雅燕麥白", item: "實木玄關鑰匙吊掛架" },
+        { luck: "療癒大吉 🌸", insight: "「有些美妙的靈感往往誕生於將文件歸類妥當的那一瞬間。」", yi: "將散亂的收據與保證書按照月份分裝，給生活一份從容。", color: "極簡純霧白", item: "A4 站立式風琴夾" },
+        { luck: "溫馨大吉 🤎", insight: "「今天試著更換床單的顏色，你會發現連晚上的夢境都變得溫柔。」", yi: "鋪上剛烘乾好的棉質床單，用掌心撫平每一個細微的褶皺。", color: "淡雅霧沙褐", item: "加厚抑菌抽屜墊" },
+        { luck: "順遂中吉 🍃", insight: "「在熱湯裡撒下一把鮮切的蔥花，看著翠綠散開，心情也明亮起來。」", yi: "從冰箱中拿出六格保鮮盒，優雅盛取冰鎮備好的蔥花調料。", color: "清爽荷葉綠", item: "6格分隔保鮮盒" },
+        { luck: "恬靜中吉 🍵", insight: "「偶爾用微波飯盒熱一碗米飯，重溫剛出爐時粒粒分明的溫潤香甜。」", yi: "將微波覆熱後的白米飯盛入木碗中，看著熱氣在燈光下繚繞。", color: "晶瑩稻香白", item: "冷凍米飯盒" },
+        { luck: "小吉・小確幸 ✨", insight: "「用溫和的毛刷清潔流理台的縫隙，這些不起眼的小動作最療癒。」", yi: "細心去除水龍頭底座的水垢，看著金屬表面重現如鏡的光澤。", color: "質感太空銀", item: "304不鏽鋼萬向起泡頭" },
+        { luck: "小吉・微風 🎐", insight: "「今日宜：將心愛的書籍立整，拍拍書頁上的微塵，重溫一段句子。」", yi: "用小貓形狀的重鋼書檔夾緊散亂的食譜，案頭視覺瞬間明亮起來。", color: "夜幕炭霧黑", item: "小貓立書檔" },
+        { luck: "吉・安詳自在 🥞", insight: "「試著用天然植萃噴霧清潔餐桌，留下一絲淡淡的迷迭香餘韻。」", yi: "擦拭桌面時深深呼吸，將浮躁的心慢慢安頓在當下的空氣中。", color: "天然茶葉綠", item: "淨毒五郎限時團購" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「今日宜：將那些捨不得丟的包裝繩，理成整齊的小線圈收納好。」", yi: "打開極簡線材盒，將充電線一圈圈理好放入，感受秩序的誕生。", color: "低調暖霧灰", item: "極簡線材收納盒" },
+        { luck: "療癒大吉 🌸", insight: "「今天陽光柔和，最適合為心愛的多肉植物澆上透徹的清水。」", yi: "靜靜看著泥土吸乾水分、釋放清新草木香氣的奇妙過程。", color: "嫩綠仙人掌", item: "直條紋耐熱玻璃茶壺" },
+        { luck: "溫馨大吉 🤎", insight: "「今日宜：給寶寶讀一本溫馨的繪本，在稚嫩的笑聲中忘卻所有繁雜。」", yi: "用指尖輕輕點著繪本上的可愛小車，陪伴孩子度過純真午後。", color: "童真暖黃色", item: "Tomica小汽車展示架" },
+        { luck: "順遂中吉 🍃", insight: "「把廚房不鏽鋼盤洗淨晾乾，閃著亮光重疊，看著就無比心安。」", yi: "將沾粉備料用的不鏽鋼盤整齊堆疊，完美節省備料時的流理台空間。", color: "微光不鏽鋼", item: "430不鏽鋼調理淺盤" },
+        { luck: "恬靜中吉 🍵", insight: "「給浴室換上一塊軟綿綿的珪藻土吸水地墊，每一步都踏實乾爽。」", yi: "洗完澡後踏上吸水墊，感受腳底水分在一秒內被瞬間抽乾的乾爽。", color: "極簡石板灰", item: "軟式珪藻土瞬吸踏墊" },
+        { luck: "小吉・小確幸 ✨", insight: "「在洗手台旁掛上一條蓬鬆擦手巾，每次洗完手都像被雲朵包裹。」", yi: "用手輕揉珊瑚絨擦手巾，那份細緻無比的觸感讓心情也跟著柔軟。", color: "蓬鬆棉花白", item: "珊瑚絨超吸水掛式擦手巾" },
+        { luck: "小吉・微風 🎐", insight: "「今日宜：拋棄沉重的負擔，清理浴室盲區，讓空氣重新流通。」", yi: "用免手觸的防髒拋棄式馬桶刷，輕快刷去邊槽黃垢，維持衛浴清爽。", color: "清新薄荷藍", item: "拋棄式馬桶刷" },
+        { luck: "吉・安詳自在 🥞", insight: "「把冰箱裡的保鮮盒重疊排列，打開門的一瞬間，心情會非常好。」", yi: "將吃剩的半塊奶油裝入密封保存盒，分切成小塊，擺放規整好拿取。", color: "香醇奶油黃", item: "奶油分切保存盒" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「今天適合把客廳的抱枕拍蓬鬆，重新擺放，讓它看起來更舒適。」", yi: "用雙手反覆擠壓棉枕，直到其回復最完美的膨潤感，看著都溫馨。", color: "森林松針綠", item: "實木花朵雕刻杯墊" },
+        { luck: "療癒大吉 🌸", insight: "「在飯鍋開蓋的瞬間，深深吸一口米飯的香甜氣息，這就是幸福。」", yi: "用加厚不鏽鋼安康內鍋煮一鍋白米飯，看著蒸氣在微光中緩緩舒展。", color: "頂級鋼鐵銀", item: "牛頭鋼®安康內鍋" },
+        { luck: "溫馨大吉 🤎", insight: "「今日宜：將寶寶的玩具分類收拾，在秩序中找到生活的安定感。」", yi: "細心擦拭積木，將它們一件件分門別類放進簡約美觀的收納筐中。", color: "莫蘭迪暖灰", item: "衣物抽屜分格收納盒" },
+        { luck: "順遂中吉 🍃", insight: "「嘗試在黃昏時，為自己沖一杯微苦帶甘的溫熱抹茶歐蕾。」", yi: "用細密的抹茶粉配上溫熱鮮奶，看著翠綠與乳白完美交融、打圈。", color: "山園茶筅綠", item: "小山園青嵐抹茶粉" },
+        { luck: "恬靜中吉 🍵", insight: "「今日宜：將散亂的鑰匙掛回原位，從微小的地方開始掌握秩序。」", yi: "一邊聽著鑰匙扣撞擊實木掛勾的清脆聲響，一邊踏進清爽的家門。", color: "溫潤核桃木", item: "實木玄關鑰匙吊掛架" },
+        { luck: "小吉・小確幸 ✨", insight: "「偶爾在鏡子前微笑一下，給一整天認真努力的自己最誠摯的肯定。」", yi: "用鑽石海綿沾水輕輕拭去浴室鏡面的頑固水垢，讓鏡面重現高透亮。", color: "晶透鑽石銀", item: "鏡子水垢清潔鑽石海綿" },
+        { luck: "小吉・微風 🎐", insight: "「今日宜：用高速脫水器甩乾新鮮的沙拉生菜，品嚐食材最爽脆的口感。」", yi: "旋轉蔬果脫水器，看著水分被輕易分離，保留生菜最佳的原汁原味。", color: "爽脆脆生菜綠", item: "蔬果脫水器" },
+        { luck: "吉・安詳自在 🥞", insight: "「生活就像電子秤，精準掌握食材的克數，也能精準掌握日常的幸福。」", yi: "在極薄不鏽鋼電子秤上盛放烘焙麵粉，看著數字跳動至完美的毫克。", color: "極簡鋼亮銀", item: "迷你電子秤" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「把打開卻沒吃完的零食袋整齊封口，這是對食材最溫柔的疼惜。」", yi: "用迷你封口機平穩拉過，將餅乾袋完美加熱封口，隔絕外界潮濕。", color: "輕透蜜桃粉", item: "迷你封口機" },
+        { luck: "療癒大吉 🌸", insight: "「為自己泡一壺新鮮茶水，茶葉緩慢旋轉、沉澱，你的心也是。」", yi: "看著直條紋茶壺中的過濾網，茶湯澄清，無一片碎葉，視覺極度澄澈。", color: "澄澈琥珀金", item: "直條紋耐熱玻璃茶壺" },
+        { luck: "溫馨大吉 🤎", insight: "「今天適合把餐桌上、流理台上的雜物全部歸位，重現溫馨的極簡美。」", yi: "洗淨抹布，沿著餐桌的邊緣以規律的弧度反覆擦拭，去除油垢。", color: "秋日落葉褐", item: "實木花朵雕刻杯墊" },
+        { luck: "順遂中吉 🍃", insight: "「試著用磁吸白板記錄下這週的菜單，讓每天的期待都明明白白。」", yi: "在磁吸白板上手寫一行溫柔的備忘字跡，給家人最暖心的問候。", color: "極簡粉霧白", item: "冰箱磁吸白板" },
+        { luck: "恬靜中吉 🍵", insight: "「今日宜：清洗製冰機，確保夏天裡的每一顆冰塊都晶瑩無雜質。」", yi: "倒入製冰機清潔劑，看著清潔水流循環，徹底消解內部難清的水垢。", color: "純淨泉水藍", item: "製冰機不殘留清洗劑" },
+        { luck: "小吉・小確幸 ✨", insight: "「今天在進浴室時，看著擺放整齊的浴櫃收納，心情瞬間變舒坦。」", yi: "拉開浴櫃伸縮架，將平時雜亂堆疊的洗沐備品一字排開，井井有條。", color: "莫蘭迪石灰", item: "浴櫃伸縮收納架" },
+        { luck: "小吉・微風 🎐", insight: "「今日宜：在水龍頭安裝延伸器，縮短水流距離，讓洗漱更輕鬆優雅。」", yi: "調整矽膠延伸器角度，看著水流滑順地導引至手心，體驗設計的貼心。", color: "溫和米褐色", item: "水龍頭延伸器" },
+        { luck: "吉・安詳自在 🥞", insight: "「用強效除臭劑吸附冰箱裡的油煙異味，還食材原本最清澈的味道。」", yi: "在冷藏庫角落放上一盒備長炭除臭劑，跟各類食材串味的煩惱告別。", color: "深邃炭煙黑", item: "冰箱強效除臭劑" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「將厚重的長褲用多層褲架收攏起來，你會發現衣櫃瞬間多出大空間。」", yi: "提起褲架橫掛，將衣櫃一角清空，光是看著那塊空白就無比療癒。", color: "霧面亞鉛灰", item: "摺疊多層褲架" },
+        { luck: "療癒大吉 🌸", insight: "「今天很適合為寶寶挑選一組抗菌不鏽鋼餐具，讓用餐充滿粉嫩儀式感。」", yi: "用柔軟海綿洗淨 Soufflé 兒童叉匙，那滑順的手柄連大人拿著都喜悅。", color: "糖霜馬卡龍粉", item: "VIIDA Soufflé 兒童叉匙組" },
+        { luck: "溫馨大吉 🤎", insight: "「今日宜：為孩子點亮一盞柔和的小燈，陪伴他拼裝展示心愛的小車。」", yi: "和孩子一起將 Tomica 小車在木格中排好，看著木紋托起童年的純真。", color: "溫潤淺楓木", item: "Tomica小汽車展示架" },
+        { luck: "順遂中吉 🍃", insight: "「今天適合把常穿的柔軟室內拖鞋整齊排列在玄關，隨時等待你歸家。」", yi: "穿上防滑速乾拖鞋，感受厚實柔軟的底面支撐，釋放一整天的腳步疲勞。", color: "霧面燕麥色", item: "EVA室內拖鞋" },
+        { luck: "恬靜中吉 🍵", insight: "「偶爾在浴室鏡櫃下貼一塊磁鐵，倒掛漱口杯，懸空瀝乾最防霉。」", yi: "將漱口杯輕輕貼吸在磁吸扣上，看著它安穩懸空，體驗收納的巧思。", color: "極簡亞光白", item: "鏡櫃下磁吸收納用品" },
+        { luck: "小吉・小確幸 ✨", insight: "「將化妝品整齊收進鏡櫃隔板中，拉開鏡門的一刻，整個人都神清氣爽。」", yi: "挑選適當寬度的窄型收納盒，放進眼影與化妝棉，重現鏡櫃的清爽面貌。", color: "霧面半透明", item: "鏡櫃內收納用品" },
+        { luck: "小吉・微風 🎐", insight: "「今日宜：將待洗衣物按照顏色、材質分裝，給洗衣時光一份悠閒。」", yi: "推動雙層滑輪洗衣籃，將深淺衣物完美分流，免除洗滌染色擔憂。", color: "晨霧亞麻白", item: "雙層洗衣籃" },
+        { luck: "吉・安詳自在 🥞", insight: "「把棉布床單與枕套按照色系摺疊好，放進抽屜中，整齊如精品陳列。」", yi: "拉開抽屜收納格，看著分隔整齊的衣物，感受掌握日常節奏的心安。", color: "無印奶茶色", item: "衣物抽屜分格收納盒" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「今天適合把心愛的項鍊與首飾用絨布內襯保護好，不讓其蒙受一絲黯淡。」", yi: "把常戴的飾品一件件扣在格柵中，整齊排列，彷彿開了一家精品店。", color: "優雅法式駝", item: "飾品收納訂製架" },
+        { luck: "療癒大吉 🌸", insight: "「今天最宜：為寶寶細心剪下備料食材，食物剪合上的節奏極度解壓。」", yi: "用安全防護鎖食物剪輕鬆分剪麵條，看著蔬菜變成適合寶寶入口的丁狀。", color: "櫻花初雪粉", item: "VIIDA 不鏽鋼食物剪" },
+        { luck: "溫馨大吉 🤎", insight: "「今日宜：給寶寶盛一碗溫熱的南瓜泥，看著不鏽鋼吸盤碗安穩吸附在桌面。」", yi: "輕壓 double.b 吸盤碗，看著它與桌面緊密貼合，享受安心不傾倒的餵食光景。", color: "暖霧玫瑰粉", item: "little.b 雙層不鏽鋼吸盤碗" },
+        { luck: "順遂中吉 🍃", insight: "「今天在微風徐徐的午後，給自己和孩子最溫和無香的純淨呵護。」", yi: "洗澡時揉搓慕之恬廊雙潔乳，溫和細緻的泡沫帶走寶寶肌膚上的微塵。", color: "純淨天使藍", item: "慕之恬廊 嬰兒沐浴雙潔乳" },
+        { luck: "恬靜中吉 🍵", insight: "「今天適合把寶寶的隨身玩具用抗菌清潔噴劑細細擦一遍，守護每個日常。」", yi: "輕按黃金盾噴霧，用柔軟棉布將玩具角落擦拭亮麗，看著寶寶安心玩耍。", color: "溫和米黃色", item: "黃金盾 抗菌清潔噴劑" },
+        { luck: "小吉・小確幸 ✨", insight: "「今日宜：為自己調製一杯漸層拿鐵，看著濃縮咖啡在溫牛奶中緩緩交織。」", yi: "手握雙層隔熱杯，杯身不燙手也不結水珠，靜靜享受這份溫熱層次。", color: "暖香拿鐵褐", item: "雙層隔熱玻璃杯" },
+        { luck: "小吉・微風 🎐", insight: "「今天陽光穿透廚房，最適合洗淨木鏟與不鏽鋼盆，在窗台前自然晾乾。」", yi: "洗淨 304 調理深盆，看著水滴沿著圓弧無死角的底座滑落，毫無水垢殘留。", color: "太空閃耀銀", item: "304不鏽鋼調理盆" },
+        { luck: "吉・安詳自在 🥞", insight: "「今天宜：給洗手台的水龍頭安上萬向起泡頭，大角度旋轉沖洗，心情舒坦。」", yi: "扭轉水龍頭起泡頭，用防濺的微米起泡水流沖洗死角，體驗前所未有的順暢。", color: "不鏽鋼亮銀", item: "304不鏽鋼萬向起泡頭" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「今日宜：把大容量的米桶定量按壓一次，聽著白米落下的沙沙聲，很治癒。」", yi: "輕壓米桶，看著圓潤的稻米流入洗米盆，用心感受這份踏實的日常糧食。」", color: "極簡白米黃", item: "米桶" },
+        { luck: "療癒大吉 🌸", insight: "「今天適合沖一壺蜜香紅茶。在蓋上壺蓋的一刻，茶葉的醇香已在廚房瀰漫。」", yi: "看著直條紋茶壺中的過濾網，茶湯澄清，無一片碎葉，視覺極度澄澈。", color: "澄澈琥珀金", item: "直條紋耐熱玻璃茶壺" },
+        { luck: "溫馨大吉 🤎", insight: "「今天適合整理手帳，把寫滿日常小確幸的翻頁日曆翻向全新的一頁。」", yi: "翻動原木翻頁日曆，擺放在書桌最顯眼的位置，開啟規律有條理的一天。", color: "溫潤淺樺木", item: "原木色翻頁日曆" },
+        { luck: "順遂中吉 🍃", insight: "「在整理孩子的衣物時，感受棉麻質地的蓬鬆，日常也是如此溫柔。」", yi: "將摺好的寶寶衣物用分格收納盒整齊放好，拉開衣櫃一目了然，很舒爽。", color: "童稚奶霜粉", item: "衣物抽屜分格收納盒" },
+        { luck: "恬靜中吉 🍵", insight: "「洗完澡踏上珪藻土瞬吸踏墊，水分瞬間消失，那一刻的心情無比輕快。」", yi: "踩在微孔細密的軟式珪藻土踏墊上，看著濕漉漉的腳印瞬間乾爽復原。", color: "現代極簡灰", item: "軟式珪藻土瞬吸踏墊" },
+        { luck: "小吉・小確幸 ✨", insight: "「今日宜：將水管投入發泡錠，聽著氣泡深度去垢的聲音，非常舒壓。」", yi: "將發泡錠直接丟入水管，看著泡沫滾動，洗去深層霉垢與異味煩惱。", color: "深層潔淨藍", item: "水管發泡清潔錠" },
+        { luck: "小吉・微風 🎐", insight: "「今天適合在大容量編織提籃裡放進剛摺好的乾淨毛巾，擺在客廳一角。」", yi: "手提柔軟草編提籃，將浴室備品收攏其中，營造日系手作森林美感。", color: "質樸亞麻褐", item: "手工編織收納提籃" },
+        { luck: "吉・安詳自在 🥞", insight: "「今天陽光透過紗窗撒下，把抹茶工具一套擺開，體驗手點茶的樂趣。」", yi: "點一碗抹茶，倒入最心愛的實木雕花杯墊托著，端給自己一室的馨香。", color: "森林松綠青", item: "實木花朵雕刻杯墊" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「把義大利麵條裝進高透亮保鮮罐，旋緊蓋子，給櫥櫃一份澄澈的秩序。」", yi: "將麵條緩緩倒入高透亮防潮保鮮盒，透過小計量孔倒出完美的份量。", color: "晶瑩小麥黃", item: "義大利麵保鮮盒" },
+        { luck: "療癒大吉 🌸", insight: "「今日宜：將客廳角落的小線圈用理線盒藏起來，視覺清爽是幸福的來源。」", yi: "收攏排插，將複雜交錯的線路裝入奶油白理線盒，體驗前所未有的清爽。", color: "燕麥舒柔白", item: "極簡線材收納盒" },
+        { luck: "溫馨大吉 🤎", insight: "「今天適合洗去廚房檯面的死角油垢，看著金屬反射燈光，心情無比清澈。」", yi: "洗淨菜瓜布，將洗潔慕斯均勻塗抹在水槽，隨手放回極簡免鑽孔不鏽鋼架。", color: "雅致金屬銀", item: "201不鏽鋼菜瓜布瀝水架" },
+        { luck: "順遂中吉 🍃", insight: "「把衣服的意外沾染用去汙筆輕輕消解，看著污漬褪去，心情也跟著放鬆。」", yi: "用輕巧去汙筆在衣物咖啡漬上反覆輕點，親眼見證頑垢奇妙消失的瞬間。", color: "溫和米粉色", item: "深層衣物去汙筆" },
+        { luck: "恬靜中吉 🍵", insight: "「今天最宜：用手拉碎末器做一份完美的薑泥，料理的樂趣就在細節裡。」", yi: "一邊拉動碎末器，一邊享受香料香氣在廚房瀰漫，烹飪的幸福感爆棚。", color: "宇治清泉綠", item: "手拉式碎末器" },
+        { luck: "小吉・小確幸 ✨", insight: "「今天宜：洗淨水龍頭並做個簡單的鍍膜，享受看著水珠滑落的瞬間。」", yi: "輕輕搖勻水槽鍍膜噴劑，噴在水槽不鏽鋼表面，抹開後感受荷葉防水感。", color: "微光水霧銀", item: "不銹鋼水槽清潔鍍膜噴霧" },
+        { luck: "小吉・微風 🎐", insight: "「在玄關放上一塊木感鑰匙置物架，進門掛上的一刻，疲憊也跟著卸下了。」", yi: "把常戴的飾品和車鑰匙順手掛在玄關托盤上，感受每天出門進門的優雅。", color: "溫潤淺胡桃", item: "實木玄關鑰匙吊掛架" },
+        { luck: "吉・安詳自在 🥞", insight: "「今日宜：點燃一顆溫和的香氛蠟燭，讓淡淡的木質香包圍整個午後。」", yi: "看著火苗微微顫動，在溫暖微光的燭火照耀下，靜靜看一章手帳文字。", color: "溫柔蜜蠟黃", item: "原木色翻頁日曆" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「今日宜：將風琴夾內的文件重新規整，感受手帳管理條理分明的清爽。」", yi: "整理過期的帳單並分類放進風琴夾，在紙頁伸縮間理清繁雜的一週日程。", color: "磨砂奶油白", item: "A4 站立式風琴夾" },
+        { luck: "療癒大吉 🌸", insight: "「今天最適合為寶寶準備健康的米粥，感受幼童牙刷與水杯上的純真印記。」", yi: "洗淨 TOMICA 幼童牙刷，那精緻短小的刷毛和童趣車車把手讓人心生歡喜。", color: "可愛童夢藍", item: "惠百施 TOMICA 兒童牙刷" },
+        { luck: "溫馨大吉 🤎", insight: "「今天適合把寶寶好吃的防水圍兜洗乾淨，在陽台吹風，晾乾最快速。」", yi: "將圍兜溫水沖洗，看著湯水浮油一秒滑落，那立體口袋能接住每顆掉落的餐屑。", color: "童話溫柔黃", item: "小獅王辛巴 好吃防水圍兜" },
+        { luck: "順遂中吉 🍃", insight: "「今天適合把常用的食物剪上鎖，整齊收進兒童餐具盒中，安全無雜音。」", yi: "細細洗乾淨420高硬度不鏽鋼刀面，合上安全鎖扣，感受極致咬合的安全感。", color: "清新奶茶粉", item: "VIIDA 不鏽鋼食物剪" },
+        { luck: "恬靜中吉 🍵", insight: "「今日宜：給浴室換上一張好坐的防滑椅，享受更安全、更放鬆的淋浴光景。」", yi: "在微凹好坐的防滑浴室椅上小憩，享受熱水順著肩膀滑落的極致減壓感。", color: "簡約暖霧白", item: "防滑浴室椅" },
+        { luck: "小吉・小確幸 ✨", insight: "「今日宜：將家中的垃圾桶全部換成自動感應，一觸即合，乾淨衛生。」", yi: "在浴室裝上壁掛感應桶，感應開蓋的一瞬間毫無異味，極致便利。", color: "科技霧感白", item: "浴室壁掛感應垃圾桶" },
+        { luck: "小吉・微風 🎐", insight: "「今日宜：清洗切絲器與不鏽鋼盆，在廚房燈光照映下閃著剔透的光芒。」", yi: "用不鏽鋼淺盤裝載剛切好的蔬果時蔬，不生鏽無雜味，備料好乾淨。", color: "質感金屬銀", item: "430不鏽鋼調理淺盤" },
+        { luck: "吉・安詳自在 🥞", insight: "「在水槽下貼一排強磁貼吸掛鉤，將雜亂小道具整齊懸掛，空間大釋放。」", yi: "推動磁吸掛鉤滑軌，把抹布和廚房剪刀各歸其位，拉扯滑軌極度順滑。", color: "沉穩磨砂黑", item: "磁吸滑軌掛鉤" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「今天適合把冰箱的蒜末盒整理一次，在定格保鮮中體驗下廚的條理。」", yi: "將切好的生薑泥分格裝入分裝盒，擺放在冷凍櫃角落，料理拿取超輕鬆。", color: "透明冰霜白", item: "食品級蒜末分裝盒" },
+        { luck: "療癒大吉 🌸", insight: "「今天適合在早晨洗完手後，用最吸水的珊瑚絨巾輕輕壓乾，溫柔蓬鬆。」", yi: "用珊瑚絨吸乾手掌水分，看著掛在洗手台壁面上的萌萌布耳，非常暖心。", color: "蓬鬆雲朵白", item: "珊瑚絨超吸水掛式擦手巾" },
+        { luck: "溫馨大吉 🤎", insight: "「今日宜：給自己和家人倒一杯溫水，在雙層隔熱杯裡暖手、暖胃更暖心。」", yi: "捧著剛盛裝熱水、杯壁依舊溫和不燙手的隔熱杯，細細品嚐晨起的第一口水。", color: "溫和米灰色", item: "雙層隔熱玻璃杯" },
+        { luck: "順遂中吉 🍃", insight: "「今天最適合把衣櫃的褲架抽出來重新排序，衣服也跟著深呼吸。」", yi: "將摺疊六合一褲架展開，把休閒長褲按色系由淺入深吊掛，衣櫃好清爽。", color: "磨砂沉穩灰", item: "摺疊多層褲架" },
+        { luck: "恬靜中吉 🍵", insight: "「今日宜：在玄關鋪上一塊地墊，每次進門都像走進溫暖的日系旅宿。」", yi: "將吸油防潮地墊平鋪在水槽下方，耐踩減壓，洗碗站立更舒適、不腰疼。", color: "雅致燕麥褐", item: "防水廚房地墊" },
+        { luck: "小吉・小確幸 ✨", insight: "「在冰箱貼上一塊磁吸板，隨手寫上一句今天想跟自己說的溫柔悄悄話。」", yi: "用流暢筆觸在白板上畫下一顆微笑愛心，給忙碌的家屋生活注入生機。", color: "極簡粉霧白", item: "冰箱磁吸白板" },
+        { luck: "小吉・微風 🎐", insight: "「今日宜：給製冰機洗個熱水澡，徹底清除管路霉菌，盛夏冰塊最純淨。」", yi: "倒入清洗液，看著紅色水流自潔製冰機管路，每一塊冰都安心透亮。", color: "純淨晶瑩藍", item: "製冰機不殘留清洗劑" },
+        { luck: "吉・安詳自在 🥞", insight: "「在梳妝台前點亮美妝鏡，高還原度自然光讓上妝變成極致享受。」", yi: "手指輕按美妝鏡無段調光鍵，在溫柔柔光下描繪心儀的彩妝，心情美麗。", color: "柔和櫻羽粉", item: "智能美妝鏡" },
+        { luck: "末吉・漸入佳境 🍊", insight: "「今日宜：將堆滿浴室地板的換洗衣物整理進雙層籃中，視覺一秒清爽。」", yi: "將準備手洗的精緻衣物與日常衣物分層盛裝，浴室地板重回空靈乾淨。", color: "晶透磨砂白", item: "雙層洗衣籃" },
+        { luck: "療癒大吉 🌸", insight: "「今天適合把寶寶心愛的湯匙端放在抗菌吸盤碗裡，用餐時光極致和諧。」", yi: "洗淨 little.b 雙層醫療鋼吸盤碗，看著它與木質餐桌完美咬合，安心極了。", color: "莫蘭迪淺粉", item: "little.b 雙層不鏽鋼吸盤碗" },
+        { luck: "溫馨大吉 🤎", insight: "「今日宜：用細密的兒童牙刷教導孩子自己刷牙，看著他認真編織的笑臉。」", yi: "幫寶寶沾上一點草莓牙膏，牽著他的小手認真潔齒，感受親子間溫潤時光。", color: "稚嫩暖橙色", item: "惠百施 TOMICA 兒童牙刷" },
+        { luck: "順遂中吉 🍃", insight: "「在冷凍米飯盒盛入熱氣騰騰的新鮮白米，扣上氣閥，留住這份本真甜香。」", yi: "將蒸熟的米飯裝盒後，冷藏定格保鮮，覆熱後依舊擁有剛煮好的粒粒Ｑ彈。", color: "純淨奶油白", item: "冷凍米飯盒" },
+        { luck: "恬靜中吉 🍵", insight: "「今天最宜：沖一壺清雅抹茶。看著茶湯的細密翠綠，心也歸於真正的平靜。」", yi: "手持精製茶筅在手工點茶碗中擊打茶湯，直到均勻綿密，感受極簡之美。", color: "宇治古木青", item: "抹茶 7 件套組" }
     ];
 
     function drawOmikuji() {
@@ -2149,6 +2393,12 @@
         const resultZone = document.getElementById('omikuji-result-zone');
         if (!box || !stick || !drawZone || !resultZone) return;
 
+        // 啟動全螢幕漫天櫻花微光特效
+        triggerFullEffect();
+
+        // 觸發木籤搖晃音效
+        playShakeSound();
+
         box.classList.add('shaking-box');
         stick.classList.add('stick-popping');
 
@@ -2156,22 +2406,20 @@
             box.classList.remove('shaking-box');
             stick.classList.remove('stick-popping');
 
-            const luck = omikujiLucks[Math.floor(Math.random() * omikujiLucks.length)];
-            const insight = omikujiInsights[Math.floor(Math.random() * omikujiInsights.length)];
-            const yi = omikujiYis[Math.floor(Math.random() * omikujiYis.length)];
-            const color = omikujiColors[Math.floor(Math.random() * omikujiColors.length)];
-            const item = omikujiItems[Math.floor(Math.random() * omikujiItems.length)];
+            // 觸發神籤揭曉銅鈴餘音
+            playResultSound();
 
-            document.getElementById('omikuji-luck').innerText = luck;
-            document.getElementById('omikuji-insight').innerText = insight;
-            document.getElementById('omikuji-yi').innerText = yi;
-            document.getElementById('omikuji-color').innerText = color;
-            document.getElementById('omikuji-item').innerText = item;
+            const fortune = omikujiDatabase[Math.floor(Math.random() * omikujiDatabase.length)];
+
+            document.getElementById('omikuji-luck').innerText = fortune.luck;
+            document.getElementById('omikuji-insight').innerText = fortune.insight;
+            document.getElementById('omikuji-yi').innerText = fortune.yi;
+            document.getElementById('omikuji-color').innerText = fortune.color;
+            document.getElementById('omikuji-item').innerText = fortune.item;
 
             const todayStr = new Date().toISOString().split('T')[0];
-            const fortuneData = { luck, insight, yi, color, item };
             localStorage.setItem('omikuji_date', todayStr);
-            localStorage.setItem('omikuji_data', JSON.stringify(fortuneData));
+            localStorage.setItem('omikuji_data', JSON.stringify(fortune));
 
             drawZone.style.display = 'none';
             resultZone.style.display = 'block';
@@ -2210,6 +2458,138 @@
             resultZone.style.display = 'none';
             drawZone.style.display = 'block';
         }
+    }
+
+    // 全螢幕櫻花與燕麥金微光粒子特效系統
+    const effectCanvas = document.getElementById('effect-canvas');
+    const ctx = effectCanvas.getContext('2d');
+    let particles = [];
+    let animationId = null;
+    let isDrawingEffect = false;
+
+    function resizeCanvas() {
+        effectCanvas.width = window.innerWidth;
+        effectCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    class PetalParticle {
+        constructor(x, y, type) {
+            this.x = x;
+            this.y = y;
+            this.type = type; // 'sakura'（櫻花）或 'gold'（燕麥金微光）
+            this.size = type === 'sakura' ? Math.random() * 8 + 5 : Math.random() * 2.5 + 1.2;
+            
+            // 隨機發射角度與多維度初速度
+            const angle = Math.random() * Math.PI * 2;
+            const speed = type === 'sakura' ? Math.random() * 3.5 + 1.5 : Math.random() * 5 + 2.5;
+            
+            this.vx = Math.cos(angle) * speed;
+            this.vy = Math.sin(angle) * speed;
+            
+            this.gravity = type === 'sakura' ? 0.04 : 0.015;
+            this.alpha = 1;
+            this.decay = Math.random() * 0.01 + 0.007; // 粒子淡出衰減率
+            this.angle = Math.random() * Math.PI * 2;
+            this.spin = Math.random() * 0.08 - 0.04; // 櫻花自轉速度
+            this.swing = Math.random() * 0.04;       // 搖擺幅度
+            this.swingCounter = Math.random() * 100;
+        }
+
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.vy += this.gravity;
+            
+            // 模擬空氣阻力減速
+            this.vx *= 0.98;
+            this.vy *= 0.98;
+
+            if (this.type === 'sakura') {
+                this.angle += this.spin;
+                this.swingCounter += this.swing;
+                this.x += Math.sin(this.swingCounter) * 0.4; // 模擬風中飄動
+            }
+
+            this.alpha -= this.decay;
+        }
+
+        draw() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.translate(this.x, this.y);
+
+            if (this.type === 'sakura') {
+                ctx.rotate(this.angle);
+                ctx.fillStyle = '#FFF0EE'; // 淡雅母嬰粉嫩色櫻花
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-this.size, -this.size / 2, -this.size, this.size / 2, 0, this.size);
+                ctx.bezierCurveTo(this.size, this.size / 2, this.size, -this.size / 2, 0, 0);
+                ctx.fill();
+            } else {
+                ctx.fillStyle = '#C5B4A5'; // 燕麥金高雅微光
+                ctx.shadowBlur = 4;
+                ctx.shadowColor = '#C5B4A5';
+                ctx.beginPath();
+                ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+    }
+
+    function animateParticles() {
+        if (!isDrawingEffect) return;
+        ctx.clearRect(0, 0, effectCanvas.width, effectCanvas.height);
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.update();
+            p.draw();
+            if (p.alpha <= 0) {
+                particles.splice(i, 1);
+            }
+        }
+
+        if (particles.length === 0) {
+            isDrawingEffect = false;
+            effectCanvas.style.display = 'none';
+            cancelAnimationFrame(animationId);
+        } else {
+            animationId = requestAnimationFrame(animateParticles);
+        }
+    }
+
+    function triggerFullEffect() {
+        resizeCanvas();
+        effectCanvas.style.display = 'block';
+        particles = [];
+        isDrawingEffect = true;
+
+        const centerX = effectCanvas.width / 2;
+        const centerY = effectCanvas.height / 3; // 特效於卡片區高度爆發
+
+        // 第一階段：搖籤時（0~800ms）在中央凝聚金色微光粒子
+        for (let i = 0; i < 35; i++) {
+            const p = new PetalParticle(centerX + (Math.random() * 120 - 60), centerY + (Math.random() * 120 - 60), 'gold');
+            p.vx = (centerX - p.x) * 0.04 + (Math.random() * 3 - 1.5);
+            p.vy = (centerY - p.y) * 0.04 + (Math.random() * 3 - 1.5);
+            particles.push(p);
+        }
+
+        // 第二階段：揭籤時（800ms 時）綻放漫天粉櫻與光芒
+        setTimeout(() => {
+            for (let i = 0; i < 65; i++) {
+                particles.push(new PetalParticle(centerX, centerY, 'sakura'));
+            }
+            for (let i = 0; i < 50; i++) {
+                particles.push(new PetalParticle(centerX, centerY, 'gold'));
+            }
+        }, 800);
+
+        if (animationId) cancelAnimationFrame(animationId);
+        animateParticles();
     }
 
     // --- 懸浮折疊選單核心動態邏輯 ---
