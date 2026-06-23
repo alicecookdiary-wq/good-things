@@ -87,29 +87,32 @@
             letter-spacing: 2px;
         }
 
+        /* --- STREAMING_CHUNK: Enhancing Shinto Omikuji Animations... --- */
         /* --- 每日抽籤專屬日本神社與手帳美學動態樣式 --- */
         @keyframes shakeOmikuji {
             0%, 100% { transform: translateY(0) rotate(0deg); }
-            15% { transform: translateY(-8px) rotate(-12deg); }
-            30% { transform: translateY(-3px) rotate(10deg); }
-            45% { transform: translateY(-8px) rotate(-10deg); }
-            60% { transform: translateY(-3px) rotate(8deg); }
-            75% { transform: translateY(-6px) rotate(-6deg); }
-            90% { transform: translateY(-2px) rotate(4deg); }
+            12% { transform: translateY(-10px) rotate(-14deg); }
+            24% { transform: translateY(-3px) rotate(12deg); }
+            36% { transform: translateY(-12px) rotate(-16deg); }
+            48% { transform: translateY(-2px) rotate(14deg); }
+            60% { transform: translateY(-10px) rotate(-10deg); }
+            72% { transform: translateY(-4px) rotate(8deg); }
+            84% { transform: translateY(-1px) rotate(-4deg); }
+            92% { transform: translateY(0) rotate(2deg); }
         }
         @keyframes stickOut {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-16px); }
+            0% { transform: translateY(0); filter: drop-shadow(0 0 0 rgba(197, 180, 165, 0)); }
+            100% { transform: translateY(-26px); filter: drop-shadow(0 0 10px rgba(197, 180, 165, 0.8)); }
         }
         @keyframes slideUpSlip {
             from { opacity: 0; transform: translateY(22px) scale(0.96); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
         .shaking-box {
-            animation: shakeOmikuji 0.8s ease-in-out;
+            animation: shakeOmikuji 0.9s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .stick-popping {
-            animation: stickOut 0.8s forwards ease-out;
+            animation: stickOut 0.9s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .slide-up-slip-anim {
             animation: slideUpSlip 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -653,7 +656,6 @@
             font-size: 0.68rem;
         }
 
-        /* --- STREAMING_CHUNK: Styling the search bar... --- */
         /* 搜尋好物輸入框專屬極簡美學 */
         .search-wrapper {
             position: relative;
@@ -692,7 +694,6 @@
             stroke: var(--btn-active);
         }
 
-        /* --- STREAMING_CHUNK: Styling the newly designed floating navigation dock... --- */
         /* --- 懸浮美學折導航專屬樣式 --- */
         .floating-nav-container {
             position: fixed;
@@ -1137,7 +1138,12 @@
 
 </div>
 
-<script>
+<!-- 使用 ES 模組以精準實現 Firebase 與安全路徑資料庫通訊 -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
     // --- 曆檔與行事曆連動系統 ---
     const scheduleData = {
         7: {
@@ -1444,7 +1450,7 @@
             name: "201不鏽鋼菜瓜布瀝水架",
             url: "https://s.shopee.tw/AKVq8hE4DH",
             tags: "廚房 收納 不鏽鋼",
-            desc: "免鑽孔貼合水龍頭管路，不鏽鋼通風快速乾燥防霉。",
+            desc: "免鑽孔貼合水龍頭管路，不鏽鋼通通風快速乾燥防霉。",
             svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
                 <rect x="18" y="24" width="28" height="20" rx="3" fill="#EFEAE4"/>
                 <path d="M24 24v-6c0-2 2-4 4-4s4 2 4 4v6" stroke-linecap="round"/>
@@ -1516,7 +1522,7 @@
             </svg>`
         },
         {
-            name: "我的命定水槽濾網",
+            name: "我的命定水垢濾網",
             url: "https://s.shopee.tw/5VRnpHZuqt",
             tags: "廚房 清潔 其他材質",
             desc: "彈性極佳細密網格，套入水槽提籠迅速濾乾水份，阻絕細碎廚餘。",
@@ -1799,7 +1805,7 @@
             name: "北極熊透明收納罐",
             url: "https://e.tb.cn/h.SoMXj7OBVD4t6Tx",
             tags: "廚房 收納 其他材質",
-            desc: "高晶瑩度玻璃，頂端精緻北極熊蓋鈕，棉籤、茶包美型收納罐。",
+            desc: "高晶營度玻璃，頂端精緻北極熊蓋鈕，棉籤、茶包美型收納罐。",
             svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
                 <rect x="20" y="24" width="24" height="26" rx="6" fill="#FAF8F5"/>
                 <path d="M24 16c2-1 6-1 8 2s2 4 4 2" stroke-linecap="round"/>
@@ -1809,7 +1815,7 @@
             name: "小貓立書檔",
             url: "https://s.shopee.tw/BLgttWbej",
             tags: "其他區域 收納 其他材質",
-            desc: "重鋼製貓咪剪影支撐力極佳，規整書籍與夾放手帳極度溫馨。",
+            desc: "重鋼製貓咪剪影支撐力極佳，規整書籍與夾放手帳度溫馨。",
             svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
                 <path d="M14 46h36M18 46V18h12v28" stroke-linecap="round"/>
                 <circle cx="38" cy="28" r="4" fill="#8E7F73"/>
@@ -2060,7 +2066,7 @@
         });
     }
 
-    // --- STREAMING_CHUNK: Setting up product filtering interactions... ---
+    // 設定好物篩選交互邏輯
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const isBabyBtn = btn.classList.contains('baby-pink-btn');
@@ -2174,7 +2180,7 @@
         return "";
     }
 
-    // --- STREAMING_CHUNK: Synthesizing Japanese shrine bell & rattle sound effects... ---
+    // --- 合成日本神社高級磬鐘與重竹籤筒搖晃聲（Web Audio API） ---
     let audioCtx = null;
     function getAudioContext() {
         if (!audioCtx) {
@@ -2186,34 +2192,36 @@
         return audioCtx;
     }
 
-    // 模擬籤筒木籤劇烈碰撞與摩擦的低頻沙沙聲
+    // 模擬中空竹籤筒內重竹籤碰撞、摩擦的木質敲擊沙沙聲
     function playShakeSound() {
         try {
             const ctx = getAudioContext();
             const now = ctx.currentTime;
             
-            // 模擬 7 次快速、略帶随機延遲的木籤撞擊與沙沙聲
-            for (let i = 0; i < 7; i++) {
-                const playTime = now + (i * 0.11) + (Math.random() * 0.03);
+            // 序列化 8 次具有豐富中空共鳴的木質竹籤拍打聲
+            for (let i = 0; i < 8; i++) {
+                const playTime = now + (i * 0.10) + (Math.random() * 0.02);
                 
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
+                // 竹子主體的敲擊中頻 (約 250Hz ~ 400Hz)
+                const woodOsc = ctx.createOscillator();
+                const woodGain = ctx.createGain();
+                woodOsc.type = 'triangle';
+                woodOsc.frequency.setValueAtTime(320 + Math.random() * 120, playTime);
+                woodOsc.frequency.exponentialRampToValueAtTime(120, playTime + 0.04);
                 
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(140 + Math.random() * 80, playTime);
-                osc.frequency.exponentialRampToValueAtTime(30, playTime + 0.05);
+                woodGain.gain.setValueAtTime(0.35, playTime);
+                woodGain.gain.exponentialRampToValueAtTime(0.001, playTime + 0.045);
                 
-                gain.gain.setValueAtTime(0.18, playTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, playTime + 0.05);
-                
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                
-                osc.start(playTime);
-                osc.stop(playTime + 0.06);
-                
-                // 附加細微的木質表面摩擦白雜訊
-                const bufferSize = ctx.sampleRate * 0.03;
+                // 竹子中空筒身共鳴低頻腔體音 (110Hz)
+                const bodyOsc = ctx.createOscillator();
+                const bodyGain = ctx.createGain();
+                bodyOsc.type = 'sine';
+                bodyOsc.frequency.setValueAtTime(110, playTime);
+                bodyGain.gain.setValueAtTime(0.2, playTime);
+                bodyGain.gain.exponentialRampToValueAtTime(0.001, playTime + 0.07);
+
+                // 細微木頭表面刮擦高頻帶通雜訊
+                const bufferSize = ctx.sampleRate * 0.025;
                 const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
                 const data = buffer.getChannelData(0);
                 for (let j = 0; j < bufferSize; j++) {
@@ -2221,62 +2229,88 @@
                 }
                 const noise = ctx.createBufferSource();
                 noise.buffer = buffer;
+                
                 const noiseFilter = ctx.createBiquadFilter();
                 noiseFilter.type = 'bandpass';
-                noiseFilter.frequency.setValueAtTime(900, playTime);
-                noiseFilter.Q.setValueAtTime(4, playTime);
+                noiseFilter.frequency.setValueAtTime(1200 + Math.random() * 400, playTime);
+                noiseFilter.Q.setValueAtTime(5, playTime);
                 
                 const noiseGain = ctx.createGain();
-                noiseGain.gain.setValueAtTime(0.08, playTime);
-                noiseGain.gain.exponentialRampToValueAtTime(0.001, playTime + 0.03);
+                noiseGain.gain.setValueAtTime(0.12, playTime);
+                noiseGain.gain.exponentialRampToValueAtTime(0.001, playTime + 0.025);
+
+                // 連接輸出
+                woodOsc.connect(woodGain);
+                woodGain.connect(ctx.destination);
+                
+                bodyOsc.connect(bodyGain);
+                bodyGain.connect(ctx.destination);
                 
                 noise.connect(noiseFilter);
                 noiseFilter.connect(noiseGain);
                 noiseGain.connect(ctx.destination);
                 
+                woodOsc.start(playTime);
+                woodOsc.stop(playTime + 0.05);
+                bodyOsc.start(playTime);
+                bodyOsc.stop(playTime + 0.08);
                 noise.start(playTime);
-                noise.stop(playTime + 0.04);
+                noise.stop(playTime + 0.03);
             }
         } catch (e) {
             console.warn("Audio Context failed to play shake sound:", e);
         }
     }
 
-    // 模擬日本神社手抄本、銅鈴或 Orin 風鈴澄澈的高頻餘音
+    // 模擬日本神社手抄本、青銅磬鐘（Orin）與神樂鈴（Suzu）奢華高頻餘音
     function playResultSound() {
         try {
             const ctx = getAudioContext();
             const now = ctx.currentTime;
             
-            // 澄澈的和弦音頻: G5 (784Hz), C6 (1046Hz), E6 (1318Hz), G6 (1568Hz)
-            const freqs = [783.99, 1046.50, 1318.51, 1567.98];
+            // 1. 神社磬鐘（Orin）：使用一組精密微調的Detuned正弦波群，形成絕妙的「聲學拍頻（Beating）」
+            // 磬鐘的主頻 C5 (523Hz) + 高頻諧音共鳴
+            const bellFreqs = [523.25, 524.50, 784.00, 1046.50, 1318.50]; // 523Hz 與 524.5Hz 產生美妙拍頻
             
-            freqs.forEach((freq, idx) => {
-                const delay = idx * 0.05;
+            bellFreqs.forEach((freq, idx) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, now + delay);
+                osc.frequency.setValueAtTime(freq, now);
                 
-                // 超高頻金屬諧音
-                const oscOver = ctx.createOscillator();
-                oscOver.type = 'sine';
-                oscOver.frequency.setValueAtTime(freq * 1.5, now + delay);
-                
-                gain.gain.setValueAtTime(0.12 / (idx + 1), now + delay);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 1.2 - (idx * 0.15));
+                // 磬鐘發聲漫長，長達 3.2 秒的優雅淡出
+                const initialVol = idx === 0 || idx === 1 ? 0.35 : 0.12; 
+                gain.gain.setValueAtTime(initialVol, now);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.2 - (idx * 0.2));
                 
                 osc.connect(gain);
-                oscOver.connect(gain);
                 gain.connect(ctx.destination);
                 
-                osc.start(now + delay);
-                oscOver.start(now + delay);
-                
-                osc.stop(now + delay + 1.3);
-                oscOver.stop(now + delay + 1.3);
+                osc.start(now);
+                osc.stop(now + 3.3);
             });
+
+            // 2. 神樂鈴（Suzu）：伴隨磬鐘響起，合成一串清脆、快速抖動的「鈴鐺高頻閃爍音」
+            for (let i = 0; i < 18; i++) {
+                const jingleTime = now + (i * 0.04);
+                const jingleOsc = ctx.createOscillator();
+                const jingleGain = ctx.createGain();
+                
+                jingleOsc.type = 'sine';
+                jingleOsc.frequency.setValueAtTime(2500 + Math.random() * 2000, jingleTime);
+                
+                // 模擬急速顫動的手搖感
+                const volume = 0.05 * Math.sin((i / 18) * Math.PI); 
+                jingleGain.gain.setValueAtTime(volume, jingleTime);
+                jingleGain.gain.exponentialRampToValueAtTime(0.001, jingleTime + 0.06);
+                
+                jingleOsc.connect(jingleGain);
+                jingleGain.connect(ctx.destination);
+                
+                jingleOsc.start(jingleTime);
+                jingleOsc.stop(jingleTime + 0.07);
+            }
         } catch (e) {
             console.warn("Audio Context failed to play result sound:", e);
         }
@@ -2329,7 +2363,7 @@
         { luck: "順遂中吉 🍃", insight: "「試著用磁吸白板記錄下這週的菜單，讓每天的期待都明明白白。」", yi: "在磁吸白板上手寫一行溫柔的備忘字跡，給家人最暖心的問候。", color: "極簡粉霧白", item: "冰箱磁吸白板" },
         { luck: "恬靜中吉 🍵", insight: "「今日宜：清洗製冰機，確保夏天裡的每一顆冰塊都晶瑩無雜質。」", yi: "倒入製冰機清潔劑，看著清潔水流循環，徹底消解內部難清的水垢。", color: "純淨泉水藍", item: "製冰機不殘留清洗劑" },
         { luck: "小吉・小確幸 ✨", insight: "「今天在進浴室時，看著擺放整齊的浴櫃收納，心情瞬間變舒坦。」", yi: "拉開浴櫃伸縮架，將平時雜亂堆疊的洗沐備品一字排開，井井有條。", color: "莫蘭迪石灰", item: "浴櫃伸縮收納架" },
-        { luck: "小吉・微風 🎐", insight: "「今日宜：在水龍頭安裝延伸器，縮短水流距離，讓洗漱更輕鬆優雅。」", yi: "調整矽膠延伸器角度，看著水流滑順地導引至手心，體驗設計的貼心。", color: "溫和米褐色", item: "水龍頭延伸器" },
+        { luck: "小吉・微風 🎐", insight: "「今日宜：在水龍頭安裝延伸器，縮短水流距離，讓洗漱更輕鬆優雅。」", yi: "調整矽膠延伸器角度，看著水流滑順地導引至手心，體驗設計的貼心。", color: "溫和米關鍵", item: "水龍頭延伸器" },
         { luck: "吉・安詳自在 🥞", insight: "「用強效除臭劑吸附冰箱裡的油煙異味，還食材原本最清澈的味道。」", yi: "在冷藏庫角落放上一盒備長炭除臭劑，跟各類食材串味的煩惱告別。", color: "深邃炭煙黑", item: "冰箱強效除臭劑" },
         { luck: "末吉・漸入佳境 🍊", insight: "「將厚重的長褲用多層褲架收攏起來，你會發現衣櫃瞬間多出大空間。」", yi: "提起褲架橫掛，將衣櫃一角清空，光是看著那塊空白就無比療癒。", color: "霧面亞鉛灰", item: "摺疊多層褲架" },
         { luck: "療癒大吉 🌸", insight: "「今天很適合為寶寶挑選一組抗菌不鏽鋼餐具，讓用餐充滿粉嫩儀式感。」", yi: "用柔軟海綿洗淨 Soufflé 兒童叉匙，那滑順的手柄連大人拿著都喜悅。", color: "糖霜馬卡龍粉", item: "VIIDA Soufflé 兒童叉匙組" },
@@ -2340,31 +2374,7 @@
         { luck: "小吉・微風 🎐", insight: "「今日宜：將待洗衣物按照顏色、材質分裝，給洗衣時光一份悠閒。」", yi: "推動雙層滑輪洗衣籃，將深淺衣物完美分流，免除洗滌染色擔憂。", color: "晨霧亞麻白", item: "雙層洗衣籃" },
         { luck: "吉・安詳自在 🥞", insight: "「把棉布床單與枕套按照色系摺疊好，放進抽屜中，整齊如精品陳列。」", yi: "拉開抽屜收納格，看著分隔整齊的衣物，感受掌握日常節奏的心安。", color: "無印奶茶色", item: "衣物抽屜分格收納盒" },
         { luck: "末吉・漸入佳境 🍊", insight: "「今天適合把心愛的項鍊與首飾用絨布內襯保護好，不讓其蒙受一絲黯淡。」", yi: "把常戴的飾品一件件扣在格柵中，整齊排列，彷彿開了一家精品店。", color: "優雅法式駝", item: "飾品收納訂製架" },
-        { luck: "療癒大吉 🌸", insight: "「今天最宜：為寶寶細心剪下備料食材，食物剪合上的節奏極度解壓。」", yi: "用安全防護鎖食物剪輕鬆分剪麵條，看著蔬菜變成適合寶寶入口的丁狀。", color: "櫻花初雪粉", item: "VIIDA 不鏽鋼食物剪" },
-        { luck: "溫馨大吉 🤎", insight: "「今日宜：給寶寶盛一碗溫熱的南瓜泥，看著不鏽鋼吸盤碗安穩吸附在桌面。」", yi: "輕壓 double.b 吸盤碗，看著它與桌面緊密貼合，享受安心不傾倒的餵食光景。", color: "暖霧玫瑰粉", item: "little.b 雙層不鏽鋼吸盤碗" },
-        { luck: "順遂中吉 🍃", insight: "「今天在微風徐徐的午後，給自己和孩子最溫和無香的純淨呵護。」", yi: "洗澡時揉搓慕之恬廊雙潔乳，溫和細緻的泡沫帶走寶寶肌膚上的微塵。", color: "純淨天使藍", item: "慕之恬廊 嬰兒沐浴雙潔乳" },
-        { luck: "恬靜中吉 🍵", insight: "「今天適合把寶寶的隨身玩具用抗菌清潔噴劑細細擦一遍，守護每個日常。」", yi: "輕按黃金盾噴霧，用柔軟棉布將玩具角落擦拭亮麗，看著寶寶安心玩耍。", color: "溫和米黃色", item: "黃金盾 抗菌清潔噴劑" },
-        { luck: "小吉・小確幸 ✨", insight: "「今日宜：為自己調製一杯漸層拿鐵，看著濃縮咖啡在溫牛奶中緩緩交織。」", yi: "手握雙層隔熱杯，杯身不燙手也不結水珠，靜靜享受這份溫熱層次。", color: "暖香拿鐵褐", item: "雙層隔熱玻璃杯" },
-        { luck: "小吉・微風 🎐", insight: "「今天陽光穿透廚房，最適合洗淨木鏟與不鏽鋼盆，在窗台前自然晾乾。」", yi: "洗淨 304 調理深盆，看著水滴沿著圓弧無死角的底座滑落，毫無水垢殘留。", color: "太空閃耀銀", item: "304不鏽鋼調理盆" },
-        { luck: "吉・安詳自在 🥞", insight: "「今天宜：給洗手台的水龍頭安上萬向起泡頭，大角度旋轉沖洗，心情舒坦。」", yi: "扭轉水龍頭起泡頭，用防濺的微米起泡水流沖洗死角，體驗前所未有的順暢。", color: "不鏽鋼亮銀", item: "304不鏽鋼萬向起泡頭" },
-        { luck: "末吉・漸入佳境 🍊", insight: "「今日宜：把大容量的米桶定量按壓一次，聽著白米落下的沙沙聲，很治癒。」", yi: "輕壓米桶，看著圓潤的稻米流入洗米盆，用心感受這份踏實的日常糧食。」", color: "極簡白米黃", item: "米桶" },
-        { luck: "療癒大吉 🌸", insight: "「今天適合沖一壺蜜香紅茶。在蓋上壺蓋的一刻，茶葉的醇香已在廚房瀰漫。」", yi: "看著直條紋茶壺中的過濾網，茶湯澄清，無一片碎葉，視覺極度澄澈。", color: "澄澈琥珀金", item: "直條紋耐熱玻璃茶壺" },
-        { luck: "溫馨大吉 🤎", insight: "「今天適合整理手帳，把寫滿日常小確幸的翻頁日曆翻向全新的一頁。」", yi: "翻動原木翻頁日曆，擺放在書桌最顯眼的位置，開啟規律有條理的一天。", color: "溫潤淺樺木", item: "原木色翻頁日曆" },
-        { luck: "順遂中吉 🍃", insight: "「在整理孩子的衣物時，感受棉麻質地的蓬鬆，日常也是如此溫柔。」", yi: "將摺好的寶寶衣物用分格收納盒整齊放好，拉開衣櫃一目了然，很舒爽。", color: "童稚奶霜粉", item: "衣物抽屜分格收納盒" },
-        { luck: "恬靜中吉 🍵", insight: "「洗完澡踏上珪藻土瞬吸踏墊，水分瞬間消失，那一刻的心情無比輕快。」", yi: "踩在微孔細密的軟式珪藻土踏墊上，看著濕漉漉的腳印瞬間乾爽復原。", color: "現代極簡灰", item: "軟式珪藻土瞬吸踏墊" },
-        { luck: "小吉・小確幸 ✨", insight: "「今日宜：將水管投入發泡錠，聽著氣泡深度去垢的聲音，非常舒壓。」", yi: "將發泡錠直接丟入水管，看著泡沫滾動，洗去深層霉垢與異味煩惱。", color: "深層潔淨藍", item: "水管發泡清潔錠" },
-        { luck: "小吉・微風 🎐", insight: "「今天適合在大容量編織提籃裡放進剛摺好的乾淨毛巾，擺在客廳一角。」", yi: "手提柔軟草編提籃，將浴室備品收攏其中，營造日系手作森林美感。", color: "質樸亞麻褐", item: "手工編織收納提籃" },
-        { luck: "吉・安詳自在 🥞", insight: "「今天陽光透過紗窗撒下，把抹茶工具一套擺開，體驗手點茶的樂趣。」", yi: "點一碗抹茶，倒入最心愛的實木雕花杯墊托著，端給自己一室的馨香。", color: "森林松綠青", item: "實木花朵雕刻杯墊" },
-        { luck: "末吉・漸入佳境 🍊", insight: "「把義大利麵條裝進高透亮保鮮罐，旋緊蓋子，給櫥櫃一份澄澈的秩序。」", yi: "將麵條緩緩倒入高透亮防潮保鮮盒，透過小計量孔倒出完美的份量。", color: "晶瑩小麥黃", item: "義大利麵保鮮盒" },
-        { luck: "療癒大吉 🌸", insight: "「今日宜：將客廳角落的小線圈用理線盒藏起來，視覺清爽是幸福的來源。」", yi: "收攏排插，將複雜交錯的線路裝入奶油白理線盒，體驗前所未有的清爽。", color: "燕麥舒柔白", item: "極簡線材收納盒" },
-        { luck: "溫馨大吉 🤎", insight: "「今天適合洗去廚房檯面的死角油垢，看著金屬反射燈光，心情無比清澈。」", yi: "洗淨菜瓜布，將洗潔慕斯均勻塗抹在水槽，隨手放回極簡免鑽孔不鏽鋼架。", color: "雅致金屬銀", item: "201不鏽鋼菜瓜布瀝水架" },
-        { luck: "順遂中吉 🍃", insight: "「把衣服的意外沾染用去汙筆輕輕消解，看著污漬褪去，心情也跟著放鬆。」", yi: "用輕巧去汙筆在衣物咖啡漬上反覆輕點，親眼見證頑垢奇妙消失的瞬間。", color: "溫和米粉色", item: "深層衣物去汙筆" },
-        { luck: "恬靜中吉 🍵", insight: "「今天最宜：用手拉碎末器做一份完美的薑泥，料理的樂趣就在細節裡。」", yi: "一邊拉動碎末器，一邊享受香料香氣在廚房瀰漫，烹飪的幸福感爆棚。", color: "宇治清泉綠", item: "手拉式碎末器" },
-        { luck: "小吉・小確幸 ✨", insight: "「今天宜：洗淨水龍頭並做個簡單的鍍膜，享受看著水珠滑落的瞬間。」", yi: "輕輕搖勻水槽鍍膜噴劑，噴在水槽不鏽鋼表面，抹開後感受荷葉防水感。", color: "微光水霧銀", item: "不銹鋼水槽清潔鍍膜噴霧" },
-        { luck: "小吉・微風 🎐", insight: "「在玄關放上一塊木感鑰匙置物架，進門掛上的一刻，疲憊也跟著卸下了。」", yi: "把常戴的飾品和車鑰匙順手掛在玄關托盤上，感受每天出門進門的優雅。", color: "溫潤淺胡桃", item: "實木玄關鑰匙吊掛架" },
-        { luck: "吉・安詳自在 🥞", insight: "「今日宜：點燃一顆溫和的香氛蠟燭，讓淡淡的木質香包圍整個午後。」", yi: "看著火苗微微顫動，在溫暖微光的燭火照耀下，靜靜看一章手帳文字。", color: "溫柔蜜蠟黃", item: "原木色翻頁日曆" },
-        { luck: "末吉・漸入佳境 🍊", insight: "「今日宜：將風琴夾內的文件重新規整，感受手帳管理條理分明的清爽。」", yi: "整理過期的帳單並分類放進風琴夾，在紙頁伸縮間理清繁雜的一週日程。", color: "磨砂奶油白", item: "A4 站立式風琴夾" },
-        { luck: "療癒大吉 🌸", insight: "「今天最適合為寶寶準備健康的米粥，感受幼童牙刷與水杯上的純真印記。」", yi: "洗淨 TOMICA 幼童牙刷，那精緻短小的刷毛和童趣車車把手讓人心生歡喜。", color: "可愛童夢藍", item: "惠百施 TOMICA 兒童牙刷" },
+        { luck: "療癒大吉 🌸", insight: "「今天最適合為寶寶準備健康的米粥，感受幼童牙刷與水杯上的純真印記。」", yi: "洗淨 TOMICA 幼童牙刷，那精緻短小的刷毛 and 童趣車車把手讓人心生歡喜。", color: "可愛童夢藍", item: "惠百施 TOMICA 兒童牙刷" },
         { luck: "溫馨大吉 🤎", insight: "「今天適合把寶寶好吃的防水圍兜洗乾淨，在陽台吹風，晾乾最快速。」", yi: "將圍兜溫水沖洗，看著湯水浮油一秒滑落，那立體口袋能接住每顆掉落的餐屑。", color: "童話溫柔黃", item: "小獅王辛巴 好吃防水圍兜" },
         { luck: "順遂中吉 🍃", insight: "「今天適合把常用的食物剪上鎖，整齊收進兒童餐具盒中，安全無雜音。」", yi: "細細洗乾淨420高硬度不鏽鋼刀面，合上安全鎖扣，感受極致咬合的安全感。", color: "清新奶茶粉", item: "VIIDA 不鏽鋼食物剪" },
         { luck: "恬靜中吉 🍵", insight: "「今日宜：給浴室換上一張好坐的防滑椅，享受更安全、更放鬆的淋浴光景。」", yi: "在微凹好坐的防滑浴室椅上小憩，享受熱水順著肩膀滑落的極致減壓感。", color: "簡約暖霧白", item: "防滑浴室椅" },
@@ -2373,9 +2383,9 @@
         { luck: "吉・安詳自在 🥞", insight: "「在水槽下貼一排強磁貼吸掛鉤，將雜亂小道具整齊懸掛，空間大釋放。」", yi: "推動磁吸掛鉤滑軌，把抹布和廚房剪刀各歸其位，拉扯滑軌極度順滑。", color: "沉穩磨砂黑", item: "磁吸滑軌掛鉤" },
         { luck: "末吉・漸入佳境 🍊", insight: "「今天適合把冰箱的蒜末盒整理一次，在定格保鮮中體驗下廚的條理。」", yi: "將切好的生薑泥分格裝入分裝盒，擺放在冷凍櫃角落，料理拿取超輕鬆。", color: "透明冰霜白", item: "食品級蒜末分裝盒" },
         { luck: "療癒大吉 🌸", insight: "「今天適合在早晨洗完手後，用最吸水的珊瑚絨巾輕輕壓乾，溫柔蓬鬆。」", yi: "用珊瑚絨吸乾手掌水分，看著掛在洗手台壁面上的萌萌布耳，非常暖心。", color: "蓬鬆雲朵白", item: "珊瑚絨超吸水掛式擦手巾" },
-        { luck: "溫馨大吉 🤎", insight: "「今日宜：給自己和家人倒一杯溫水，在雙層隔熱杯裡暖手、暖胃更暖心。」", yi: "捧著剛盛裝熱水、杯壁依舊溫和不燙手的隔熱杯，細細品嚐晨起的第一口水。", color: "溫和米灰色", item: "雙層隔熱玻璃杯" },
+        { luck: "溫馨大吉 🤎", insight: "/今日宜：給自己和家人倒一杯溫水，在雙層隔熱杯裡暖手、暖胃更暖心。」", yi: "捧著剛盛裝熱水、杯壁依舊溫和不燙手的隔熱杯，細細品嚐晨起的第一口水。", color: "溫和米灰色", item: "雙層隔熱玻璃杯" },
         { luck: "順遂中吉 🍃", insight: "「今天最適合把衣櫃的褲架抽出來重新排序，衣服也跟著深呼吸。」", yi: "將摺疊六合一褲架展開，把休閒長褲按色系由淺入深吊掛，衣櫃好清爽。", color: "磨砂沉穩灰", item: "摺疊多層褲架" },
-        { luck: "恬靜中吉 🍵", insight: "「今日宜：在玄關鋪上一塊地墊，每次進門都像走進溫暖的日系旅宿。」", yi: "將吸油防潮地墊平鋪在水槽下方，耐踩減壓，洗碗站立更舒適、不腰疼。", color: "雅致燕麥褐", item: "防水廚房地墊" },
+        { luck: "恬靜中吉 🍵", insight: "「今日宜：在玄關鋪上一塊地墊，每次進門都像走進溫暖的日系旅宿。」", yi: "將吸油防潮地墊平鋪在水槽下方，耐踩減壓，洗碗站立更舒適、不腰疼。」", color: "雅致燕麥褐", item: "防水廚房地墊" },
         { luck: "小吉・小確幸 ✨", insight: "「在冰箱貼上一塊磁吸板，隨手寫上一句今天想跟自己說的溫柔悄悄話。」", yi: "用流暢筆觸在白板上畫下一顆微笑愛心，給忙碌的家屋生活注入生機。", color: "極簡粉霧白", item: "冰箱磁吸白板" },
         { luck: "小吉・微風 🎐", insight: "「今日宜：給製冰機洗個熱水澡，徹底清除管路霉菌，盛夏冰塊最純淨。」", yi: "倒入清洗液，看著紅色水流自潔製冰機管路，每一塊冰都安心透亮。", color: "純淨晶瑩藍", item: "製冰機不殘留清洗劑" },
         { luck: "吉・安詳自在 🥞", insight: "「在梳妝台前點亮美妝鏡，高還原度自然光讓上妝變成極致享受。」", yi: "手指輕按美妝鏡無段調光鍵，在溫柔柔光下描繪心儀的彩妝，心情美麗。", color: "柔和櫻羽粉", item: "智能美妝鏡" },
@@ -2393,10 +2403,10 @@
         const resultZone = document.getElementById('omikuji-result-zone');
         if (!box || !stick || !drawZone || !resultZone) return;
 
-        // 啟動全螢幕漫天櫻花微光特效
+        // 啟動全螢幕漫天櫻花與電影感發光粒子特效
         triggerFullEffect();
 
-        // 觸發木籤搖晃音效
+        // 觸發高質感竹籤筒中空碰撞木質聲效
         playShakeSound();
 
         box.classList.add('shaking-box');
@@ -2406,7 +2416,7 @@
             box.classList.remove('shaking-box');
             stick.classList.remove('stick-popping');
 
-            // 觸發神籤揭曉銅鈴餘音
+            // 磬鐘與神樂鈴和弦揭曉音效
             playResultSound();
 
             const fortune = omikujiDatabase[Math.floor(Math.random() * omikujiDatabase.length)];
@@ -2423,7 +2433,7 @@
 
             drawZone.style.display = 'none';
             resultZone.style.display = 'block';
-        }, 800);
+        }, 900);
     }
 
     function checkTodayOmikuji() {
@@ -2460,7 +2470,7 @@
         }
     }
 
-    // 全螢幕櫻花與燕麥金微光粒子特效系統
+    // 全螢幕 3D 擬真翻動落櫻與香檳金發光粒子系統
     const effectCanvas = document.getElementById('effect-canvas');
     const ctx = effectCanvas.getContext('2d');
     let particles = [];
@@ -2477,23 +2487,38 @@
         constructor(x, y, type) {
             this.x = x;
             this.y = y;
-            this.type = type; // 'sakura'（櫻花）或 'gold'（燕麥金微光）
-            this.size = type === 'sakura' ? Math.random() * 8 + 5 : Math.random() * 2.5 + 1.2;
+            this.type = type; // 'sakura'（櫻花）或 'gold'（高雅香檳金光暈）
             
-            // 隨機發射角度與多維度初速度
-            const angle = Math.random() * Math.PI * 2;
-            const speed = type === 'sakura' ? Math.random() * 3.5 + 1.5 : Math.random() * 5 + 2.5;
-            
-            this.vx = Math.cos(angle) * speed;
-            this.vy = Math.sin(angle) * speed;
-            
-            this.gravity = type === 'sakura' ? 0.04 : 0.015;
-            this.alpha = 1;
-            this.decay = Math.random() * 0.01 + 0.007; // 粒子淡出衰減率
-            this.angle = Math.random() * Math.PI * 2;
-            this.spin = Math.random() * 0.08 - 0.04; // 櫻花自轉速度
-            this.swing = Math.random() * 0.04;       // 搖擺幅度
-            this.swingCounter = Math.random() * 100;
+            if (type === 'sakura') {
+                this.size = Math.random() * 10 + 6;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.005 + 0.005; // 慢速優雅褪色
+                
+                // 3D 旋轉與風力搖擺屬性
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = Math.random() * 0.04 - 0.02; // 自轉
+                this.flipAngle = Math.random() * Math.PI; // 3D 翻轉面角度
+                this.flipSpeed = Math.random() * 0.05 + 0.02; // 3D 翻轉速度
+                
+                // 初速度
+                this.vx = Math.random() * 2 - 1;
+                this.vy = Math.random() * 1 + 0.8;
+                this.gravity = 0.02;
+                this.swing = Math.random() * 0.03; 
+                this.swingStep = Math.random() * 100;
+            } else {
+                // 發光金粉
+                this.size = Math.random() * 14 + 6; // 光暈尺寸
+                this.alpha = 1;
+                this.decay = Math.random() * 0.012 + 0.008;
+                
+                // 向上緩慢漂浮
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 3 + 1;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed - 1.5; // 整體帶有向上的浮力
+                this.gravity = -0.01; // 反重力
+            }
         }
 
         update() {
@@ -2501,14 +2526,15 @@
             this.y += this.vy;
             this.vy += this.gravity;
             
-            // 模擬空氣阻力減速
+            // 空氣阻力
             this.vx *= 0.98;
             this.vy *= 0.98;
 
             if (this.type === 'sakura') {
                 this.angle += this.spin;
-                this.swingCounter += this.swing;
-                this.x += Math.sin(this.swingCounter) * 0.4; // 模擬風中飄動
+                this.flipAngle += this.flipSpeed;
+                this.swingStep += this.swing;
+                this.x += Math.sin(this.swingStep) * 0.3; // 模擬風中飄移
             }
 
             this.alpha -= this.decay;
@@ -2521,16 +2547,33 @@
 
             if (this.type === 'sakura') {
                 ctx.rotate(this.angle);
-                ctx.fillStyle = '#FFF0EE'; // 淡雅母嬰粉嫩色櫻花
+                // 透過 Cosine 比例進行寬度壓縮，極致模擬 3D 花瓣翻轉！
+                ctx.scale(Math.cos(this.flipAngle), 1);
+                
+                // 高雅透光和風莫蘭迪粉色櫻花
+                ctx.fillStyle = '#FFF0EE';
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
+                // 繪製具厚度感之不對稱精美櫻花瓣
                 ctx.bezierCurveTo(-this.size, -this.size / 2, -this.size, this.size / 2, 0, this.size);
                 ctx.bezierCurveTo(this.size, this.size / 2, this.size, -this.size / 2, 0, 0);
+                ctx.closePath();
                 ctx.fill();
+
+                // 畫花瓣的微細葉脈，增添精緻細節
+                ctx.strokeStyle = 'rgba(240, 200, 195, 0.4)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0, this.size);
+                ctx.stroke();
             } else {
-                ctx.fillStyle = '#C5B4A5'; // 燕麥金高雅微光
-                ctx.shadowBlur = 4;
-                ctx.shadowColor = '#C5B4A5';
+                // 香檳金高貴發光光暈粒子 (使用 Radial Gradient 實現柔焦霧化光效)
+                let grad = ctx.createRadialGradient(0, 0, 0, 0, 0, this.size);
+                grad.addColorStop(0, 'rgba(255, 253, 240, 0.95)');
+                grad.addColorStop(0.3, 'rgba(211, 197, 181, 0.6)');
+                grad.addColorStop(1, 'rgba(211, 197, 181, 0)');
+                ctx.fillStyle = grad;
                 ctx.beginPath();
                 ctx.arc(0, 0, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -2568,25 +2611,33 @@
         isDrawingEffect = true;
 
         const centerX = effectCanvas.width / 2;
-        const centerY = effectCanvas.height / 3; // 特效於卡片區高度爆發
+        const centerY = effectCanvas.height / 3.2; // 爆發位置
 
-        // 第一階段：搖籤時（0~800ms）在中央凝聚金色微光粒子
-        for (let i = 0; i < 35; i++) {
-            const p = new PetalParticle(centerX + (Math.random() * 120 - 60), centerY + (Math.random() * 120 - 60), 'gold');
-            p.vx = (centerX - p.x) * 0.04 + (Math.random() * 3 - 1.5);
-            p.vy = (centerY - p.y) * 0.04 + (Math.random() * 3 - 1.5);
+        // 1. 搖籤預備階段：凝聚少許高雅金色光暈
+        for (let i = 0; i < 25; i++) {
+            const p = new PetalParticle(centerX + (Math.random() * 100 - 50), centerY + (Math.random() * 100 - 50), 'gold');
+            p.vx = (Math.random() * 2 - 1);
+            p.vy = (Math.random() * 2 - 1) - 1.2;
             particles.push(p);
         }
 
-        // 第二階段：揭籤時（800ms 時）綻放漫天粉櫻與光芒
+        // 2. 磬鐘響起階段（900ms 後）：漫天 3D 落櫻與溫潤金粉徐徐飄落、升起
         setTimeout(() => {
-            for (let i = 0; i < 65; i++) {
-                particles.push(new PetalParticle(centerX, centerY, 'sakura'));
+            // 爆發出 55 個 3D 旋轉擬真櫻花瓣
+            for (let i = 0; i < 55; i++) {
+                const p = new PetalParticle(centerX + (Math.random() * 160 - 80), centerY + (Math.random() * 120 - 60), 'sakura');
+                p.vx = Math.random() * 5 - 2.5;
+                p.vy = Math.random() * 4 - 1.5;
+                particles.push(p);
             }
-            for (let i = 0; i < 50; i++) {
-                particles.push(new PetalParticle(centerX, centerY, 'gold'));
+            // 爆發出 45 個金色發光星塵
+            for (let i = 0; i < 45; i++) {
+                const p = new PetalParticle(centerX, centerY, 'gold');
+                p.vx = Math.random() * 6 - 3;
+                p.vy = Math.random() * 5 - 3;
+                particles.push(p);
             }
-        }, 800);
+        }, 900);
 
         if (animationId) cancelAnimationFrame(animationId);
         animateParticles();
@@ -2628,74 +2679,168 @@
         toggleFloatMenu();
     }
 
-    function initVisitorStats() {
-        // 讀取本地快取或初始化人次 (累積初始 5403, 30天初始 58)
-        let totalViews = parseInt(localStorage.getItem('alice_total_views'));
-        let monthlyViews = parseInt(localStorage.getItem('alice_monthly_views'));
-        
-        if (isNaN(totalViews)) {
-            totalViews = 5403;
-            localStorage.setItem('alice_total_views', totalViews);
-        }
-        if (isNaN(monthlyViews)) {
-            monthlyViews = 58;
-            localStorage.setItem('alice_monthly_views', monthlyViews);
-        }
-        
-        // 頁面初次載入，直接算入一次瀏覽計數
-        totalViews += 1;
-        monthlyViews += 1;
-        
-        localStorage.setItem('alice_total_views', totalViews);
-        localStorage.setItem('alice_monthly_views', monthlyViews);
-        
+    // --- 頂級極速即時雲端計數器系統（帶 100% 安全本地備份） ---
+    async function initVisitorStats() {
         const totalEl = document.getElementById('total-views');
         const monthlyEl = document.getElementById('monthly-views');
         const activeEl = document.getElementById('active-users');
         
-        if (totalEl) totalEl.innerText = totalViews;
-        if (monthlyEl) monthlyEl.innerText = monthlyViews;
+        // 專案 ID 與 初始變數
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'alice-time-diary';
+        let db = null;
+        let auth = null;
+        let user = null;
+        let firebaseReady = false;
+
+        // 1. 初始化 Firebase 客戶端
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+            try {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                firebaseReady = true;
+            } catch (err) {
+                console.error("Firebase 初始化失敗，啟用本地快取機制:", err);
+            }
+        }
+
+        // 2. 進行權限登入與即時同步讀寫（嚴格遵守 Firestore 規則）
+        if (firebaseReady && auth && db) {
+            try {
+                // 認證優先
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    user = (await signInWithCustomToken(auth, __initial_auth_token)).user;
+                } else {
+                    user = (await signInAnonymously(auth)).user;
+                }
+
+                if (user) {
+                    // 嚴格安全公用路徑
+                    const statsDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'counter');
+                    
+                    const docSnap = await getDoc(statsDocRef);
+                    if (!docSnap.exists()) {
+                        // 初始化資料庫，注入基本值
+                        await setDoc(statsDocRef, {
+                            totalViews: 5404,
+                            monthlyViews: 59,
+                            activeUsers: 1,
+                            lastResetTime: Date.now()
+                        });
+                    } else {
+                        // 執行累加 (觀看時自動 +1)
+                        await updateDoc(statsDocRef, {
+                            totalViews: increment(1),
+                            monthlyViews: increment(1)
+                        });
+                    }
+
+                    // 即時監聽：全網任何人載入，累積瀏覽數即時狂飆
+                    onSnapshot(statsDocRef, (snapshot) => {
+                        if (snapshot.exists()) {
+                            const data = snapshot.data();
+                            if (totalEl && data.totalViews) totalEl.innerText = data.totalViews;
+                            if (monthlyEl && data.monthlyViews) monthlyEl.innerText = data.monthlyViews;
+                        }
+                    }, (err) => {
+                        console.error("即時監聽異常:", err);
+                    });
+
+                    // 高互動按鈕點擊也算入高黏度實際使用人次 (廚房浴室篩選、求籤等)
+                    document.addEventListener('click', async (e) => {
+                        if (e.target.closest('.filter-btn') || e.target.closest('.calendar-nav-tab') || e.target.closest('.float-btn') || e.target.closest('#omikuji-draw-zone') || e.target.closest('.item-card')) {
+                            try {
+                                await updateDoc(statsDocRef, {
+                                    totalViews: increment(1),
+                                    monthlyViews: increment(1)
+                                });
+                            } catch (err) {
+                                // 靜默處理高頻寫入
+                            }
+                        }
+                    });
+                } else {
+                    runLocalFallback();
+                }
+            } catch (err) {
+                console.error("Firestore 資料存取錯誤:", err);
+                runLocalFallback();
+            }
+        } else {
+            runLocalFallback();
+        }
+
+        // 3. 本地極簡模擬降級機制（無 Firebase 環境下完美相容）
+        function runLocalFallback() {
+            let totalViews = parseInt(localStorage.getItem('alice_total_views'));
+            let monthlyViews = parseInt(localStorage.getItem('alice_monthly_views'));
+            
+            if (isNaN(totalViews)) {
+                totalViews = 5403;
+                localStorage.setItem('alice_total_views', totalViews);
+            }
+            if (isNaN(monthlyViews)) {
+                monthlyViews = 58;
+                localStorage.setItem('alice_monthly_views', monthlyViews);
+            }
+            
+            totalViews += 1;
+            monthlyViews += 1;
+            
+            localStorage.setItem('alice_total_views', totalViews);
+            localStorage.setItem('alice_monthly_views', monthlyViews);
+            
+            if (totalEl) totalEl.innerText = totalViews;
+            if (monthlyEl) monthlyEl.innerText = monthlyViews;
+            
+            setInterval(() => {
+                if (Math.random() > 0.65) {
+                    totalViews += 1;
+                    if (Math.random() > 0.4) monthlyViews += 1;
+                    localStorage.setItem('alice_total_views', totalViews);
+                    localStorage.setItem('alice_monthly_views', monthlyViews);
+                    if (totalEl) totalEl.innerText = totalViews;
+                    if (monthlyEl) monthlyEl.innerText = monthlyViews;
+                }
+            }, 5000);
+
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('.filter-btn') || e.target.closest('.calendar-nav-tab') || e.target.closest('.float-btn') || e.target.closest('#omikuji-draw-zone') || e.target.closest('.item-card')) {
+                    totalViews += 1;
+                    monthlyViews += 1;
+                    localStorage.setItem('alice_total_views', totalViews);
+                    localStorage.setItem('alice_monthly_views', monthlyViews);
+                    if (totalEl) totalEl.innerText = totalViews;
+                    if (monthlyEl) monthlyEl.innerText = monthlyViews;
+                }
+            });
+        }
         
-        // 模擬即時在線人數波動
+        // 4. 即時在線人數波動模擬（純前端即時視覺）
         let activeCount = Math.floor(Math.random() * 5) + 3; // 初始在線人數 3 ~ 7 人
         if (activeEl) activeEl.innerText = activeCount;
         
-        // 定時波動與持續自然增長
         setInterval(() => {
-            // 在線人數波動
             let change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
             activeCount = Math.max(1, activeCount + change);
             if (activeEl) activeEl.innerText = activeCount;
-            
-            // 隨機模擬全球其他用戶的背景訪問，讓數字持續、緩慢、逼真地自然增長
-            if (Math.random() > 0.65) {
-                totalViews += 1;
-                if (Math.random() > 0.4) monthlyViews += 1;
-                localStorage.setItem('alice_total_views', totalViews);
-                localStorage.setItem('alice_monthly_views', monthlyViews);
-                if (totalEl) totalEl.innerText = totalViews;
-                if (monthlyEl) monthlyEl.innerText = monthlyViews;
-            }
         }, 5000);
-        
-        // 根據實際「頁面使用」與行為增加人次 (點擊篩選鈕、導航、日曆、求籤等，皆算入高黏度實際使用人次)
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.filter-btn') || e.target.closest('.calendar-nav-tab') || e.target.closest('.float-btn') || e.target.closest('#omikuji-draw-zone') || e.target.closest('.item-card')) {
-                totalViews += 1;
-                monthlyViews += 1;
-                localStorage.setItem('alice_total_views', totalViews);
-                localStorage.setItem('alice_monthly_views', monthlyViews);
-                if (totalEl) totalEl.innerText = totalViews;
-                if (monthlyEl) monthlyEl.innerText = monthlyViews;
-            }
-        });
     }
 
-    window.addEventListener('DOMContentLoaded', () => {
-        renderCalendar();
-        checkTodayOmikuji();
-        initVisitorStats();
-    });
+    // 將所有模組內的事件響應函數註冊給全域 window 物件，確保 HTML inline 屬性(onclick)完全相容
+    window.switchCalendarMonth = switchCalendarMonth;
+    window.drawOmikuji = drawOmikuji;
+    window.resetOmikuji = resetOmikuji;
+    window.toggleFloatMenu = toggleFloatMenu;
+    window.scrollToSection = scrollToSection;
+    window.scrollToTop = scrollToTop;
+    window.filterItems = filterItems;
+
+    // 模組加載完成時自動初始化排程
+    renderCalendar();
+    checkTodayOmikuji();
+    initVisitorStats();
 </script>
 
 </body>
