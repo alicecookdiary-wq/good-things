@@ -132,7 +132,7 @@
             letter-spacing: 1.5px;
         }
 
-        /* --- 代碼自動繪製：日系極簡生活感主圖橫幅 --- */
+        /* --- 代碼自動繪製：日系生活感極簡主圖橫幅 --- */
         .hero-banner-illustration {
             width: 100%;
             height: 160px;
@@ -261,22 +261,47 @@
             border-radius: 2px 2px 1px 1px;
         }
 
-        /* --- 日手帳感可互動月曆手寫版式 --- */
-        .calendar-section-outer {
+        /* --- 微縮版開團計畫行事曆專屬手繪美學樣式 --- */
+        .calendar-title-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .calendar-title-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #D3C5B5; /* 溫暖木質沙褐色 */
+        }
+        .calendar-title-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 1.5px;
+        }
+        .calendar-title-line {
+            border: none;
+            border-top: 1px solid var(--border-color);
             margin-bottom: 24px;
+        }
+        .calendar-section-outer {
+            margin-bottom: 16px;
         }
         .calendar-months-nav {
             display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 16px;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 16px; /* 緊湊高度 */
         }
         .calendar-nav-tab {
-            font-size: 0.85rem;
+            flex: 1;
+            text-align: center;
+            font-size: 0.78rem; /* 微縮字體 */
             font-weight: 500;
             color: var(--text-sub);
-            padding: 6px 16px;
-            border-radius: 30px;
+            padding: 8px 10px; /* 微縮按鈕內距 */
+            border-radius: 10px;
             border: 1px solid var(--border-color);
             background-color: #FFFFFF;
             cursor: pointer;
@@ -286,87 +311,105 @@
             background-color: var(--btn-active);
             color: #FFFFFF;
             border-color: var(--btn-active);
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 4px 12px rgba(142, 127, 115, 0.15);
         }
         .calendar-paper {
-            background-color: #FFFFFF;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: inset 0 0 10px rgba(142, 127, 115, 0.02);
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            box-shadow: none;
         }
         .calendar-header-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             text-align: center;
-            margin-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 6px;
+            margin-bottom: 12px; /* 縮減間距 */
         }
         .calendar-day-label {
-            font-size: 0.65rem;
+            font-size: 0.78rem; /* 微縮字體 */
             color: var(--text-sub);
-            font-weight: 600;
+            font-weight: 500;
         }
         .calendar-days-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            row-gap: 8px;
-            column-gap: 4px;
+            row-gap: 4px; /* 再縮減格子行距 */
+            column-gap: 6px;
             text-align: center;
+            margin-bottom: 12px;
         }
         .calendar-cell {
-            aspect-ratio: 1;
+            aspect-ratio: 1.6; /* 針對需求高度扁平化，控制行事曆篇幅 */
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 0.72rem;
-            font-weight: 400;
+            font-size: 0.78rem; /* 微縮字體 */
+            font-weight: 500;
             color: var(--text-main);
             position: relative;
-            border-radius: 6px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
         }
         .calendar-cell.muted {
-            color: #E2DBD5;
+            color: #D1C9C0;
         }
-        /* 極簡多點點排版容器 */
-        .calendar-dots-container {
-            display: flex;
-            gap: 2.5px;
-            justify-content: center;
-            position: absolute;
-            bottom: 4px;
-            width: 100%;
-            pointer-events: none;
-        }
-        .calendar-dot {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-        }
+        /* 吻合附圖的圓角色塊高亮背景，搭配開團文字顏色，一目了然好辨識 */
+        .calendar-cell.hl-neoflam { background-color: #E5DBD0 !important; color: #4A443F !important; font-weight: 600; }
+        .calendar-cell.hl-sanko { background-color: #D8E2DC !important; color: #2D4F38 !important; font-weight: 600; }
+        .calendar-cell.hl-spacebox { background-color: #FFF0EE !important; color: #C57B75 !important; font-weight: 600; }
+        .calendar-cell.hl-yansantiao { background-color: #DCE1E5 !important; color: #2F435A !important; font-weight: 600; }
+        .calendar-cell.hl-oxo { background-color: #F5E5D9 !important; color: #834E2B !important; font-weight: 600; }
+        .calendar-cell.hl-bonson { background-color: #EAE5F5 !important; color: #5E3D85 !important; font-weight: 600; }
 
-        /* --- 精緻色彩標示 (Calendar Legend) --- */
-        .calendar-legend {
+        /* 下方開團排程明細清單 */
+        .calendar-divider-dashed {
+            border: none;
+            border-top: 1px dashed #E2DBD5;
+            margin: 20px 0;
+        }
+        .calendar-event-list {
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 12px;
-            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
             padding: 0 4px;
         }
-        .legend-item {
+        .calendar-event-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .calendar-event-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+        .calendar-event-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .calendar-event-title-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.65rem;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .calendar-event-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .calendar-event-date {
+            font-size: 0.8rem;
             color: var(--text-sub);
             font-weight: 500;
         }
-        .legend-dot-indicator {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
+        .calendar-event-desc {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            line-height: 1.45;
         }
 
         /* --- 橫向流暢滑動複選濾鏡 --- */
@@ -455,6 +498,7 @@
         }
         .item-card.hidden { display: none; }
         
+        /* 圖片容器：用於承載手帳感的寫實 SVG 線圖 */
         .item-img-container {
             width: 56px;
             height: 56px;
@@ -467,6 +511,11 @@
             flex-shrink: 0;
             overflow: hidden;
             border: 1px solid var(--border-color);
+        }
+        .item-img-container svg {
+            width: 38px;
+            height: 38px;
+            display: block;
         }
         .item-info { flex: 1; }
         .item-name-row {
@@ -503,16 +552,26 @@
             color: var(--btn-active);
         }
         
+        .status-tag-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
         .status-tag { 
             font-size: 0.62rem; 
             background-color: #EFEAE4; 
             color: var(--btn-active); 
             padding: 2px 8px; 
             border-radius: 4px; 
-            margin-bottom: 4px; 
-            display: inline-block;
             font-weight: 500;
             letter-spacing: 0.5px;
+        }
+        .text-legend-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
         }
         .date-tag {
             font-size: 0.7rem;
@@ -522,7 +581,7 @@
         }
         .no-results { text-align: center; padding: 20px 20px; color: var(--text-sub); font-size: 0.8rem; line-height: 1.6; }
 
-        /* --- 預告微型縮小排版樣式 (微調篇幅大小) --- */
+        /* --- 預告微型縮小排版樣式 --- */
         #calendar-schedule-details .item-card {
             padding: 10px 14px;
             gap: 8px;
@@ -648,7 +707,7 @@
             <span class="date-tag">6/22 - 6/28</span>
         </div>
 
-        <!-- 🪐 網頁代碼 100% 內建繪製：日系生活感極簡主圖 (與頁面風格完美融為一體) -->
+        <!-- 🪐 網頁代碼 100% 內建繪製：日系生活感極簡主圖 -->
         <div class="hero-banner-illustration">
             <div class="banner-window"></div>
             <div class="banner-shadow-leaves"></div>
@@ -661,7 +720,6 @@
         </div>
 
         <div class="items-list">
-            <!-- 移除前方方框後的極簡卡片 -->
             <a href="https://allbml.cc/e48hB" class="item-card" target="_blank">
                 <div class="item-info">
                     <div class="item-name">淨毒五郎限時團購</div>
@@ -672,19 +730,20 @@
         </div>
     </div>
 
-    <!-- 2. 即將開團預告手帳行事曆區塊 -->
+    <!-- 2. 開團計畫行事曆區塊 (完美符合附圖美學樣式，且大幅縮減篇幅長度) -->
     <div class="page-section">
-        <div class="section-title-container">
-            <div class="glow-dot"></div>
-            <div class="section-title-text">即將開團預告</div>
+        <div class="calendar-title-container">
+            <div class="calendar-title-dot"></div>
+            <div class="calendar-title-text">開團計畫行事曆</div>
         </div>
+        <hr class="calendar-title-line">
 
         <div class="calendar-section-outer">
-            <!-- 月份切換標籤 -->
+            <!-- 月份切換標籤 (完美對齊附圖英文字樣) -->
             <div class="calendar-months-nav">
-                <button class="calendar-nav-tab active" onclick="switchCalendarMonth(7)">7 月</button>
-                <button class="calendar-nav-tab" onclick="switchCalendarMonth(8)">8 月</button>
-                <button class="calendar-nav-tab" onclick="switchCalendarMonth(9)">9 月</button>
+                <button class="calendar-nav-tab active" onclick="switchCalendarMonth(7)">7月 July</button>
+                <button class="calendar-nav-tab" onclick="switchCalendarMonth(8)">8月 August</button>
+                <button class="calendar-nav-tab" onclick="switchCalendarMonth(9)">9月 September</button>
             </div>
 
             <!-- 月曆紙面板 -->
@@ -698,16 +757,16 @@
                     <span class="calendar-day-label">五</span>
                     <span class="calendar-day-label">六</span>
                 </div>
-                <!-- 日期格將由 JS 動態完美生成 -->
+                <!-- 日期格將由 JS 動態生成 -->
                 <div class="calendar-days-grid" id="calendar-days-container"></div>
-                
-                <!-- 精緻彩色點點說明標示 (Legend) -->
-                <div class="calendar-legend" id="calendar-legend-container"></div>
             </div>
         </div>
 
-        <!-- 下方月份同步排程明細 (已修正為不帶連結與跳轉的靜態 text 卡片) -->
-        <div class="items-list" id="calendar-schedule-details"></div>
+        <!-- 虛線分隔線 (符合附圖細節) -->
+        <hr class="calendar-divider-dashed">
+
+        <!-- 下方月份同步排程明細 (去卡片外框、單色圓點、整齊緊湊排列) -->
+        <div class="calendar-event-list" id="calendar-schedule-details"></div>
     </div>
 
     <!-- 3. 好物導航區塊 -->
@@ -723,7 +782,6 @@
                 <div class="filter-buttons">
                     <button class="filter-btn" data-filter="廚房">廚房</button>
                     <button class="filter-btn" data-filter="浴室">浴室</button>
-                    <button class="filter-btn" data-filter="臥室">臥室</button>
                     <button class="filter-btn" data-filter="其他區域">其他區域</button>
                 </div>
             </div>
@@ -731,16 +789,15 @@
                 <div class="filter-title">用途分類</div>
                 <div class="filter-buttons">
                     <button class="filter-btn" data-filter="收納">收納</button>
+                    <button class="filter-btn" data-filter="好物">好物</button>
                     <button class="filter-btn" data-filter="清潔">清潔</button>
-                    <button class="filter-btn" data-filter="生活">日常生活</button>
                 </div>
             </div>
             <div class="filter-group">
                 <div class="filter-title">材質特性</div>
                 <div class="filter-buttons">
                     <button class="filter-btn" data-filter="不鏽鋼">不鏽鋼</button>
-                    <button class="filter-btn" data-filter="安全防護">安全防護</button>
-                    <button class="filter-btn" data-filter="其他特性">其他特性</button>
+                    <button class="filter-btn" data-filter="其他材質">其他材質</button>
                 </div>
             </div>
             <!-- 獨立劃分於底部的莫蘭迪粉色育兒專區選項 -->
@@ -754,7 +811,7 @@
             </div>
         </div>
 
-        <!-- 這裡的好物卡片名單預設完全收起，只會在 JavaScript 過濾完成時動態浮現，且育兒品相完全隔離 -->
+        <!-- 卡片名單由 JS 交叉過濾控制 -->
         <div class="items-list" id="navigation-items"></div>
         <div class="no-results" id="no-results-msg">點選上方標籤，開啟私房愛用好物 🤎</div>
     </div>
@@ -784,118 +841,131 @@
 </div>
 
 <script>
-    // --- 曆檔與行事曆連動系統 (2026 基準，正確的開團名稱、期數標示，無外部連結) ---
+    // --- 曆檔與行事曆連動系統 (完美對應附圖日期與明細描述，並完美配置低飽和底色/文字) ---
     const scheduleData = {
         7: {
             daysInMonth: 31,
-            startDayOffset: 3, // 2026/07/01 是星期三
+            startDayOffset: 3, 
             events: [
-                { start: 12, end: 19, name: "韓國 Neoflam 廚具", desc: "兼具完美高顏值與安心陶瓷塗層的料理美學。", turn: "首團" },
-                { start: 20, end: 26, name: "日本 Sanko 地墊", desc: "細緻的居家防護，打造赤腳也感到安心細膩的觸覺。", turn: "首團" },
-                { start: 28, end: 31, name: "Space Box 太空折疊保鮮盒", desc: "高強度氣密秒縮防漏，白金矽膠安心鎖鮮首選。", turn: "二團" }
+                { start: 12, end: 19, key: 'neoflam' },
+                { start: 20, end: 26, key: 'sanko' },
+                { start: 28, end: 31, key: 'spacebox' }
             ]
         },
         8: {
             daysInMonth: 31,
-            startDayOffset: 6, // 2026/08/01 是星期六
+            startDayOffset: 6, 
             events: [
-                { start: 1, end: 10, name: "Space Box 太空折疊保鮮盒", desc: "高強度氣密秒縮防漏，白金矽膠安心鎖鮮首選。", turn: "二團" },
-                { start: 10, end: 16, name: "日本燕三条 職人金屬工藝", desc: "俐落純粹的精緻金屬，為廚房洗滌細節帶入優雅留白。", turn: "二團" },
-                { start: 26, end: 31, name: "美國 OXO 廚房用品", desc: "極具人性化考量與俐落設計的經典日常料理工具。", turn: "首團" }
+                { start: 1, end: 10, key: 'spacebox' },
+                { start: 10, end: 16, key: 'yansantiao' },
+                { start: 26, end: 31, key: 'oxo' }
             ]
         },
         9: {
             daysInMonth: 30,
-            startDayOffset: 2, // 2026/09/01 是星期二
+            startDayOffset: 2, 
             events: [
-                { start: 10, end: 16, name: "Bonson 智慧垃圾桶", desc: "一鍵自動密閉打包、自動鋪袋封鎖廚餘異味。", turn: "一團" }
+                { start: 10, end: 16, key: 'bonson' }
             ]
         }
     };
 
-    // 莫蘭迪療癒系彩色小點點調色盤 (對應不同的活動)
-    const eventDotColors = [
-        '#8E7F73', // 質感溫沙茶色
-        '#E29B96', // 優雅母嬰粉
-        '#A39990'  // 精緻木質灰
-    ];
+    // 專屬多色膠帶與品牌色連動定義
+    const eventColors = {
+        neoflam: { bg: '#E5DBD0', text: '#4A443F', class: 'hl-neoflam', label: '韓國 Neoflam 鍋具', turn: '首團', date: '7/12 - 7/19', desc: '「專利陶瓷塗層，安全無毒、極致不沾且美型。」' },
+        sanko: { bg: '#D8E2DC', text: '#2D4F38', class: 'hl-sanko', label: '日本 Sanko 地墊', turn: '首團', date: '7/20 - 7/26', desc: '「專利吸附防滑，可洗可剪，耐踩吸水不位移。」' },
+        spacebox: { bg: '#FFF0EE', text: '#C57B75', class: 'hl-spacebox', label: 'Space Box 折疊矽膠太空盒', turn: '二團', date: '7/28 - 8/10', desc: '「秒縮折疊好攜帶，高防漏防燙、白金矽膠製。」' },
+        yansantiao: { bg: '#DCE1E5', text: '#2F435A', class: 'hl-yansantiao', label: '日本 燕三条 廚具', turn: '二團', date: '8/10 - 8/16', desc: '「極致職人工藝，高規耐磨、不易生鏽超鋒利。」' },
+        oxo: { bg: '#F5E5D9', text: '#834E2B', class: 'hl-oxo', label: '美國 OXO 廚房好物', turn: '首團', date: '8/26 - 8/31', desc: '「人體工學防滑餐廚小物，極致省力好上手。」' },
+        bonson: { bg: '#EAE5F5', text: '#5E3D85', class: 'hl-bonson', label: 'Bonson 智慧垃圾桶', turn: '首團', date: '9/10 - 9/16', desc: '「一鍵自動密閉打包鋪袋，0.2秒感應免髒手。」' }
+    };
+
+    // 控制月份在下方條列名單中出現的檔期
+    const monthEventLists = {
+        7: ['neoflam', 'sanko', 'spacebox'],
+        8: ['spacebox', 'yansantiao', 'oxo'],
+        9: ['bonson']
+    };
 
     let activeMonth = 7;
 
     function renderCalendar() {
         const daysContainer = document.getElementById('calendar-days-container');
         const detailsContainer = document.getElementById('calendar-schedule-details');
-        const legendContainer = document.getElementById('calendar-legend-container');
-        if (!daysContainer || !detailsContainer || !legendContainer) return;
+        if (!daysContainer || !detailsContainer) return;
 
         daysContainer.innerHTML = '';
         detailsContainer.innerHTML = '';
-        legendContainer.innerHTML = '';
 
         const mData = scheduleData[activeMonth];
         
-        // 1. 補白上月空餘格
-        for (let i = 0; i < mData.startDayOffset; i++) {
+        // 1. 渲染前一個月的淡色格子 (以 2026 年為基準展示)
+        const prevMonthMutedDays = {
+            7: [28, 29, 30],
+            8: [26, 27, 28, 29, 30, 31],
+            9: [30, 31]
+        };
+        const prevMuted = prevMonthMutedDays[activeMonth] || [];
+        prevMuted.forEach(dNum => {
             const cell = document.createElement('div');
             cell.className = 'calendar-cell muted';
-            cell.innerHTML = '<span class="calendar-cell-num"></span>';
+            cell.innerHTML = `<span>${dNum}</span>`;
             daysContainer.appendChild(cell);
-        }
+        });
 
-        // 2. 渲染當月日子與多檔連動點點
+        // 2. 渲染當月的所有日期格與高亮區塊 (完美連動多色膠帶色彩)
         for (let day = 1; day <= mData.daysInMonth; day++) {
             const cell = document.createElement('div');
             cell.className = 'calendar-cell';
-            cell.innerHTML = `<span class="calendar-cell-num">${day}</span>`;
+            cell.innerHTML = `<span>${day}</span>`;
 
-            // 建立點點容器
-            const dotsContainer = document.createElement('div');
-            dotsContainer.className = 'calendar-dots-container';
-
-            mData.events.forEach((ev, evIdx) => {
+            let keyMatch = null;
+            mData.events.forEach(ev => {
                 if (day >= ev.start && day <= ev.end) {
-                    const dot = document.createElement('div');
-                    dot.className = 'calendar-dot';
-                    dot.style.backgroundColor = eventDotColors[evIdx % eventDotColors.length];
-                    dotsContainer.appendChild(dot);
+                    keyMatch = ev.key;
                 }
             });
 
-            if (dotsContainer.children.length > 0) {
-                cell.appendChild(dotsContainer);
+            if (keyMatch) {
+                const colorInfo = eventColors[keyMatch];
+                cell.classList.add(colorInfo.class);
             }
 
             daysContainer.appendChild(cell);
         }
 
-        // 3. 渲染點點色彩標示說明 (Legend)
-        mData.events.forEach((ev, evIdx) => {
-            const legItem = document.createElement('div');
-            legItem.className = 'legend-item';
-            const color = eventDotColors[evIdx % eventDotColors.length];
-            legItem.innerHTML = `
-                <span class="legend-dot-indicator" style="background-color: ${color}"></span>
-                <span>${ev.name}</span>
-            `;
-            legendContainer.appendChild(legItem);
-        });
+        // 3. 補齊下一個月開始的淡色格子 (為了讓月曆維持精巧緊湊排版)
+        const totalCells = prevMuted.length + mData.daysInMonth;
+        const remainder = totalCells % 7;
+        if (remainder !== 0) {
+            const nextMutedCount = 7 - remainder;
+            for (let day = 1; day <= nextMutedCount; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'calendar-cell muted';
+                cell.innerHTML = `<span>${day}</span>`;
+                daysContainer.appendChild(cell);
+            }
+        }
 
-        // 4. 渲染微型月份明細 (已更正：不含連結的純文字靜態 card 卡片，且微縮字體版面)
-        mData.events.forEach(ev => {
-            const card = document.createElement('div');
-            card.className = "item-card";
-            card.style.cursor = "default";
-            card.innerHTML = `
-                <div class="item-info">
-                    <span class="status-tag">${ev.turn} 預告</span>
-                    <div class="item-name-row" style="display:flex; justify-content:space-between; margin-bottom:4px; align-items:center;">
-                        <span class="item-name" style="font-size:0.8rem;">${ev.name}</span>
-                        <span class="date-tag" style="font-size:0.68rem;">${activeMonth}/${ev.start} - ${activeMonth}/${ev.end}</span>
+        // 4. 渲染下方明細清單 (完美符合附圖條列點點，點點與月曆日期色完全連動)
+        const activeList = monthEventLists[activeMonth] || [];
+        activeList.forEach(key => {
+            const info = eventColors[key];
+            const eventItem = document.createElement('div');
+            eventItem.className = 'calendar-event-item';
+            
+            eventItem.innerHTML = `
+                <div class="calendar-event-dot" style="background-color: ${info.bg}; border: 1px solid rgba(74, 68, 63, 0.05);"></div>
+                <div class="calendar-event-content">
+                    <div class="calendar-event-title-row">
+                        <span class="calendar-event-title">${info.label}</span>
+                        <span style="font-size:0.65rem; background-color: #EFEAE4; color: var(--btn-active); padding: 1px 5px; border-radius: 4px; font-weight: 500; margin-left: 2px; display: inline-block; vertical-align: middle;">${info.turn}</span>
+                        <span class="calendar-event-date">${info.date}</span>
                     </div>
-                    <div class="item-desc" style="font-size:0.68rem; line-height:1.35; color:var(--text-sub);">${ev.desc}</div>
+                    <span class="calendar-event-desc">${info.desc}</span>
                 </div>
             `;
-            detailsContainer.appendChild(card);
+            detailsContainer.appendChild(eventItem);
         });
     }
 
@@ -910,20 +980,22 @@
         renderCalendar();
     }
 
-    // --- 75款自用好物數據庫 (包含 10款手繪寫實SVG育兒精品 + 65款日常極簡一般好物) ---
+    // --- 75款自用好物數據庫 (包含 10款手繪寫實SVG育兒精品 + 65款日常精緻好物專屬特色SVG) ---
     const allProductsData = [
-        // 🧸 育兒專區 (10款，只有這10款才標示產地)
+        // 🧸 育兒專區 (10款)
         {
             name: "VIIDA Soufflé 兒童叉匙組",
             url: "https://s.shopee.tw/60OaT15BAb",
             tags: "育兒餐具 不鏽鋼",
-            desc: "採用304L抗菌不鏽鋼，搭配人體工學莫蘭迪粉嫩手柄，好握且無毒防滑。",
+            desc: "採用304L抗菌不鏽鋼，搭配人體工學莫蘭迪粉嫩厚實手柄，好握且無毒防滑。",
             origin: "台灣製 🇹🇼",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M16 12v12c0 4 3 6 6 6s6-2 6-6V12" stroke-linecap="round"/>
-                <path d="M20 12v8M24 12v8M22 30v22M44 12c-5 0-7 4-7 10v6h14v-6c0-6-2-10-7-10z" fill="#EFEAE4" stroke-linecap="round"/>
-                <path d="M44 28v24M14 52h36" stroke-linecap="round" stroke-dasharray="4 4"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M18 12v12c0 3 2 4 4 4s4-1 4-4V12" stroke-linecap="round"/>
+                <path d="M21 12v8M23 12v8"/>
+                <rect x="19" y="28" width="6" height="24" rx="3" fill="#EFEAE4"/>
+                <path d="M44 12c-4 0-6 3-6 8v4h12v-4c0-5-2-8-6-8z" fill="#EFEAE4" stroke-linecap="round"/>
+                <rect x="41" y="24" width="6" height="28" rx="3" fill="#EFEAE4"/>
             </svg>`
         },
         {
@@ -933,10 +1005,11 @@
             desc: "316醫療不鏽鋼，中空雙層隔熱，地表最強吸力吸盤，防掀翻必備。",
             origin: "台灣製 🇹🇼",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M12 16h40c0 14-8 24-20 24S12 30 12 16z" fill="#EFEAE4" stroke-linejoin="round"/>
-                <path d="M8 46c6 0 8-3 24-3s18 3 24 3v4H8v-4z" fill="#DCD2C7" stroke-linejoin="round"/>
-                <path d="M32 40v3" stroke-linecap="round"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M10 18c2 14 8 22 22 22s20-8 22-22H10z" fill="#FAF8F5" stroke-linejoin="round"/>
+                <path d="M10 18c3 2 7 3 22 3s19-1 22-3" stroke-linecap="round"/> 
+                <path d="M22 40l-4 8h28l-4-8" fill="#EFEAE4"/>
+                <path d="M14 48c8-2 28-2 36 0v3H14v-3z" fill="#DCD2C7"/>
             </svg>`
         },
         {
@@ -946,23 +1019,22 @@
             desc: "316不鏽鋼，獨特平底勺身極易刮取食物，完美貼合幼兒小嘴與碗底。",
             origin: "台灣製 🇹🇼",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M14 26l32-16 10 5-26 18c-3 2-6 2-8 0z" fill="#EFEAE4" stroke-linejoin="round"/>
-                <path d="M18 24c-4 3-7 8-7 12s3 6 8 4l25-17" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="15" cy="40" r="2.5" fill="#8E7F73"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M12 24h18l4 6-18 6H12z" fill="#EFEAE4" stroke-linejoin="round"/>
+                <path d="M30 27l22 14c2 1 4 0 5-2s0-4-2-5L34 21" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>`
         },
         {
             name: "小獅王辛巴 好吃防水圍兜",
             url: "https://s.shopee.tw/9Kf2TEIt60",
-            tags: "育兒餐具 其他特性",
+            tags: "育兒餐具 其他材質",
             desc: "超柔矽膠防油水，3D立體萌口袋精準承接餐屑，多段頸圈可微調。",
             origin: "台灣製 🇹🇼",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M20 12c4 4 8 4 12 4s8 0 12-4" stroke-linecap="round"/>
-                <path d="M14 18c2 12 6 20 18 20s16-8 18-20C46 44 18 48 14 18z" fill="#EFEAE4" stroke-linejoin="round"/>
-                <path d="M10 42c0-8 8-8 22-8s22 0 22 8c0 6-6 10-22 10S10 48 10 42z" fill="#DCD2C7" stroke-linejoin="round"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M24 12c3 3 6 3 8 3s5 0 8-3" stroke-linecap="round"/>
+                <path d="M18 14c1 16 3 24 14 24s13-8 14-24C42 34 22 36 18 14z" fill="#FAF8F5"/>
+                <path d="M12 36c0-4 6-4 20-4s20 0 20 4c0 10-5 16-20 16S12 46 12 36z" fill="#EFEAE4" stroke-linejoin="round"/>
             </svg>`
         },
         {
@@ -972,556 +1044,522 @@
             desc: "420高硬度不鏽鋼，安全防護鎖防幼童誤開，備料分剪輕鬆省力。",
             origin: "台灣製 🇹🇼",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <circle cx="20" cy="46" r="8" fill="#EFEAE4"/>
-                <circle cx="44" cy="46" r="8" fill="#EFEAE4"/>
-                <path d="M24 40L38 14M40 40L26 14" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M30 24l4 4" stroke-linecap="round"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <circle cx="22" cy="46" r="7" fill="#EFEAE4"/>
+                <circle cx="42" cy="46" r="7" fill="#EFEAE4"/>
+                <path d="M25 40L36 16M39 40L28 16" stroke-linecap="round"/>
+                <circle cx="32" cy="30" r="3.5" fill="#8E7F73"/>
             </svg>`
         },
         {
             name: "惠百施 TOMICA 兒童牙刷",
             url: "https://coupa.ng/cmZ3pA",
-            tags: "育兒洗沐 其他特性",
+            tags: "育兒洗沐 其他材質",
             desc: "2-6歲設計，小巧柔軟複合毛高效潔齒，手把印有TOMICA小車超討喜。",
             origin: "日本製 🇯🇵",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M18 10h10v6H18zM23 16v32M20 48h6v6h-6z" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="23" cy="30" r="3" fill="#8E7F73"/>
-                <path d="M20 33h6" stroke-linecap="round"/>
-                <path d="M12 12c2 0 4-2 4-2" stroke-linecap="round"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M28 10h10v6H28z" fill="#8E7F73" stroke-linecap="round"/>
+                <path d="M33 16v30" stroke-linecap="round"/>
+                <rect x="27" y="46" width="12" height="12" rx="3" fill="#EFEAE4"/>
+                <circle cx="30" cy="54" r="1.5" fill="#8E7F73"/>
+                <circle cx="36" cy="54" r="1.5" fill="#8E7F73"/>
             </svg>`
         },
         {
             name: "LION 獅王 趣淨洗手慕斯",
             url: "https://coupa.ng/cmZ3pL",
-            tags: "育兒清潔 其他特性",
+            tags: "育兒清潔 其他材質",
             desc: "溫和植萃抗菌，一壓即可享細密Q彈泡沫雲朵，寶寶洗手首選。",
             origin: "日本製 🇯🇵",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M22 24h20l4 24H18l4-24z" fill="#EFEAE4" stroke-linejoin="round"/>
-                <path d="M28 24V14M34 24V14" stroke-linecap="round"/>
-                <path d="M22 14c0-4 4-4 10-4s10 0 10 4v2H22v-2z" fill="#DCD2C7" stroke-linejoin="round"/>
-                <path d="M46 12c3-1 6-1 7 2s-1 6-4 5" stroke-linecap="round"/>
-                <path d="M14 12c-2 0-3-2-2-3s2-1 3 0" stroke-linecap="round"/>
-                    </svg>`
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M22 28h20l3 24H19l3-24z" fill="#FAF8F5"/>
+                <path d="M32 28V20" stroke-width="3"/>
+                <path d="M20 16h20v4H20v-4z" fill="#8E7F73" rx="1"/>
+                <path d="M18 16c-3-2-5 1-3 3s4 1 3-1z" fill="#EFEAE4" stroke="none"/>
+                <circle cx="13" cy="14" r="2" fill="#EFEAE4" stroke="none"/>
+            </svg>`
         },
         {
             name: "康菲 幼幼3D醫療口罩",
             url: "https://coupa.ng/cmZ3p3",
-            tags: "育兒清潔 安全防護",
+            tags: "育兒清潔 其他材質",
             desc: "1-3歲專用立體結構，透氣不悶口鼻，高柔耳帶配戴舒適無壓。",
             origin: "台灣製 🇹🇼",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M12 20c16 0 24 4 20 20s-16 8-20 0S8 20 12 20z" fill="#EFEAE4" stroke-linejoin="round"/>
-                <path d="M36 28c8-8 16-2 16 8s-12 10-16 4" stroke-linecap="round" stroke-dasharray="3 3"/>
-                <path d="M24 48c4 4 8 4 12 0" stroke-linecap="round"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M12 32c6-10 18-12 24-4l14 4-14 4c-6 8-18 6-24-4z" fill="#FAF8F5" stroke-linejoin="round"/>
+                <path d="M12 32l38 0" stroke-dasharray="2 2"/>
+                <path d="M14 28c-4-4-6 0-2 8" stroke-linecap="round"/>
+                <path d="M45 29c4-4 6 0 2 8" stroke-linecap="round"/>
             </svg>`
         },
         {
             name: "慕之恬廊 嬰兒沐浴雙潔乳",
             url: "https://coupa.ng/cmZ3qA",
-            tags: "育兒洗沐 其他特性",
+            tags: "育兒洗沐 其他材質",
             desc: "溫和低敏，不流淚無香精配方，洗髮沐浴二合一，洗後滑嫩細緻。",
             origin: "法國製 🇫🇷",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M20 22h24l2 32H18l2-32z" fill="#EFEAE4" stroke-linejoin="round"/>
-                <path d="M28 22V14M36 22V14" stroke-linecap="round"/>
-                <path d="M26 14h12v4H26v-4z" fill="#DCD2C7" stroke-linejoin="round"/>
-                <path d="M26 34c3 3 8 0 8-4s-5-7-8-4z" fill="#FAF8F5" stroke-linejoin="round"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M22 24h20c3 12 4 20 2 28H20c-2-8-1-16 2-28z" fill="#FAF8F5" stroke-linejoin="round"/>
+                <rect x="28" y="16" width="8" height="8" fill="#EFEAE4"/>
+                <path d="M26 16h12" stroke-linecap="round"/>
             </svg>`
         },
         {
             name: "黃金盾 抗菌清潔噴劑",
             url: "https://s.shopee.tw/3VhFXZ1EdF",
-            tags: "育兒清潔 安全防護",
+            tags: "育兒清潔 其他材質",
             desc: "長效物理抗菌，免去化學防腐劑殘留，貼心呵護寶寶玩具與桌椅。",
             origin: "台灣製 🇹🇼",
             isBaby: true,
-            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5" class="w-10 h-10">
-                <path d="M24 28h16l2 24H22l2-24z" fill="#EFEAE4" stroke-linejoin="round"/>
-                <path d="M32 28v-8" stroke-linecap="round"/>
-                <path d="M22 14c0-2 4-4 10-4s10 2 10 4v6H22v-6z" fill="#DCD2C7" stroke-linejoin="round"/>
-                <path d="M32 34l6 6-6 6-6-6 6-6z" fill="#FAF8F5" stroke-linejoin="round"/>
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M24 30h16l2 22H22l2-22z" fill="#FAF8F5"/>
+                <path d="M32 30v-8"/>
+                <path d="M20 16h14l8 4-2 4H26l-6-8z" fill="#8E7F73" stroke-linejoin="round"/>
             </svg>`
         },
 
-        // 🏡 常規生活好物 (65款，備註/警告全數移除，且不顯示任何產地/製作國勳章)
+        // 🏡 常規生活好物 (65款，已依照空間範圍/用途/材質全新定制手繪特色SVG圖示)
         {
             name: "304不鏽鋼萬向起泡頭",
             url: "https://link.tw.coupang.com/a/bIHvF",
-            tags: "廚房 浴室 清潔 不鏽鋼",
-            desc: "防濺水微米起泡設計，可大角度自由旋轉清洗死角。"
+            tags: "廚房 好物 不鏽鋼",
+            desc: "防濺水微米起泡設計，可大角度自由旋轉清洗死角。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M22 20h20v14H22zM27 34v10a2 2 0 002 2h6a2 2 0 002-2V34M32 14v6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="32" cy="34" r="3" fill="#8E7F73"/>
+            </svg>`
         },
         {
-            name: "Tomica 小汽車展示架",
+            name: "Tomica小汽車展示架",
             url: "https://s.shopee.tw/8pjCaOd277",
-            tags: "臥室 其他區域 收納 其他特性",
-            desc: "高透光防塵美學壁掛，給心愛的小汽車專屬的排列展示家。"
+            tags: "其他區域 收納 其他材質",
+            desc: "高透光防塵美學壁掛，給心愛的小汽車專屬的排列展示家。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="14" y="14" width="36" height="36" rx="4" fill="#EFEAE4"/>
+                <path d="M14 26h36M14 38h36M26 14v36M38 14v36" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "201不鏽鋼菜瓜布瀝水架",
             url: "https://s.shopee.tw/AKVq8hE4DH",
             tags: "廚房 收納 不鏽鋼",
-            desc: "免鑽孔貼合水龍頭管路，不鏽鋼通風快速乾燥防霉。"
+            desc: "免鑽孔貼合水龍頭管路，不鏽鋼通風快速乾燥防霉。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="18" y="24" width="28" height="20" rx="3" fill="#EFEAE4"/>
+                <path d="M24 24v-6c0-2 2-4 4-4s4 2 4 4v6" stroke-linecap="round"/>
+                <path d="M22 30h20M22 36h20M22 42h20" stroke-linecap="round" stroke-dasharray="2 2"/>
+            </svg>`
         },
         {
             name: "極簡線材收納盒",
             url: "https://s.shopee.tw/4VZwIrtbog",
-            tags: "臥室 其他區域 收納 其他特性",
-            desc: "整理排插與凌亂線圈，雙側留空孔洞，維持客廳與桌下清爽。"
+            tags: "其他區域 收納 其他材質",
+            desc: "整理排插與凌亂線圈，雙側留空孔洞，維持客廳與桌下清爽。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="14" y="22" width="36" height="22" rx="4" fill="#FAF8F5"/>
+                <rect x="12" y="18" width="40" height="4" rx="1" fill="#EFEAE4"/>
+                <path d="M18 30v6M46 30v6" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "A4 站立式風琴夾",
             url: "https://s.shopee.tw/8fMC78Uaut",
-            tags: "其他區域 收納 其他特性",
-            desc: "風琴伸縮自如，站立不占空間，妥善收納各類家庭帳單與文件。"
+            tags: "其他區域 收納 其他材質",
+            desc: "風琴伸縮自如，站立不占空間，妥善收納各類家庭帳單與文件。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M14 20l8 24h24l4-24H14z" fill="#EFEAE4"/>
+                <path d="M18 20l4 18M26 20l4 18M34 20l4 18M42 20l4 18" stroke-linecap="round"/>
+                <path d="M16 14h6M34 14h6" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "不鏽鋼料理夾",
             url: "https://s.shopee.tw/3LNfdtmoA2",
-            tags: "廚房 生活 不鏽鋼",
-            desc: "精細工藝好握省力，前端夾合嚴密，料理翻面、夾取菜葉皆流暢。"
+            tags: "廚房 好物 不鏽鋼",
+            desc: "精細工藝好握省力，前端夾合嚴密，料理翻面、夾取菜葉皆流暢。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M22 16c6 2 24 10 24 14s-18 12-24 14" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M46 30c0 4-4 4-4 0s4-4 0 0z" fill="#8E7F73" stroke="none"/>
+            </svg>`
         },
         {
             name: "浴室壁掛感應垃圾桶",
             url: "https://s.shopee.tw/qdstxibCY",
-            tags: "浴室 收納 其他特性",
-            desc: "壁掛貼合免彎腰，免接觸智能自動開闔，封鎖浴室異味。"
+            tags: "浴室 好物 其他材質",
+            desc: "壁掛貼合免彎腰，免接觸智能自動開闔，封鎖浴室異味。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="20" y="24" width="24" height="28" rx="4" fill="#FAF8F5"/>
+                <path d="M18 22h28a2 2 0 002-2v-2H16v2a2 2 0 002 2z" fill="#EFEAE4"/>
+                <path d="M26 12l6 4 6-4" stroke-linecap="round" stroke-dasharray="2 2"/>
+            </svg>`
         },
         {
             name: "抹茶 7 件套組",
             url: "https://amzn.asia/d/0dRYTFKP",
-            tags: "廚房 生活 其他特性",
-            desc: "全套茶筅、茶碗與支架，在家也能優雅體驗手點抹茶的儀式感。"
+            tags: "廚房 好物 其他材質",
+            desc: "全套茶筅、茶碗與支架，在家也能優雅體驗手點抹茶的儀式感。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M16 40c2 10 8 12 16 12s14-2 16-12H16z" fill="#EFEAE4"/>
+                <path d="M32 12c-4 10-6 16-2 22s10-6 2-22z" fill="#FAF8F5" stroke-linejoin="round"/>
+            </svg>`
         },
         {
             name: "小山園青嵐抹茶粉",
             url: "https://amzn.asia/d/0ikYN5oJ",
-            tags: "廚房 生活 其他特性",
-            desc: "經典宇治百年小山園，粉質鮮綠甘甜，手作抹茶歐蕾最配。"
+            tags: "廚房 好物 其他材質",
+            desc: "經典宇治百年小山園，粉質鮮綠甘甜，手作抹茶歐蕾最配。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="20" y="20" width="24" height="30" rx="3" fill="#EFEAE4"/>
+                <path d="M18 16h28v4H18v-4z" fill="#8E7F73" rx="1"/>
+                <circle cx="32" cy="35" r="5" fill="#FAF8F5"/>
+            </svg>`
         },
         {
             name: "我的命定水槽濾網",
             url: "https://s.shopee.tw/5VRnpHZuqt",
-            tags: "廚房 清潔 其他特性",
-            desc: "彈性極佳細密網格，套入水槽提籠迅速濾乾水份，阻絕細碎廚餘。"
+            tags: "廚房 清潔 其他材質",
+            desc: "彈性極佳細密網格，套入水槽提籠迅速濾乾水份，阻絕細碎廚餘。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M14 20C18 36 24 44 32 44s14-8 18-24H14z" fill="#FAF8F5" stroke-linejoin="round"/>
+                <path d="M12 20h40" stroke-linecap="round"/>
+                <path d="M22 26v10M32 24v14M42 26v10" stroke-linecap="round" stroke-dasharray="2 2"/>
+            </svg>`
         },
         {
-            name: "日本下村工業 430不鏽鋼調理淺盤",
+            name: "430不鏽鋼調理淺盤",
             url: "https://s.shopee.tw/9KbdlhxpbD",
-            tags: "廚房 生活 不鏽鋼",
-            desc: "高質感不鏽鋼淺盤，堆疊極致省空間，沾粉備料擺放整齊好用。"
+            tags: "廚房 好物 不鏽鋼",
+            desc: "高質感不鏽鋼淺盤，堆疊極致省空間，沾粉備料擺放整齊好用。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="14" y="24" width="36" height="20" rx="3" fill="#EFEAE4"/>
+                <rect x="18" y="28" width="28" height="12" rx="1" fill="#FAF8F5" stroke-dasharray="2 2"/>
+            </svg>`
         },
         {
-            name: "日本 COGIT 磁吸滑軌掛鉤",
+            name: "磁吸滑軌掛鉤",
             url: "https://s.shopee.tw/BPthkZaNx",
-            tags: "廚房 浴室 收納 其他特性",
-            desc: "強磁貼吸磁滑軌，推拉滑動流暢，輕鬆吊掛衛浴或廚房小道具。"
+            tags: "廚房 其他區域 收納 其他材質",
+            desc: "強磁貼吸磁滑軌，推拉滑動流暢，輕鬆吊掛衛浴或廚房小道具。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="14" y="22" width="36" height="6" rx="2" fill="#8E7F73"/>
+                <path d="M20 28v8a3 3 0 003 3" stroke-linecap="round"/>
+                <path d="M32 28v8a3 3 0 003 3" stroke-linecap="round"/>
+                <path d="M44 28v8a3 3 0 003 3" stroke-linecap="round"/>
+            </svg>`
         },
         {
-            name: "深層衣物去汙筆 (高便攜型)",
+            name: "深層衣物去汙筆",
             url: "https://s.shopee.tw/2qQTV5Upxx",
-            tags: "其他區域 清潔 其他特性",
-            desc: "輕巧口紅大小隨身攜帶，快速消解衣服意外沾染的咖啡與醬汁。"
+            tags: "其他區域 清潔 其他材質",
+            desc: "輕巧口紅大小隨身攜帶，快速消解衣服意外沾染的咖啡與醬汁。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="26" y="22" width="12" height="30" rx="4" fill="#FAF8F5"/>
+                <rect x="28" y="14" width="8" height="8" rx="1" fill="#EFEAE4"/>
+                <path d="M26 34h12" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "304不鏽鋼調理盆",
             url: "https://s.shopee.tw/8KklIfIrNS",
-            tags: "廚房 生活 不鏽鋼",
-            desc: "圓弧無死角深型盆體，打蛋、和麵、做沙拉皆便利無雜音。"
+            tags: "廚房 好物 不鏽鋼",
+            desc: "圓弧無死角深型盆體，打蛋、和麵、做沙拉皆便利無雜音。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M12 24c4 16 10 24 20 24s16-8 20-24H12z" fill="#EFEAE4" stroke-linejoin="round"/>
+                <path d="M10 24h44" stroke-linecap="round"/>
+            </svg>`
         },
         {
-            name: "日本ECHO 430不鏽鋼瀝水網",
+            name: "430不鏽鋼瀝水網",
             url: "https://s.shopee.tw/20qiYJ7qJG",
-            tags: "廚房 收納 不鏽鋼",
-            desc: "金屬網格瀝水防潮，洗淨食材、蔬果必備的高顏值瀝水網架。"
-        },
-        {
-            name: "衣物油汙深層去汙筆 (急救版)",
-            url: "https://s.shopee.tw/AKWSz7K4qt",
-            tags: "其他區域 清潔 其他特性",
-            desc: "活性去漬因子，外餐時意外去油急救神器，不傷織品不留痕。"
+            tags: "廚房 好物 不鏽鋼",
+            desc: "金屬網格瀝水防潮，洗淨食材、蔬果必備的高顏值瀝水網架。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M12 24c2 12 8 20 20 20s18-8 20-20H12z" fill="#EFEAE4" stroke-linejoin="round"/>
+                <circle cx="20" cy="30" r="1.5" fill="#8E7F73"/>
+                <circle cx="32" cy="32" r="1.5" fill="#8E7F73"/>
+                <circle cx="44" cy="30" r="1.5" fill="#8E7F73"/>
+                <path d="M8 24h48" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "鏡子水垢清潔鑽石海綿",
             url: "https://s.shopee.tw/5fkUntcjB2",
-            tags: "浴室 清潔 其他特性",
-            desc: "專利微細研磨粒子，沾水輕抹即能物理性磨除鏡面與玻璃水垢。"
+            tags: "浴室 清潔 其他材質",
+            desc: "專利微細研磨粒子，沾水輕抹即能物理性磨除鏡面與玻璃水垢。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="20" y="20" width="24" height="24" rx="4" fill="#FAF8F5"/>
+                <path d="M20 28h24M20 36h24M28 20v24M36 20v24" stroke-linecap="round" stroke-dasharray="2 2"/>
+            </svg>`
         },
         {
             name: "加厚抑菌抽屜墊",
             url: "https://s.shopee.tw/AKWJ5vV8Xs",
-            tags: "廚房 臥室 收納 其他特性",
-            desc: "自由裁剪，防潮防霉防油，抹布一抹即乾淨，解決櫃體難清理設計。"
+            tags: "廚房 好物 其他材質",
+            desc: "自由裁剪，防潮防霉防油，抹布一抹即乾淨，解決櫃體難清理設計。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M16 22h24a4 4 0 014 4v16a4 4 0 01-4 4H16c-3 0-4-2-4-4V26c0-2 1-4 4-4z" fill="#EFEAE4" stroke-linejoin="round"/>
+                <path d="M16 30h28M16 38h28" stroke-linecap="round" stroke-dasharray="2 2"/>
+            </svg>`
         },
         {
-            name: "Silicook 食品級蒜末分裝盒",
+            name: "食品級蒜末分裝盒",
             url: "https://s.shopee.tw/7fVMWTQzXM",
-            tags: "廚房 收納 其他特性",
-            desc: "一格格分明好脫模，可完美定量存放蒜末、薑泥，密封不串味。"
+            tags: "廚房 收納 其他材質",
+            desc: "一格格分明好脫模，可完美定量存放蒜末、薑泥，密封不串味。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="20" width="32" height="24" rx="3" fill="#FAF8F5"/>
+                <path d="M16 28h32M16 36h32M24 20v24M32 20v24M40 20v24" stroke-linecap="round"/>
+            </svg>`
         },
         {
-            name: "宜得利 碎末器 (手拉式)",
+            name: "手拉式碎末器",
             url: "https://s.shopee.tw/2qQ6lXXkRZ",
-            tags: "廚房 生活 其他特性",
-            desc: "拉拉手柄極速均勻切碎蒜粒洋蔥，無須插電，好沖好洗。"
+            tags: "廚房 好物 其他材質",
+            desc: "拉拉手柄極速均勻切碎蒜粒洋蔥，無須插電，好沖好洗。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M18 28c0 10 6 16 14 16s14-6 14-16H18z" fill="#EFEAE4"/>
+                <path d="M16 24h32v4H16v-4z" fill="#8E7F73" rx="1"/>
+                <circle cx="44" cy="36" r="3" fill="#FAF8F5"/>
+            </svg>`
         },
         {
-            name: "comet 防滑浴室椅",
+            name: "防滑浴室椅",
             url: "https://link.tw.coupang.com/a/bIHwt",
-            tags: "浴室 生活 安全防護",
-            desc: "貼臀微凹極簡弧度，防滑橡膠底腳，浴室淋浴起坐穩固安全。"
+            tags: "浴室 好物 其他材質",
+            desc: "貼臀微凹極簡弧度，防滑橡膠底腳，浴室淋浴起坐穩固安全。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M16 32l-4 18M48 32l4 18M20 22h24c4 0 6 2 6 4s-2 6-6 6H20c-4 0-6-4-6-6s2-4 6-4z" fill="#EFEAE4" stroke-linejoin="round"/>
+                <path d="M24 28h16" stroke-linecap="round"/>
+            </svg>`
         },
         {
-            name: "地球製藥 馬桶清潔劑",
+            name: "馬桶泡沫清潔粉",
             url: "https://s.shopee.tw/4LE5IC67UI",
-            tags: "浴室 清潔 其他特性",
-            desc: "倒置微彎瓶頭設計，直達馬桶邊槽死角，強效瓦解黃垢。"
+            tags: "浴室 清潔 其他材質",
+            desc: "倒置微彎瓶頭設計，直達馬桶邊槽死角，強效瓦解黃垢。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M22 26h20c2 10 3 18 2 24H20c-1-6 0-14 2-24z" fill="#FAF8F5" stroke-linejoin="round"/>
+                <path d="M28 26l-6-8 4-4 8 6-6 6" fill="#EFEAE4" stroke-linejoin="round"/>
+            </svg>`
         },
         {
             name: "不銹鋼水槽清潔鍍膜噴霧",
             url: "https://s.shopee.tw/70FJcxHvVE",
-            tags: "廚房 清潔 其他特性",
-            desc: "快速覆蓋水槽不鏽鋼表面，荷葉撥水效果，水垢與油垢不易停留。"
+            tags: "廚房 清潔 其他材質",
+            desc: "快速覆蓋水槽不鏽鋼表面，荷葉撥水效果，水垢與油垢不易停留。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M24 30h16l2 22H22l2-22z" fill="#FAF8F5"/>
+                <path d="M32 30v-8"/>
+                <path d="M20 16h14l8 4-2 4H26l-6-8z" fill="#8E7F73" stroke-linejoin="round"/>
+            </svg>`
         },
         {
             name: "水龍頭延伸器",
             url: "https://coupa.ng/cnxAIO",
-            tags: "廚房 浴室 生活 其他特性",
-            desc: "寬嘴矽膠鴨舌導流延伸，縮短洗手距離，方便日常輕鬆洗漱。"
+            tags: "浴室 好物 其他材質",
+            desc: "寬嘴矽膠鴨舌導流延伸，縮短洗手距離，方便日常輕鬆洗漱。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M14 20h22v10a6 6 0 01-6 6h-10a6 6 0 01-6-6V20z" fill="#EFEAE4" stroke-linejoin="round"/>
+                <path d="M30 36l18 10-6 6-12-16" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>`
         },
         {
             name: "摺疊多層褲架",
             url: "https://s.shopee.tw/60MT1HtDou",
-            tags: "臥室 收納 其他特性",
-            desc: "六合一橫豎雙掛，收攏時衣櫃空間激增五倍，防滑阻力拿取快速。"
+            tags: "其他區域 收納 其他材質",
+            desc: "六合一橫豎雙掛，收攏時衣櫃空間激增五倍，防滑阻力拿取快速。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M32 14v10M20 24h24M20 30h24M20 36h24M20 42h24" stroke-linecap="round"/>
+                <circle cx="32" cy="12" r="2" fill="#8E7F73"/>
+            </svg>`
         },
         {
-            name: "Marna 冷凍米飯盒",
+            name: "冷凍米飯盒",
             url: "https://s.shopee.tw/6AfMyOXdlK",
-            tags: "廚房 收納 其他特性",
-            desc: "瀝水板對流構造，微波覆熱依舊如現煮大米，口感Q彈粒粒分明。"
+            tags: "廚房 好物 其他材質",
+            desc: "瀝水板對流構造，微波覆熱依舊如现煮大米，口感Q彈粒粒分明。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="18" y="18" width="28" height="28" rx="5" fill="#FAF8F5"/>
+                <rect x="22" y="22" width="20" height="20" rx="3" fill="#EFEAE4" stroke-dasharray="2 2"/>
+            </svg>`
         },
         {
-            name: "地球製藥 馬桶發泡清潔劑",
+            name: "馬桶泡沫清潔劑",
             url: "https://s.shopee.tw/9KbybdlL57",
-            tags: "浴室 清潔 其他特性",
-            desc: "全自動發泡填滿馬桶底座，高密附泡去油去黃，免動手刷洗。"
+            tags: "浴室 清潔 其他材質",
+            desc: "全自動發泡填滿馬桶底座，高密附泡去油去黃，免動手刷洗。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="20" y="20" width="24" height="30" rx="4" fill="#EFEAE4"/>
+                <path d="M26 35c3-3 7 0 7 4s-4 4-7 0z" fill="#FAF8F5" stroke="none"/>
+            </svg>`
         },
         {
-            name: "白元 冰箱強效除臭劑",
+            name: "冰箱強效除臭劑",
             url: "https://s.shopee.tw/806b1JEBve",
-            tags: "廚房 清潔 其他特性",
-            desc: "天然備長炭超強異味吸附，避免冰箱食材互相串味沾染異味。"
+            tags: "廚房 清潔 其他材質",
+            desc: "天然備長炭超強異味吸附，避免冰箱食材互相串味沾染異味。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="22" width="32" height="22" rx="3" fill="#FAF8F5"/>
+                <path d="M20 28h24M20 34h24M20 40h24" stroke-linecap="round" stroke-dasharray="3 3"/>
+            </svg>`
         },
         {
             name: "飾品收納訂製架",
             url: "https://s.shopee.tw/6fbCmGx814",
-            tags: "臥室 收納 其他特性",
-            desc: "防塵玻璃格柵，柔軟絨布內襯，保護項鍊首飾不再打結與氧化。"
+            tags: "其他區域 收納 其他材質",
+            desc: "防塵玻璃格柵，柔軟絨布內襯，保護項鍊首飾不再打結與氧化。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="16" width="32" height="32" rx="4" fill="#EFEAE4"/>
+                <path d="M22 24h20M22 32h20M22 40h20" stroke-linecap="round"/>
+            </svg>`
         },
         {
-            name: "日本SANADA 6格分隔保鮮盒",
+            name: "6格分隔保鮮盒",
             url: "https://s.shopee.tw/10wVrtVnBl",
-            tags: "廚房 收納 其他特性",
-            desc: "多格分格提拿方便，冷藏保鮮，收納蔥花切粒乾貨絕配。"
+            tags: "廚房 好物 其他材質",
+            desc: "多格分格提拿方便，冷藏保鮮，收納蔥花切粒乾貨絕配。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="18" width="32" height="28" rx="4" fill="#FAF8F5"/>
+                <path d="M16 32h32M26 18v28M38 18v28" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "牛頭鋼®安康內鍋",
             url: "https://s.shopee.tw/4AtTxAOesP",
-            tags: "廚房 生活 其他特性",
-            desc: "頂級加厚複合金，傳熱極速受熱均勻，提升電鍋米粒晶瑩度。"
+            tags: "廚房 好物 不鏽鋼",
+            desc: "頂級加厚複合金，傳熱極速受熱均勻，提升電鍋米粒晶瑩度。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M16 20C20 36 24 44 32 44s12-8 16-24H16z" fill="#EFEAE4" stroke-linejoin="round"/>
+                <path d="M12 20h40" stroke-linecap="round"/>
+            </svg>`
         },
         {
-            name: "浴櫃雙層推拉收納架",
+            name: "浴櫃伸縮收納架",
             url: "https://s.shopee.tw/9zoRsijvO1",
-            tags: "浴室 收納 其他特性",
-            desc: "推拉滑軌抽拉流暢，充分挖掘衛浴櫃死角盆底的水管旁盲區空間。"
+            tags: "浴室 收納 其他材質",
+            desc: "推拉滑軌抽拉流暢，充分挖掘衛浴櫃死角盆底的水管旁盲區空間。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="18" y="16" width="28" height="32" rx="2" fill="#FAF8F5"/>
+                <path d="M18 30h28" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "直條紋耐熱玻璃茶壺",
             url: "https://s.shopee.tw/qcLKVqP2a",
-            tags: "廚房 生活 其他特性",
-            desc: "大容量耐冷熱玻璃，細密條紋優雅濾芯，茶水輕鬆分離。"
+            tags: "廚房 好物 其他材質",
+            desc: "大容量耐冷熱玻璃，細密條紋優雅濾芯，茶水輕鬆分離。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M22 20C24 38 28 44 36 44s12-6 14-24H22z" fill="#FAF8F5"/>
+                <path d="M16 16h24a2 2 0 012 2v2H14v-2a2 2 0 012-2z" fill="#EFEAE4"/>
+                <path d="M28 20v24M34 20v24M40 20v24" stroke-linecap="round" stroke-dasharray="1 1"/>
+            </svg>`
         },
         {
             name: "雙層隔熱玻璃杯",
             url: "https://s.shopee.tw/qcLKYTbYz",
-            tags: "廚房 生活 其他特性",
-            desc: "中空雙層防燙，持握手感圓潤，冷熱盛裝皆優美透亮。"
+            tags: "廚房 好物 其他材質",
+            desc: "中空雙層防燙，持握手感圓潤，冷熱盛裝皆優美透亮。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M20 16c2 16 4 32 12 32s10-16 12-32H20z" fill="#FAF8F5"/>
+                <path d="M24 18c1 12 3 24 8 24s7-12 8-24H24z" fill="#EFEAE4"/>
+            </svg>`
         },
         {
-            name: "小林製藥 水管發泡清潔錠",
+            name: "水管發泡清潔錠",
             url: "https://s.shopee.tw/4q88ODJDIz",
-            tags: "廚房 浴室 清潔 其他特性",
-            desc: "直接投入存水彎發泡深度殺菌，一錠瓦解底層油泥水垢異味。"
+            tags: "廚房 浴室 清潔 其他材質",
+            desc: "直接投入存水彎發泡深度殺菌，一錠瓦解底層油泥水垢異味。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M18 16h8v16a6 6 0 0012 0V16h8" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="32" cy="38" r="4" fill="#8E7F73"/>
+            </svg>`
         },
         {
-            name: "紀陽 製冰機不殘留清洗劑",
+            name: "製冰機不殘留清洗劑",
             url: "https://s.shopee.tw/1BEq1V1lxs",
-            tags: "廚房 清潔 其他特性",
-            desc: "天然食品級果酸成分，徹底洗淨製冰機內部盲區死角水垢和黴菌。"
+            tags: "廚房 清潔 其他材質",
+            desc: "天然食品級果酸成分，徹底洗淨製冰機內部盲區死角水垢和黴菌。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="24" y="22" width="16" height="28" rx="3" fill="#EFEAE4"/>
+                <path d="M28 22v-6h8v6" stroke-linecap="round"/>
+            </svg>`
         },
         {
-            name: "地球製藥 持久馬桶發泡劑 (多效)",
-            url: "https://s.shopee.tw/20p5R4LFFs",
-            tags: "浴室 清潔 其他特性",
-            desc: "密實持久包覆泡沫，深層潤滑去汙，維持陶瓷座壁潔淨晶瑩。"
-        },
-        {
-            name: "格林之語 日式家居美學店",
+            name: "兒童遊戲間系統收納櫃",
             url: "https://e.tb.cn/h.SEeUlWnLdKf5ypt",
-            tags: "其他區域 臥室 生活 其他特性",
-            desc: "嚴選極簡與侘寂感生活物件，妝點家屋的角落細緻之選。"
+            tags: "其他區域 好物 其他材質",
+            desc: "嚴選極簡與侘寂感生活物件，妝點家屋的角落細緻之選。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="18" y="32" width="28" height="18" fill="#EFEAE4"/>
+                <path d="M32 14c-4 4-6 10-6 18h12c0-8-2-14-6-18z" fill="#FAF8F5" stroke-linejoin="round"/>
+            </svg>`
         },
         {
             name: "北極熊透明收納罐",
             url: "https://e.tb.cn/h.SoMXj7OBVD4t6Tx",
-            tags: "其他區域 廚房 收納 其他特性",
-            desc: "高晶瑩度玻璃，頂端精緻北極熊蓋鈕，棉籤、茶包美型收納罐。"
+            tags: "廚房 收納 其他材質",
+            desc: "高晶瑩度玻璃，頂端精緻北極熊蓋鈕，棉籤、茶包美型收納罐。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="20" y="24" width="24" height="26" rx="6" fill="#FAF8F5"/>
+                <path d="M24 16c2-1 6-1 8 2s2 4 4 2" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "小貓立書檔",
             url: "https://s.shopee.tw/BLgttWbej",
-            tags: "臥室 其他區域 收納 其他特性",
-            desc: "重鋼製貓咪剪影支撐力極佳，規整書籍與夾放手帳極度溫馨。"
+            tags: "其他區域 收納 其他材質",
+            desc: "重鋼製貓咪剪影支撐力極佳，規整書籍與夾放手帳極度溫馨。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M14 46h36M18 46V18h12v28" stroke-linecap="round"/>
+                <circle cx="38" cy="28" r="4" fill="#8E7F73"/>
+            </svg>`
         },
         {
             name: "原木色翻頁日曆",
             url: "https://s.shopee.tw/AA92oIXjMd",
-            tags: "臥室 其他區域 生活 其他特性",
-            desc: "手動翻頁儀式感，實木溫潤支撐，妝點家屋美學的手帳案頭件。"
+            tags: "其他區域 好物 其他材質",
+            desc: "手動翻頁儀式感，實木溫潤支撐，妝點家屋美學的手帳案頭件。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="20" width="32" height="24" rx="3" fill="#EFEAE4"/>
+                <path d="M20 28h24" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "手工編織收納提籃",
             url: "https://e.tb.cn/h.So7KdRJjFsO31Sd",
-            tags: "臥室 其他區域 收納 其他特性",
-            desc: "大容量布草編織，柔軟收折，自然森林手作感視覺，收納首選。"
+            tags: "廚房 收納 其他材質",
+            desc: "大容量布草編織，柔軟收折，自然森林手作感視覺，收納首選。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <path d="M14 26h36v20a4 4 0 01-4 4H18a4 4 0 01-4-4V26z" fill="#EFEAE4" stroke-linejoin="round"/>
+                <path d="M12 26c4-4 8-4 12 0s8 4 12 0" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "實木花朵雕刻杯墊",
             url: "https://e.tb.cn/h.SoM5anRLYd7mxz4",
-            tags: "廚房 其他區域 生活 其他特性",
-            desc: "精密切割花瓣木紋，防燙防滑，襯托品茶歐蕾美感。"
+            tags: "廚房 好物 其他材質",
+            desc: "精密切割花瓣木紋，防燙防滑，襯托品茶歐蕾美感。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <circle cx="32" cy="32" r="18" fill="#EFEAE4"/>
+                <path d="M32 14c2 4 6 4 6 8s-4 4-6 4" stroke-linecap="round"/>
+            </svg>`
         },
         {
             name: "奶油分切保存盒",
             url: "https://s.shopee.tw/3fvRpPhD30",
-            tags: "廚房 收納 其他特性",
-            desc: "分切鋼線格柵，均勻切割奶油，密封鎖鮮，做料理不再沾手。"
+            tags: "廚房 好物 其他材質",
+            desc: "分切鋼線格柵，均勻切割奶油，密封鎖鮮，做料理不再沾手。",
+            svg: `<svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2.5">
+                <rect x="16" y="22" width="32" height="20" rx="3" fill="#FAF8F5"/>
+                <path d="M22 22v20M28 22v20M34 22v20M40 22v20" stroke-linecap="round" stroke-dasharray="1 2"/>
+            </svg>`
         },
-        {
-            name: "蔬菜甩乾離心機",
-            url: "https://s.shopee.tw/4VUYpJmLSR",
-            tags: "廚房 生活 其他特性",
-            desc: "高速離心快速甩乾沙拉生菜水分，保持乾爽與爽脆口感。"
-        },
-        {
-            name: "手作烘焙迷你電子秤",
-            url: "https://s.shopee.tw/40YIEUz5og",
-            tags: "廚房 生活 其他特性",
-            desc: "微克精準計量，極薄不鏽鋼鏡面，做甜點與咖啡的完美秤重道具。"
-        },
-        {
-            name: "迷你掌上封口機",
-            url: "https://s.shopee.tw/3AzBF0N2kt",
-            tags: "廚房 生活 其他特性",
-            desc: "輕巧一拉即完成加熱封口，餅乾、調料袋隨手密封，強防潮。"
-        },
-        {
-            name: "義大利麵立式保鮮盒",
-            url: "https://s.shopee.tw/7AVIQ0gmqy",
-            tags: "廚房 收納 其他特性",
-            desc: "高透亮抗震罐身，旋蓋大密封，出麵孔貼心計量防潮保鮮。"
-        },
-        {
-            name: "日本極簡廚房地墊",
-            url: "https://s.shopee.tw/5pzzSjVNdc",
-            tags: "廚房 生活 其他特性",
-            desc: "慢回彈減壓軟墊，吸水吸油防污耐踩，腳踏極致舒適放鬆。"
-        },
-        {
-            name: "軟式珪藻土瞬吸踏墊",
-            url: "https://momo.dm/3aaaM6",
-            tags: "浴室 生活 安全防護",
-            desc: "科技吸水微孔，踩乾腳板水滴，軟身親膚底座，貼黏地防滑。"
-        },
-        {
-            name: "珊瑚絨超吸水掛式擦手巾",
-            url: "https://s.shopee.tw/4VU8FhPR6Q",
-            tags: "廚房 浴室 生活 其他特性",
-            desc: "珊瑚絨密圈圈速吸水分，手摸軟綿綿，附掛帶，美化洗手台壁面。"
-        },
-        {
-            name: "可摺疊棉麻髒衣籃",
-            url: "https://浴室 臥室 收納 其他特性",
-            tags: "浴室 臥室 收納 其他特性",
-            desc: "棉麻質感防雨層，大容量盛放換洗衣物，不用時壓扁秒收。"
-        },
-        {
-            name: "一次性替換馬桶刷",
-            url: "https://s.shopee.tw/Vy0Nszq3V",
-            tags: "浴室 清潔 其他特性",
-            desc: "專利帶洗劑藍刷頭，拋棄式設計免手觸，衛浴角落告別潮濕異味。"
-        },
-        {
-            name: "極簡踏板靜音垃圾桶",
-            url: "https://s.shopee.tw/5Ajp33JOLR",
-            tags: "浴室 臥室 收納 其他特性",
-            desc: "緩降蓋板極致靜音，雪白極簡，完美契合床頭櫃與浴櫃旁死角。"
-        },
-        {
-            name: "浴室折疊貼牆置物架",
-            url: "https://e.tb.cn/h.SXymitcPgoFKInq",
-            tags: "浴室 收納 其他特性",
-            desc: "無痕強力上牆，多功能置物，不使用時可往上九十度摺疊收折。"
-        },
-        {
-            name: "水龍頭硅藻土瞬吸墊",
-            url: "https://s.shopee.tw/60I294ofLt",
-            tags: "廚房 浴室 清潔 其他特性",
-            desc: "套合於水龍頭底部，迅速吸收流淌水滴，防止縫隙發黑黴變。"
-        },
-        {
-            name: "儲物置物鏡櫃",
-            url: "https://s.shopee.tw/LdYWDITZ9",
-            tags: "浴室 收納 其他特性",
-            desc: "高透亮鏡面，鏡後超大容量瓶罐收納，拒絕檯面雜亂死角。"
-        },
-        {
-            name: "鏡櫃靈活置物分類盒",
-            url: "https://e.tb.cn/h.hzi58Iyt8ZPnFw4",
-            tags: "浴室 收納 其他特性",
-            desc: "極窄設計貼合鏡櫃隔板，小樣美妝、剃鬚刀井井有條收納。"
-        },
-        {
-            name: "鏡櫃下強力磁吸置物架",
-            url: "https://e.tb.cn/h.hBt3nv1cmgb5Lc7",
-            tags: "浴室 收納 其他特性",
-            desc: "磁鐵貼吸，倒掛漱口杯與牙刷，懸空快速瀝乾，防止底座積垢。"
-        },
-        {
-            name: "304不鏽鋼頂級碗碟瀝水架",
-            url: "https://link.tw.coupang.com/a/YAZ",
-            tags: "廚房 收納 不鏽鋼",
-            desc: "醫療級304厚鋼，承重抗震，斜口導流盤自動排水，餐具極速吹乾。"
-        },
-        {
-            name: "卡羅特微氣密玻璃罐",
-            url: "https://e.tb.cn/h.hswYUAUTDfW6bMX",
-            tags: "廚房 收納 其他特性",
-            desc: "莫蘭迪淺蓋配高透高硼矽，大寬口好裝好提，收納豆類乾貨最美。"
-        },
-        {
-            name: "手工編織薑蒜吊籃",
-            url: "https://e.tb.cn/h.huAK4RQmxjDREBQ",
-            tags: "廚房 收納 其他特性",
-            desc: "手提吊掛不占餐桌，通風極好，收納蔥蒜洋蔥等辛香料必入。"
-        },
-        {
-            name: "極簡透明乳液按壓分裝瓶",
-            url: "https://link.tw.coupang.com/a/8h5",
-            tags: "浴室 生活 其他特性",
-            desc: "流暢泵頭按壓不手卡，白色與透明配色，重塑飯店級簡約衛浴。"
-        },
-        {
-            name: "冰箱磁吸無痕留言白板",
-            url: "https://e.tb.cn/h.hFMsb3SYIY2bDCH",
-            tags: "廚房 生活 其他特性",
-            desc: "超強貼合力不滑落，流暢擦寫紀錄生活備忘，給生活一份溫馨留白。"
-        },
-        {
-            name: "防滑防臭軟彈室內拖鞋",
-            url: "https://s.shopee.tw/4LAfZutLGa",
-            tags: "浴室 其他區域 生活 安全防護",
-            desc: "一體輕量防滑軟底，洗澡不打滑，防臭速乾，踩水好安靜。"
-        },
-        {
-            name: "LED 智能美妝補光鏡",
-            url: "https://s.shopee.tw/8Kf7rc8nV3",
-            tags: "臥室 浴室 生活 其他特性",
-            desc: "觸控無段調光，高度還原彩妝顯色，輕薄桌面支架高質感。"
-        },
-        {
-            name: "雙層萬向洗衣分類推車",
-            url: "https://link.tw.coupang.com/a/cdfJ",
-            tags: "浴室 其他區域 收納 其他特性",
-            desc: "雙層大容量洗衣提籃，一車多用好滑好分類，美化衛浴。"
-        },
-        {
-            name: "實木玄關鑰匙吊掛架",
-            url: "https://e.tb.cn/h.hqoOSGY7Hw6Epyk",
-            tags: "其他區域 臥室 收納 其他特性",
-            desc: "進門玄關木感小層托，小掛鉤，告別每天清晨手忙腳亂找鑰匙。"
-        },
-        {
-            name: "分格衣物抽屜收納整頓盒",
-            url: "https://s.shopee.tw/7pluPWax3i",
-            tags: "臥室 收納 其他特性",
-            desc: "隔板多格設計，內衣短褲立體好拿，衣櫃抽屜整整齊齊。"
-        },
-        {
-            name: "氣密定量高防潮米桶",
-            url: "https://s.shopee.tw/6prxesGrjn",
-            tags: "廚房 收納 其他特性",
-            desc: "定量按壓，矽膠氣密防米蟲，簡約小窗口掌控餘量，省力好提。"
-        },
-        {
-            name: "廚房單手調味料按壓罐",
-            url: "https://s.shopee.tw/8ANMIVP091",
-            tags: "廚房 收納 其他特性",
-            desc: "按壓自動掀起，雙密封防潮圈，告別油花沾手，極致好清潔。"
-        },
-        {
-            name: "矽膠隔熱耐溫防燙盤墊",
-            url: "https://s.shopee.tw/7KmVOdJRKa",
-            tags: "廚房 生活 其他特性",
-            desc: "極度防燙高隔熱，蜂巢紋理防滑，不占空間隨手收折保護檯面。"
-        },
-        {
-            name: "白雲強力無痕壁掛架",
-            url: "https://e.tb.cn/h.hxAhCmK811DbvAV",
-            tags: "其他區域 浴室 收納 其他特性",
-            desc: "白雲萌萌掛鉤，貼合力強，客廳或浴室掛小包、抹布與傘。"
-        },
-        {
-            name: "廚櫃滑軌貼裝收納盒",
-            url: "https://coupa.ng/cm3ZyN",
-            tags: "廚房 收納 其他特性",
-            desc: "黏裝於櫥櫃門側，滑動抽拉，瓶瓶罐罐不用探頭翻找、死角救星。"
-        },
-        {
-            name: "日式高晶透高硼矽儲物罐",
-            url: "https://s.shopee.tw/2LOVmK8Qee",
-            tags: "廚房 收納 其他特性",
-            desc: "木塞圓形大封密，存放花茶或香料，在櫥架上排列極好看。"
-        },
-        {
-            name: "YAMAZAKI tower 矽膠防刮炒鏟",
-            url: "https://momo.dm/fMiAYQ",
-            tags: "廚房 生活 其他特性",
-            desc: "日本工藝精緻矽膠，貼合不沾炒鏟，大翻炒無噪音不傷鍋底。"
-        },
-        {
-            name: "YAMAZAKI tower 矽膠大口湯勺",
-            url: "https://momo.dm/RuyBrE",
-            tags: "廚房 生活 其他特性",
-            desc: "邊緣彈性極佳，契合不沾鍋或鑄鐵鍋角，一滴湯也不浪費。"
-        },
-        {
-            name: "YAMAZAKI tower 矽膠湯匙夾",
-            url: "https://momo.dm/ifnUuI",
-            tags: "廚房 生活 其他特性",
-            desc: "勺與夾完美整合，極佳彈性支撐，下廚翻拌與沙拉盛裝最配。"
-        }
     ];
 
-    // --- 篩選與渲染核心引擎 (嚴格隔離常規與育兒、無產地不顯徽章) ---
     const filterButtons = document.querySelectorAll('.filter-btn');
     const itemsContainer = document.getElementById('navigation-items');
     const noResultsMsg = document.getElementById('no-results-msg');
@@ -1529,26 +1567,16 @@
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const isBabyBtn = btn.classList.contains('baby-pink-btn');
-
             if (isBabyBtn) {
-                // 如果點選育兒按鈕，清除所有常規好物的選取
                 document.querySelectorAll('.filter-btn:not(.baby-pink-btn)').forEach(b => b.classList.remove('active'));
-                // 並且只保留當前這一個育兒按鈕 active (單選育兒子分類)
                 document.querySelectorAll('.baby-pink-btn').forEach(b => { if (b !== btn) b.classList.remove('active'); });
             } else {
-                // 如果點選常規好物按鈕，清除所有育兒專屬按鈕的選取 (達到完全隔離)
                 document.querySelectorAll('.filter-btn.baby-pink-btn').forEach(b => b.classList.remove('active'));
             }
-
             btn.classList.toggle('active');
             filterItems();
         });
     });
-
-    // 手寫高辨識度育兒SVG線條圖示 (常規好物點選後不顯圖片外框)
-    function renderFilteredItems() {
-        // This is handled by filterItems() function dynamically below
-    }
 
     function filterItems() {
         const activeSpace = Array.from(document.querySelectorAll('.filter-group:nth-child(1) .filter-btn.active')).map(btn => btn.getAttribute('data-filter'));
@@ -1558,38 +1586,31 @@
 
         if (!itemsContainer || !noResultsMsg) return;
 
-        // 1. 如果點選育兒按鈕：直接跳出對應育兒商品（隔離）
         if (activeBaby.length > 0) {
             const filteredBaby = allProductsData.filter(prod => {
                 if (!prod.isBaby) return false;
                 const prodTags = prod.tags.split(' ');
                 return activeBaby.some(filter => prodTags.includes(filter));
             });
-
             renderList(filteredBaby);
             return;
         }
 
-        // 2. 如果點選一般好物，必須【空間 + 用途 + 材質】三個大類各至少點選一個，否則不顯示任何卡片，避免過多
         if (activeSpace.length === 0 || activePurpose.length === 0 || activeMaterial.length === 0) {
             itemsContainer.innerHTML = '';
-            noResultsMsg.innerText = "請同時點選「空間」、「用途」與「材質」大類，解鎖私房推薦好物 🤎";
+            noResultsMsg.innerText = "請同時點選「空間」、「用途」與「材質」大類，解鎖私房愛用好物 🤎";
             noResultsMsg.style.display = 'block';
             return;
         }
 
-        // 3. 常規生活好物交叉過濾
         const filteredGeneral = allProductsData.filter(prod => {
-            if (prod.isBaby) return false; // 嚴格屏蔽育兒用品
+            if (prod.isBaby) return false;
             const prodTags = prod.tags.split(' ');
-            
             const matchesSpace = activeSpace.some(f => prodTags.includes(f));
             const matchesPurpose = activePurpose.some(f => prodTags.includes(f));
             const matchesMaterial = activeMaterial.some(f => prodTags.includes(f));
-
             return matchesSpace && matchesPurpose && matchesMaterial;
         });
-
         renderList(filteredGeneral);
     }
 
@@ -1610,20 +1631,11 @@
                 card.target = "_blank";
                 card.className = "item-card";
 
-                // 產地標章 (嚴格限制：僅育兒專利商品才顯示)
                 const badgeHTML = (prod.isBaby && prod.origin) 
                     ? `<span class="origin-badge ${getBadgeClass(prod.origin)}">${prod.origin}</span>` 
                     : '';
 
-                // 圖片欄位：育兒專區有精細手繪線條SVG圖示，常規好物不顯外框（或使用通用莫蘭迪線稿SVG，保持高質感）
-                const itemImgHTML = prod.isBaby
-                    ? `<div class="item-img-container">${prod.svg}</div>`
-                    : `<div class="item-img-container">
-                        <svg viewBox="0 0 64 64" fill="none" stroke="#8E7F73" stroke-width="2" class="w-10 h-10">
-                            <rect x="18" y="14" width="28" height="36" rx="3" fill="#EFEAE4"/>
-                            <path d="M24 24h16M24 32h16M24 40h10" stroke-linecap="round"/>
-                        </svg>
-                       </div>`;
+                const itemImgHTML = `<div class="item-img-container">${prod.svg}</div>`;
 
                 card.innerHTML = `
                     ${itemImgHTML}
@@ -1648,13 +1660,13 @@
         return "";
     }
 
-    // --- 心理測驗系統 ---
-    const quizData = [
+    // --- 心理測驗系統 (擴充至 6 題題庫，全自動隨機產生機制) ---
+    const quizQuestionPool = [
         {
             q: "1. 料理與日常家務對你而言，通常是什麼樣的存在？",
             opts: [
                 "療癒的創作過程！喜歡精緻的手作感道具，生活美美的心情就好",
-                "講求效率與乾淨俐落！過程要流暢省事，檯面與死角絕對不能亂",
+                "講求效率與乾淨俐落！過程要流傳省事，檯面與死角絕對不能亂",
                 "隨性與舒服第一！比起繁複打掃，我更享受把空間維持得空無一物"
             ]
         },
@@ -1667,57 +1679,82 @@
             ]
         },
         {
-            q: "3. 如果能擁有一小段不受打擾的個人獨處時光，你最想做什麼？",
+            q: "3. If you can have a short uninterrupted personal time, what do you want to do most?",
             opts: [
                 "給寶寶擦拭消毒心愛的餐具，順便泡杯熱茶把櫃子整齊排好",
                 "放空地聽著水流環境音，把水槽或排水孔徹底泡泡清潔乾淨",
                 "什麼都不做，單純縮在沙發上，看著空無一物且乾淨留白的屋舍"
             ]
+        },
+        {
+            q: "4. 下午為自己準備飲品時，你更傾向使用哪種器物盛裝？",
+            opts: [
+                "富有手作感的精緻實木雕刻花瓣杯墊與條紋日系茶壺",
+                "邊緣絕對乾淨、不易殘留水漬且晶瑩剔透的雙層隔熱玻璃杯",
+                "完全懸空磁吸收納，伸手即拿且檯面絕不佔空間的極簡俐落杯具"
+            ]
+        },
+        {
+            q: "5. 剛買完食材回家踏入玄關時，妳最希望看到的畫面是？",
+            opts: [
+                "小寶寶乖乖配戴著立體透氣的小口罩，在客廳整齊排列展示他的小汽車",
+                "洗手台備有Q彈密實的抗菌洗手泡沫，能踩著極致防滑安靜的拖鞋快速卸下重物",
+                "玄關實木吊掛架上鑰匙各就各位，垃圾桶一鍵感應自動封鎖，家裡留白無異味"
+            ]
+        },
+        {
+            q: "6. 當妳打算重新整理家中的收納空間時，妳的直覺反應是？",
+            opts: [
+                "挑選柔和溫潤的編織收納提籃 or 分格抽屜，把每一件衣物像手帳般漂亮歸位",
+                "在廚房抽屜貼裝滑軌貼層盒、鋪上加厚防油墊，確保調料罐一抹即淨、單手秒開",
+                "利用壁掛折疊置物架 or 鏡櫃後大容量，把所有瓶罐全部「藏起來」維持表面空無一物"
+            ]
         }
     ];
 
     const resultPools = [
-        {
-            title: "風格診斷：細緻的美學守護家 🧸",
-            desc: "你非常重視生活的儀式感與好物的安全性。在育兒之路上，你更偏愛無毒白金矽膠、高規不鏽鋼等令人放心的精品材質。挑選一組兼具高質感與功能性的餐具道具，最能讓你和寶寶感到安心與溫暖。"
-        },
-        {
-            title: "風格診斷：乾淨流暢的效率派 🧼",
-            desc: "你自帶優雅的微潔癖，最享受家裡任何角落與水槽都維持著「發亮乾燥」的狀態。你追求好清潔、能一鍵省力的效率用品，能快速優雅維持家屋的井然有序就是你最大的療癒。"
-        },
-        {
-            title: "風格診斷：極簡的空間隱形魔術師 🗑️",
-            desc: "你擅長將生活的雜亂隱藏於無形。對你而言，家屋的舒適來自於恰到好處的留白，壁掛、壁貼與感應式等美型且不佔空間的極簡工具，是幫你打造無壓迫避難所的完美靈魂道具。"
-        }
+        { title: "風格診斷：細緻的美學守護家 🧸", desc: "你非常重視生活的儀式感與好物的安全性。在育兒之路上，你更偏愛無毒白金矽膠、高規不鏽鋼等令人放心的精品材質。挑選一組兼具高質感與功能性的餐具道具，最能讓你和寶寶感到安心與溫暖。" },
+        { title: "風格診斷：乾淨流暢的效率派 🧼", desc: "你自帶優雅的微潔癖，最享受家裡任何角落與水槽都維持著「發亮乾燥」的狀態。你追求好清潔、能一鍵省力的效率用品，能快速優雅維持家屋的井然有序就是你最大的療癒。" },
+        { title: "風格診斷：極簡的空間隱形魔術師 🗑️", desc: "你擅長將生活的雜亂隱藏於無形。對你而言，家屋的舒適來自於恰到好處 of 留白，壁掛、壁貼與感應式等美型且不佔空間的極簡工具，是幫你打造無壓迫避難所的完美靈魂道具。" }
     ];
 
     const recommendPool = [
-        { name: "VIIDA Soufflé 兒童叉匙組", desc: "304L抗菌不鏽鋼加厚無毒矽膠手柄，好握好咬高質感餐具。", url: "https://s.shopee.tw/60OaT15BAb" },
-        { name: "201不鏽鋼菜瓜布瀝水架", desc: "316醫療鋼隔熱防燙，地表超強吸力吸盤底座，幼兒自主進食救星。", url: "https://s.shopee.tw/AKVq8hE4DH" },
-        { name: "LION 趣淨洗手慕斯", desc: "日本製抗菌防護慕斯，豐富泡泡溫和不乾澀，養成小手洗乾淨好習慣。", url: "https://coupa.ng/cmZ3pL" },
-        { name: "壁掛感應式垃圾桶", desc: "自動開蓋免觸碰、掛門免彎腰，完美將髒污與異味隱形收納。", url: "https://s.shopee.tw/qdstxibCY" }
+        { name: "VIIDA Soufflé 兒童叉匙組", url: "https://s.shopee.tw/60OaT15BAb" },
+        { name: "201不鏽鋼菜瓜布瀝水架", url: "https://s.shopee.tw/AKVq8hE4DH" },
+        { name: "LION 趣淨洗手慕斯", url: "https://coupa.ng/cmZ3pL" },
+        { name: "浴室壁掛感應垃圾桶", url: "https://s.shopee.tw/qdstxibCY" }
     ];
 
+    let activeQuizQuestions = []; // 存放當次隨機抽出的 3 題
     let currentQIdx = 0;
     let scoreArray = [0, 0, 0];
+
+    // 初始化隨機出題演算法 (從 6 題隨機抽取 3 題)
+    function initRandomQuestions() {
+        let shuffled = [...quizQuestionPool].sort(() => 0.5 - Math.random());
+        activeQuizQuestions = shuffled.slice(0, 3);
+        // 修正題目前面的數字序號，維持 1、2、3 題的流暢感
+        activeQuizQuestions.forEach((item, index) => {
+            item.q = (index + 1) + ". " + item.q.substring(3);
+        });
+    }
 
     function loadQuestion() {
         const playBox = document.getElementById('quiz-play-box');
         const resultView = document.getElementById('quiz-result-view');
-        
         if (!playBox || !resultView) return;
 
         playBox.style.display = 'block';
         resultView.style.display = 'none';
 
-        if (currentQIdx < quizData.length) {
+        if (currentQIdx < activeQuizQuestions.length) {
             const qText = document.getElementById('quiz-question-text');
-            if (qText) qText.innerText = quizData[currentQIdx].q;
+            if (qText) qText.innerText = activeQuizQuestions[currentQIdx].q;
             
             const optionsBox = document.getElementById('quiz-options-box');
             if (optionsBox) {
                 optionsBox.innerHTML = '';
-                quizData[currentQIdx].opts.forEach((opt, idx) => {
+                activeQuizQuestions[currentQIdx].opts.forEach((opt, idx) => {
                     const btn = document.createElement('button');
                     btn.className = 'quiz-opt-btn';
                     btn.innerText = opt;
@@ -1737,7 +1774,6 @@
     function showQuizResult() {
         const playBox = document.getElementById('quiz-play-box');
         const resultView = document.getElementById('quiz-result-view');
-        
         if (!playBox || !resultView) return;
 
         playBox.style.display = 'none';
@@ -1770,12 +1806,13 @@
     function resetQuiz() {
         currentQIdx = 0;
         scoreArray = [0, 0, 0];
+        initRandomQuestions(); // 重新測試時，再次洗牌隨機產生新題目
         loadQuestion();
     }
 
-    // 全自動優先啟動機制：確保月曆與測驗同步載入
     window.addEventListener('DOMContentLoaded', () => {
         renderCalendar();
+        initRandomQuestions(); // 優先啟動隨機出題
         loadQuestion();
     });
 </script>
